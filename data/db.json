@@ -2,9 +2,19 @@
   "items": [
     {
       "name": "じゃがバターベーコン",
-      "id": 1,
-      "description": "マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です",
-      "imagePath": "/img_curry/1.jpg"
+      "description": "aaaaa",
+      "price": "580",
+      "imageUrl": "#",
+      "delete": "falsa",
+      "id": 1
+    },
+    {
+      "name": "カツカレー",
+      "description": "aaaaa",
+      "price": "580",
+      "imageUrl": "#",
+      "delete": "falsa",
+      "id": 2
     }
   ],
   "users": [

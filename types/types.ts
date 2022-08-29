@@ -40,7 +40,8 @@ export type Item = {
   id: number;
   type: string;
   name: string;
-  description: string;
+  discription: string;
+  price: number;
   imagePath: string;
   delete: boolean;
 //   toppingList: ?;
