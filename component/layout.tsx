@@ -16,13 +16,17 @@ export function Layout({ children }: { children: any }) {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <img src="/img_curry/header_logo.png" height={35} />
+        <Link href="/">
+          <a>
+            <img src="/img_curry/header_logo.png" height={35} />
+          </a>
+        </Link>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="/">
+            <Link href="/posts/order">
               <a>
                 <li>ショッピングカート</li>
               </a>
@@ -32,7 +36,7 @@ export function Layout({ children }: { children: any }) {
                 <li>注文履歴</li>
               </a>
             </Link>
-            <Link href="/">
+            <Link href="/posts/login">
               <a>
                 <li>ログイン</li>
               </a>

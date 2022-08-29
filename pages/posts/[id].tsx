@@ -1,8 +1,9 @@
 import Link from "next/link";
 import useSWR from "swr";
-import { Layout } from "../../components/layout";
+import { fetcher } from "../../component/jsonitems";
+import { Layout } from "../../component/layout";
 import { getAllJsonIds, getJsonData } from "../../lib/json";
-import { Item } from "../../types/types";
+import { Item, Topping } from "../../types/types";
 // import styles from "../../components/details.modules.css";
 
 export async function getStaticPaths() {
@@ -26,8 +27,17 @@ export async function getStaticProps({ params }: { params: { id: number } }) {
 
 
 export default function Details({ jsonData }: { jsonData: Item }) {
-  const { id, name, imagePath, discription } = jsonData;
-  console.log({ imagePath });
+  const { data, error } = useSWR("http://localhost:8000/topping/", fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
+  const { id, name, imagePath, description } = jsonData;
+  const arr = [];
+  for (let i = 0; i < 13; i++) {
+    arr.push(i);
+  }
+
   return (
     <Layout>
       <h1>商品詳細</h1>
@@ -36,6 +46,21 @@ export default function Details({ jsonData }: { jsonData: Item }) {
         <h2>{name}</h2>
         <p>{discription}</p>
       </div>
+      <h3>トッピング: 1つにつき200円（税抜）</h3>
+      {data.map(({ name, id }: Topping) => (
+        <>
+          <input type="checkbox" id={name} name={name} />
+          <label htmlFor={name}>{name}</label>
+        </>
+      ))}
+      <h3>数量:</h3>
+      <select name="count" id="count">
+        {arr.map((el) => (
+          <option key={el} value={el}>{el}</option>
+        ))}
+      </select>
+      <p>この商品金額: 38000円（税抜）</p>
+      <button>カート</button>
     </Layout>
   );
 }
