@@ -1,11 +1,19 @@
 {
   "items": [
     {
-      "name": "商品1",
+      "name": "じゃがバターベーコン",
+      "description": "aaaaa",
+      "price": "580",
+      "imageUrl": "#",
+      "delete": "falsa",
       "id": 1
     },
     {
-      "name": "商品2",
+      "name": "カツカレー",
+      "description": "aaaaa",
+      "price": "580",
+      "imageUrl": "#",
+      "delete": "falsa",
       "id": 2
     }
   ]
