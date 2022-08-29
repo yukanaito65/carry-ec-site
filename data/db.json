@@ -1,23 +1,67 @@
 {
   "items": [
     {
-      "name": "じゃがバターベーコン",
-      "description": "aaaaa",
-      "price": "580",
-      "imageUrl": "#",
-      "delete": "falsa",
-      "id": 1
-    },
-    {
       "name": "カツカレー",
       "description": "aaaaa",
       "price": "580",
-      "imageUrl": "#",
-      "delete": "falsa",
+      "imagePath": "/img_curry/1.jpg",
+      "delete": "false",
+      "id": 1
+    },
+    {
+      "name": "牛煮込みカツカレー",
+      "description": "aaaaa",
+      "price": "580",
+      "imagePath": "/img_curry/2.jpg",
+      "delete": "false",
       "id": 2
     }
   ],
   "users": [
    
+  ],
+  "order": [
+    {
+      "name": "カツカレー",
+      "description": "aaaaa",
+      "price": "580",
+      "imagePath": "/img_curry/1.jpg",
+      "delete": "false",
+      "id": 1
+    }
+  ],
+  "topping": [
+    {
+      "name": "オニオン",
+      "id": 1
+    },
+    {
+      "name": "チーズ",
+      "id": 2
+    },
+    {
+      "name": "ピーマン",
+      "id": 3
+    },
+    {
+      "name": "ロースハム",
+      "id": 4
+    },
+    {
+      "name": "ほうれん草",
+      "id": 5
+    },
+    {
+      "name": "ナス",
+      "id": 6
+    },
+    {
+      "name": "ソーセージ",
+      "id": 7
+    },
+    {
+      "name": "納豆",
+      "id": 8
+    }
   ]
 }
