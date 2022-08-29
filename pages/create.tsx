@@ -1,21 +1,35 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function User() {
-  const [name, setName] = useState('');
+  const [lastName, setlastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
+  const router = useRouter();
 
   const onClickRegister = () => {
-    if (name && email && address && tel && password && checkPassword) {
+    if (
+      lastName &&
+      firstName &&
+      email &&
+      address &&
+      tel &&
+      password &&
+      checkPassword
+    ) {
+      router.push('/');
       return fetch('http://localhost:8000/users', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
+          lastName: lastName,
+          firstName: firstName,
           email: email,
           address: address,
           tel: tel,
@@ -23,29 +37,55 @@ export default function User() {
           checkPassword: checkPassword,
         }),
       });
+    }  if (!lastName || !firstName) {
+      alert('名前を入力してください。');
+      return;
+    }  if (!email) {
+      alert('メールアドレスを入力してください。');
+    }  if (!address) {
+      alert('住所を入力してください。');
+    }  if (!tel) {
+      alert('電話番号を入力してください');
+    }  if (!password) {
+      alert('パスワードを入力してください。');
+    }  if (!checkPassword) {
+      alert('確認用のパスワードを入力してください。');
     } else {
       alert('全ての項目を入力してください');
+      router.push('/create');
       return;
     }
   };
 
   return (
     <form action="post">
-      <label htmlFor="name">名前:</label>
       <p>
+        {' '}
+        <label htmlFor="lastName">姓:</label>
         <input
           type="text"
-          id="name"
-          name="name"
-          value={name}
+          id="lastName"
+          name="lastName"
+          value={lastName}
           onChange={(e) => {
-            setName(e.target.value);
+            setlastName(e.target.value);
+          }}
+        />
+        <label htmlFor="firstName">名:</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value={firstName}
+          onChange={(e) => {
+            setFirstName(e.target.value);
           }}
         />
       </p>
 
-      <label htmlFor="email">メールアドレス:</label>
       <p>
+        <label htmlFor="email">メールアドレス:</label>
+
         <input
           type="text"
           id="email"
@@ -56,8 +96,9 @@ export default function User() {
           }}
         />
       </p>
-      <label htmlFor="address">住所:</label>
       <p>
+        <label htmlFor="address">住所:</label>
+
         <input
           type="text"
           id="address"
@@ -68,8 +109,9 @@ export default function User() {
           }}
         />
       </p>
-      <label htmlFor="tel">電話番号:</label>
       <p>
+        <label htmlFor="tel">電話番号:</label>
+
         <input
           type="text"
           id="tel"
@@ -80,8 +122,9 @@ export default function User() {
           }}
         />
       </p>
-      <label htmlFor="password">パスワード:</label>
       <p>
+        <label htmlFor="password">パスワード:</label>
+
         <input
           type="password"
           id="password"
@@ -92,8 +135,9 @@ export default function User() {
           }}
         />
       </p>
-      <label htmlFor="checkPassword">パスワード:</label>
       <p>
+        <label htmlFor="checkPassword">パスワード:</label>
+
         <input
           type="password"
           id="checkPassword"
@@ -104,8 +148,9 @@ export default function User() {
           }}
         />
       </p>
-      {(name &&email &&address &&tel &&password &&checkPassword) && 
-         <Link href='/'><button type='button' onClick={() => onClickRegister()}>登録</button></Link>}
+      <button type="button" onClick={() => onClickRegister()}>
+        登録
+      </button>
       <button type="reset">キャンセル</button>
     </form>
   );
