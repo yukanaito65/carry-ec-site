@@ -26,7 +26,7 @@ export async function getStaticProps({ params }: { params: { id: number } }) {
 
 
 export default function Details({ jsonData }: { jsonData: Item }) {
-  const { id, name, imagePath, description } = jsonData;
+  const { id, name, imagePath, discription } = jsonData;
   console.log({ imagePath });
   return (
     <Layout>
@@ -34,7 +34,7 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       <div>
         <img src={imagePath} width={300} />
         <h2>{name}</h2>
-        <p>{description}</p>
+        <p>{discription}</p>
       </div>
     </Layout>
   );

@@ -8,6 +8,7 @@ export type User = {
   zipcode: string;
   address: string;
   telephone: string;
+  logined: boolean;
 };
 
 export type Order = {
