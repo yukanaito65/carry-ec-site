@@ -40,7 +40,7 @@ export type Item = {
   id: number;
   type: string;
   name: string;
-  discription: string;
+  description: string;
   imagePath: string;
   delete: boolean;
 //   toppingList: ?;
