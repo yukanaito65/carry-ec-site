@@ -10,11 +10,16 @@ const nextConfig = {
         destination: 'http://localhost:8000/items',
       },
       {
+        source: '/api/users',
+        destination: 'http://localhost:8000/users',
+      },
+      {
         source: '/api/items/:slug',
         destination: 'http://localhost:8000/items/:slug',
       },
     ];
   },
-};
+}
+
 
 module.exports = nextConfig;
