@@ -1,20 +1,18 @@
-
-
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from '../styles/create.module.css';
-import { Layout } from '../components/layout';
+import { Layout } from '../component/layout';
 
 export default function User() {
   const [lastName, setlastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
+  const [zipcode, setZipcode] = useState('');
   const [address, setAddress] = useState('');
   const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
-  const [fromValue, setFormValue]=useState('');
 
   const onClickRegister = () => {
     if (
@@ -42,28 +40,26 @@ export default function User() {
           checkPassword: checkPassword,
         }),
       });
-    }  if (!lastName || !firstName) {
+    }
+    if (!lastName || !firstName) {
       alert('名前を入力してください。');
-      return;
-    }  if (!email) {
+    }
+    if (!email) {
       alert('メールアドレスを入力してください。');
-
     }
     if (!zipcode) {
       alert('郵便番号を入力してください。');
     }
     if (!address) {
-
       alert('住所を入力してください。');
-    }  if (!tel) {
+    }
+    if (!tel) {
       alert('電話番号を入力してください');
-
     }
     if (!password) {
       alert('パスワードを入力してください。');
     }
     if (!checkPassword) {
-
       alert('確認用のパスワードを入力してください。');
     } else {
       alert('全ての項目を入力してください');
@@ -73,11 +69,10 @@ export default function User() {
   };
 
   return (
-
     <Layout>
       <fieldset className={styles.fieldset_style}>
         <legend className={styles.legend}>ユーザ登録</legend>
-        
+
         <form action="post">
           <div className={styles.title}>
             <label htmlFor="lastName">名前：</label>
@@ -113,9 +108,8 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="email">メールアドレス:</label>
-
             <input
-              type="text"
+              type="email"
               id="email"
               name="email"
               value={email}
@@ -158,7 +152,9 @@ export default function User() {
             <label htmlFor="tel">電話番号:</label>
 
             <input
-              type="text"
+              type="tel" 
+              pattern="[\d-]*"
+              required
               id="tel"
               name="tel"
               value={tel}
@@ -171,8 +167,12 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="password">パスワード:</label>
-            {password.length < 8 &&(<span>8文字以上で入力してください</span>)}
-            {password.length > 16 &&(<span>16文字以下で入力してください</span>)}
+            {password.length < 8 && (
+              <span>8文字以上で入力してください</span>
+            )}
+            {password.length > 16 && (
+              <span>16文字以下で入力してください</span>
+            )}
             <input
               type="password"
               id="password"
@@ -187,7 +187,9 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="checkPassword">確認用パスワード:</label>
-
+            {checkPassword !== password && (
+              <span>パスワードと確認用パスワードが不一致です。</span>
+            )}
             <input
               type="password"
               id="checkPassword"
@@ -214,6 +216,7 @@ export default function User() {
               setAddress(''),
                 setlastName(''),
                 setFirstName(''),
+                setTel(""),
                 setZipcode(''),
                 setEmail(''),
                 setPassword(''),
@@ -225,6 +228,5 @@ export default function User() {
         </form>
       </fieldset>
     </Layout>
-
   );
 }
