@@ -1,3 +1,5 @@
+
+
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from '../styles/create.module.css';
@@ -7,7 +9,6 @@ export default function User() {
   const [lastName, setlastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
-  const [zipcode, setZipcode] = useState('');
   const [address, setAddress] = useState('');
   const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +27,7 @@ export default function User() {
       password &&
       checkPassword
     ) {
-      router.push('posts/login');
+      router.push('/');
       return fetch('http://localhost:8000/users', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
@@ -41,26 +42,28 @@ export default function User() {
           checkPassword: checkPassword,
         }),
       });
-    }
-    if (!lastName || !firstName) {
+    }  if (!lastName || !firstName) {
       alert('名前を入力してください。');
-    }
-    if (!email) {
+      return;
+    }  if (!email) {
       alert('メールアドレスを入力してください。');
+
     }
     if (!zipcode) {
       alert('郵便番号を入力してください。');
     }
     if (!address) {
+
       alert('住所を入力してください。');
-    }
-    if (!tel) {
+    }  if (!tel) {
       alert('電話番号を入力してください');
+
     }
     if (!password) {
       alert('パスワードを入力してください。');
     }
     if (!checkPassword) {
+
       alert('確認用のパスワードを入力してください。');
     } else {
       alert('全ての項目を入力してください');
@@ -70,6 +73,7 @@ export default function User() {
   };
 
   return (
+
     <Layout>
       <fieldset className={styles.fieldset_style}>
         <legend className={styles.legend}>ユーザ登録</legend>
@@ -221,5 +225,6 @@ export default function User() {
         </form>
       </fieldset>
     </Layout>
+
   );
 }
