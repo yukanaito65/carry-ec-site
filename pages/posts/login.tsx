@@ -39,7 +39,6 @@ export default function Login() {
   // ログインボタンをクリックした時に、Userのloginedをtrueにする & ページ遷移する”
   async function onCkickMatch() {
     const users = await getAllJsonUser();
-
     // console.log(users[0]);
     users.forEach(
       (user: {
@@ -60,7 +59,7 @@ export default function Login() {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(users),
-    }).then((res) => res.json());
+    });
   }
 
   return (
@@ -71,6 +70,7 @@ export default function Login() {
       <Layout>
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
+          
           <div>
             <div>
               <div className={styles.labelError}>
@@ -113,9 +113,15 @@ export default function Login() {
                 onChange={(e) => handleChange(e)}
               />
             </div>
+
+            {/* ログイン失敗の場合 */}
             {formValue.pass === '' && (
-              <button onClick={() => onCkickMatch()}>ログイン</button>
+                <Link href="login">
+              <button className={styles.loginBtn} onClick={() => onCkickMatch()}>ログイン</button>
+              </Link>
             )}
+
+            {/* ログイン成功の場合 */}
             {!(formValue.pass === '') && (
               <Link href="/">
                 <button className={styles.loginBtn} onClick={() => onCkickMatch()}>
@@ -134,5 +140,8 @@ export default function Login() {
   );
 }
 
-// エラーメッセが消えない -> 17業目のエラーが関係してる？
-// db.jsonに存在してるアドレスとパスを入れてもページ遷移されない -> 不明
+// エラーメッセが消えない
+// db.jsonに存在してるアドレスとパスを入れてもページ遷移されない
+// db.jsonのloginedが変更されない
+// ログインボタンの消去
+// ログアウト機能の確認
