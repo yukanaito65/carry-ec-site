@@ -1,7 +1,6 @@
 {
   "items": [
     {
-
       "id": 1,
       "type": "curry",
       "name": "カツカレー",
@@ -119,10 +118,8 @@
       "deleted": false
     }
   ],
-  "users": [
-   
-  ],
-  "order": [
+  "users": [],
+  "orderItems": [
     {
       "name": "カツカレー",
       "description": "aaaaa",
@@ -130,6 +127,12 @@
       "imagePath": "/img_curry/1.jpg",
       "delete": "false",
       "id": 1
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "id": 2,
+      "price": 1490,
+      "toppingList": []
     }
   ],
   "topping": [

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { User } from '../../types/types';
 import Link from 'next/link';
+import { Layout } from '../../component/layout';
 
 
 // idとメアドとパスワードをfetchで取得する
@@ -67,7 +68,7 @@ export default function Login() {
 
 
   return (
-    <>
+    <Layout>
       <form>
         <h1>ログイン</h1>
         <hr />
@@ -119,6 +120,6 @@ export default function Login() {
         <a>ユーザー登録はこちら</a>
       </ Link>
 
-    </>
+    </Layout>
   );
 }
