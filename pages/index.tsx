@@ -12,7 +12,7 @@ const Home = ({
   return (
     <div>
       <Head>
-        <title>カレー屋のネット注文</title>
+        <title className={styles.title}>カレー屋のネット注文</title>
       </Head>
       <Items></Items>
     </div>

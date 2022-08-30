@@ -44,7 +44,7 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       <div>
         <img src={imagePath} width={300} />
         <h2>{name}</h2>
-        <p>{discription}</p>
+        <p>{description}</p>
       </div>
       <h3>トッピング: 1つにつき200円（税抜）</h3>
       {data.map(({ name, id }: Topping) => (

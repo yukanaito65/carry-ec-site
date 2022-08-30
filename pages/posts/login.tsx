@@ -4,41 +4,26 @@ import Link from 'next/link';
 
 
 // idとメアドとパスワードをfetchで取得する
-export async function getAllJsonUser({
-  userData,
-}: {
-  userData: {
-    id: number;
-    email: string;
-    password: string;
-  };
-}) {
-  return fetch(`http://localhost:3000/items/${userData.id}`)
+// idとメアドとパスワードをfetchで取得する
+export async function getAllJsonUser() {
+  return fetch(`http://localhost:8000/users/`)
     .then((res) => res.json())
     .then((data) => {
       return data.map((data: User) => {
         return {
-          params: {
+          user: {
             id: data.id,
             email: data.email,
             password: data.password,
+            logined: data.logined,
           },
         };
       });
-    })
+    });
 }
 
 
-// ログインボタンをクリックした時に、Userのloginedをtrueにする or エラー表示する
-function onCkickMatch() {
-    if (
-        data.email === email.target.value &&
-        data.password === password.target.value
-      ) { // Userのloginedをtrueにする
-      } else {
-        // <p>メールアドレス、またはパスワードが間違っています</p>を表示する
-      }
-}
+
 
 
 // html
@@ -48,9 +33,38 @@ export default function Login() {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setFormValue({ ...formValue, [name]: value });
-    console.log(formValue);
+    let newFormValue = formValue;
+    newFormValue[name] = value;
+    setFormValue(newFormValue);
+    console.log(formValue)
   };
+
+  // ログインボタンをクリックした時に、Userのloginedをtrueにする or ページ遷移する”
+  async function onCkickMatch() {
+    const users = await getAllJsonUser();
+    console.log(users[0]);
+    users.forEach(
+      (user: {
+        id: number;
+        email: string;
+        password: string;
+        logined: boolean;
+      }) => {
+        if (
+          user.email === formValue.mail &&
+          user.password === formValue.pass
+        ) {
+          user.logined = true;
+        }
+      }
+    );
+    return fetch("http://localhost:8000/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users)
+    })
+  }
+
 
   return (
     <>
@@ -71,6 +85,11 @@ export default function Login() {
           </div>
 
           <div>
+            {
+              (formValue.pass === "") &&
+              <p>パスワードを入力してください</p>
+
+            }
             <label>パスワード：</label>
             <input
               type="password"
@@ -80,13 +99,18 @@ export default function Login() {
               onChange={(e) => handleChange(e)}
             />
           </div>
-
-          <Link href="/">
+          {
+            formValue.pass === "" &&
+            <button onClick={() => onCkickMatch()}>ログイン</button>
+          }
           {/* クリックイベント2つ書きたい */}
-          <button ocClick={() => onCkickMatch() &&
-            // ログイン後の一覧表示画面へ遷移
-          }>ログイン</button>
-          </Link>
+          {
+            !(formValue.pass === "") &&
+            <Link href="/">
+              {/* クリックイベント2つ書きたい */}
+              <button onClick={() => onCkickMatch()}>ログイン</button>
+            </Link>
+          }
 
         </div>
       </form>
