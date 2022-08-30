@@ -2,19 +2,22 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { Item } from '../types/types';
 import React, { useState } from 'react';
-import { Layout } from '../components/layout';
+import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
 export default function Items() {
-  const { data, error } = useSWR('/api/items', fetcher);
+  const { data, error } = useSWR(
+    'http://localhost:8000/items',
+    fetcher
+  );
 
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
     setNameText(event.target.value);
-  const [searchData, setSearchData] = useState([]);
+  const [searchData, setSearchData]: any[] = useState([]);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
@@ -22,6 +25,10 @@ export default function Items() {
   // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
   // 抽出したdetaをsetSearchDataに保管
   const onClickSearch = () => {
+    const newSerachData = data.filter((e: any) => {
+      return e.name.indexOf(nameText) >= 0;
+    });
+
     setSearchData(
       data.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
@@ -30,7 +37,7 @@ export default function Items() {
   };
   // クリアボタンを押した時setNameTextを空で返す
   const formReset = () => {
-    setNameText(''); 
+    setNameText('');
     setSearchData([]);
   };
 

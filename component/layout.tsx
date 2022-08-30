@@ -1,7 +1,21 @@
-import styles from "./layout.module.css"
-import { useState } from "react";
-import Link from "next/link";
+import styles from './layout.module.css';
+import { useState } from 'react';
+import Link from 'next/link';
+import { User } from '../types/types';
+import { userAgent } from 'next/server';
 
+// fetchでuserのlogined値を取得
+export function getAllUserLogined() {
+  return fetch(`http://localhost:8000/users/`)
+    .then((res) => res.json())
+    .then((data) => {
+      return data.map((data: User) => {
+        return {
+          user: { logined: data.logined },
+        };
+      });
+    });
+}
 
 export function Layout({ children }: { children: any }) {
   // const [show, setShow] = useState("");
@@ -13,16 +27,33 @@ export function Layout({ children }: { children: any }) {
   //   }
   // }
 
+  // userのlogined値をfalesに変換
+  async function onClickLogout() {
+    const users = await getAllUserLogined();
+    users.logined === true;
+    console.log(users);
+    return fetch("http://localhost:8000/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users)
+    });
+    
+  }
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <img src="/img_curry/header_logo.png" height={35} />
+        <Link href="/">
+          <a>
+            <img src="/img_curry/header_logo.png" height={35} />
+          </a>
+        </Link>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="/">
+            <Link href="/posts/order">
               <a>
                 <li>ショッピングカート</li>
               </a>
@@ -32,14 +63,18 @@ export function Layout({ children }: { children: any }) {
                 <li>注文履歴</li>
               </a>
             </Link>
-            <Link href="/">
+            <Link href="/posts/login">
               <a>
                 <li>ログイン</li>
               </a>
             </Link>
             <Link href="/">
               <a>
-                <li>ログアウト</li>
+                <li>
+                  <button onClick={() => onClickLogout}>
+                    ログアウト
+                  </button>
+                </li>
               </a>
             </Link>
           </ul>
@@ -55,5 +90,5 @@ export function Layout({ children }: { children: any }) {
       </nav> */}
       {children}
     </div>
-  )
+  );
 }
