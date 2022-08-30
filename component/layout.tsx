@@ -31,6 +31,13 @@ export function Layout({ children }: { children: any }) {
   async function onClickLogout() {
     const users = await getAllUserLogined();
     users.logined === true;
+    console.log(users);
+    return fetch("http://localhost:8000/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users)
+    });
+    
   }
 
   return (
