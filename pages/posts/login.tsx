@@ -15,10 +15,10 @@ export async function getAllJsonUser() {
     .then((data) => {
       return data.map((data: User) => {
         return {
-            id: data.id,
-            email: data.email,
-            password: data.password,
-            logined: data.logined,
+          id: data.id,
+          email: data.email,
+          password: data.password,
+          logined: data.logined,
         };
       });
     });
@@ -54,20 +54,25 @@ export default function Login() {
           user.email === mailText &&
           user.password === passText
         ) {
-
-          return user.logined = true;
+          user.logined = true;
         }
       }
     );
-
     console.log(users);
-
-    return fetch("http://localhost:8000/users", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(users)
+    users.map((user: any, index: any) => {
+      fetch(`http://localhost:8000/users/${index + 1}`, {
+        method: "delete"
+      })
+    })
+    users.map((user: any, index: any) => {
+      fetch("http://localhost:8000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      })
     })
   }
+
 
   return (
     <>
