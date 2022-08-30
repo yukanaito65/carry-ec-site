@@ -12,14 +12,18 @@ export default function Items() {
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
     setNameText(event.target.value);
+  const [searchData, setSearchData] = useState([]);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
   const onClickSearch = () => {
-    return data.find((e: any) => {
-      return e.name === nameText;
-    });
+    setSearchData(
+      data.find((e: any) => {
+        return e.name === nameText;
+      })
+    );
+    console.log(searchData);
   };
 
   return (
@@ -39,6 +43,7 @@ export default function Items() {
               placeholder={'search'}
               onChange={onChangeNameText}
             ></input>
+            <br />
             <button
               type="button"
               value="検索"
@@ -59,7 +64,8 @@ export default function Items() {
           </form>
         </div>
       </div>
-      {nameText === ''
+
+      {nameText == ''
         ? data.map((item: Item) => {
             const { id, name, price, imagePath } = item;
             return (
@@ -90,7 +96,7 @@ export default function Items() {
               </div>
             );
           })
-        : data.map((item: Item) => {
+        : searchData.map((item: Item) => {
             const { id, name, price, imagePath } = item;
             return (
               <div key={id}>
