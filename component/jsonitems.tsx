@@ -2,6 +2,8 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { Item } from '../types/types';
 import React, { useState } from 'react';
+import { Layout } from '../components/layout';
+import styles from '../component/items.module.css';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -17,23 +19,33 @@ export default function Items() {
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
+  // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
+  // 抽出したdetaをsetSearchDataに保管
   const onClickSearch = () => {
     setSearchData(
-      data.find((e: any) => {
-        return e.name === nameText;
+      data.filter((e: any) => {
+        return e.name.indexOf(nameText) >= 0;
       })
     );
-    console.log(searchData);
+  };
+  // クリアボタンを押した時setNameTextを空で返す
+  const formReset = () => {
+    setNameText(''); 
+    setSearchData([]);
   };
 
   return (
-    <>
-      <div className="panel panel-default">
-        <div className="panel-title">
-          <p>商品を検索する</p>
-        </div>
-        <div className="panel-body">
-          <form method="post" action="#" className="form-horizontal">
+    <Layout>
+      <div className={styles.searchWrapper}>
+        <p>
+          <span className={styles.serchTitle}>商品を検索する</span>
+        </p>
+        <div>
+          <form
+            method="post"
+            action="#"
+            className={styles.searchForm}
+          >
             <label htmlFor="name">商品名</label>
             <input
               type="text"
@@ -42,22 +54,27 @@ export default function Items() {
               value={nameText}
               placeholder={'search'}
               onChange={onChangeNameText}
+              className={styles.searchNameInput}
             ></input>
+
             <br />
+
             <button
               type="button"
               value="検索"
-              className="btn btn-primary"
+              className={styles.searchBtn}
               onClick={() => {
                 onClickSearch();
               }}
             >
               検索
             </button>
+
             <button
               type="reset"
               value="クリア"
-              className="btn btn-default"
+              className={styles.cannselBtn}
+              onClick={() => formReset()}
             >
               クリア
             </button>
@@ -65,67 +82,74 @@ export default function Items() {
         </div>
       </div>
 
-      {nameText == ''
-        ? data.map((item: Item) => {
-            const { id, name, price, imagePath } = item;
-            return (
-              <div key={id}>
-                <table>
-                  <tr>
-                    <th>
-                      <img
-                        src={imagePath}
-                        className="image"
-                        width={300}
-                      />
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href={`/posts/${id}`} className="name">
-                        {name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="price">{price}円（税抜き）</p>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            );
-          })
-        : searchData.map((item: Item) => {
-            const { id, name, price, imagePath } = item;
-            return (
-              <div key={id}>
-                <table>
-                  <tr>
-                    <th>
-                      <img
-                        src={imagePath}
-                        className="image"
-                        width={300}
-                      />
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href={`/posts/${id}`} className="name">
-                        {name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="price">{price}円（税抜き）</p>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            );
-          })}
-    </>
+      <div className={styles.itemWrapper}>
+        {/* 検索テキストがからの場合 */}
+        {nameText == ''
+          ? data.map((item: Item) => {
+              const { id, name, price, imagePath } = item;
+              return (
+                <div key={id}>
+                  <table className={styles.item}>
+                    <tr>
+                      <th>
+                        <img
+                          src={imagePath}
+                          className={styles.itemImg}
+                          width={300}
+                        />
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>
+                        <Link href={`/posts/${id}`}>
+                          <a className={styles.name}>{name}</a>
+                        </Link>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>
+                        <p>{price}円（税抜）</p>
+                      </th>
+                    </tr>
+                  </table>
+                </div>
+              );
+            })
+          : // 検索テキストに入力した場合
+            searchData.map((item: Item) => {
+              const { id, name, price, imagePath } = item;
+              return (
+                <div key={id}>
+                  <table className={styles.item}>
+                    <tr>
+                      <th>
+                        <img
+                          src={imagePath}
+                          width={300}
+                          className={styles.itemImg}
+                        />
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>
+                        <Link
+                          href={`/posts/${id}`}
+                          className={styles.name}
+                        >
+                          {name}
+                        </Link>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>
+                        <p className="price">{price}円（税抜）</p>
+                      </th>
+                    </tr>
+                  </table>
+                </div>
+              );
+            })}
+      </div>
+    </Layout>
   );
 }
