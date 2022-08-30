@@ -1,7 +1,7 @@
 import { json } from "stream/consumers";
 import useSWR, { useSWRConfig } from "swr";
-import { Layout } from "../../component/layout";
-import { Item, OrderItem } from "../../types/types";
+import { Layout } from "../component/layout";
+import { Item, OrderItem } from "../types/types";
 
 export const fetcher: (args: string) => Promise<any> = (...args) => fetch(...args).then(res => res.json());
 

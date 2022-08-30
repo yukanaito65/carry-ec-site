@@ -118,7 +118,22 @@
       "deleted": false
     }
   ],
-
+  "orderItems": [
+    {
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
+      "id": 1
+    },
+    {
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
+      "id": 2
+    }
+  ],
   "users": [
     {
       "name": "楽子",
@@ -136,7 +151,6 @@
     }
   ],
   "order": [
-
     {
       "name": "カツカレー",
       "description": "aaaaa",

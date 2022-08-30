@@ -20,7 +20,7 @@ export default function Items() {
 
   const onClickSearch = () => {
     const newSerachData = data.filter((e: any) => {
-      return e.name === nameText;
+      return e.name.indexOf(nameText) >= 0
     })
 
     setSearchData(
