@@ -118,7 +118,6 @@
       "deleted": false
     }
   ],
-
   "users": [
     {
       "name": "楽子",
@@ -133,10 +132,20 @@
       "password": "asd",
       "logined": "false",
       "id": 2
+    },
+    {
+      "lastName": "sdfsd",
+      "firstName": "ssdf",
+      "email": "ffdsdf",
+      "zipcode": "dfasdf",
+      "address": "dfsadf",
+      "tel": "fasfds",
+      "password": "fasdf",
+      "checkPassword": "adfsdf",
+      "id": 3
     }
   ],
   "order": [
-
     {
       "name": "カツカレー",
       "description": "aaaaa",
@@ -152,9 +161,6 @@
       "toppingList": []
     }
   ],
-
- 
-
   "topping": [
     {
       "name": "オニオン",
@@ -188,6 +194,5 @@
       "name": "納豆",
       "id": 8
     }
-
   ]
 }
