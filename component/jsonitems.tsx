@@ -7,7 +7,7 @@ export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
 export default function Items() {
-  const { data, error } = useSWR('/api/items', fetcher);
+  const { data, error } = useSWR('http://localhost:8000/items', fetcher);
 
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
