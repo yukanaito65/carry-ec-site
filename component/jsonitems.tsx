@@ -2,6 +2,7 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { Item } from '../types/types';
 import React, { useState } from 'react';
+import { Layout } from './layout';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -12,22 +13,24 @@ export default function Items() {
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
     setNameText(event.target.value);
-  const [searchData, setSearchData] = useState([]);
+  const [searchData, setSearchData]: any[] = useState([]);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;
 
   const onClickSearch = () => {
+    const newSerachData = data.filter((e: any) => {
+      return e.name === nameText;
+    })
+
     setSearchData(
-      data.find((e: any) => {
-        return e.name === nameText;
-      })
+      [...newSerachData]
     );
     console.log(searchData);
   };
 
   return (
-    <>
+    <Layout>
       <div className="panel panel-default">
         <div className="panel-title">
           <p>商品を検索する</p>
@@ -67,65 +70,65 @@ export default function Items() {
 
       {nameText == ''
         ? data.map((item: Item) => {
-            const { id, name, price, imagePath } = item;
-            return (
-              <div key={id}>
-                <table>
-                  <tr>
-                    <th>
-                      <img
-                        src={imagePath}
-                        className="image"
-                        width={300}
-                      />
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href={`/posts/${id}`} className="name">
-                        {name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="price">{price}円（税抜き）</p>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            );
-          })
+          const { id, name, price, imagePath } = item;
+          return (
+            <div key={id}>
+              <table>
+                <tr>
+                  <th>
+                    <img
+                      src={imagePath}
+                      className="image"
+                      width={300}
+                    />
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    <Link href={`/posts/${id}`} className="name">
+                      {name}
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p className="price">{price}円（税抜き）</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          );
+        })
         : searchData.map((item: Item) => {
-            const { id, name, price, imagePath } = item;
-            return (
-              <div key={id}>
-                <table>
-                  <tr>
-                    <th>
-                      <img
-                        src={imagePath}
-                        className="image"
-                        width={300}
-                      />
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href={`/posts/${id}`} className="name">
-                        {name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p className="price">{price}円（税抜き）</p>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            );
-          })}
-    </>
+          const { id, name, price, imagePath } = item;
+          return (
+            <div key={id}>
+              <table>
+                <tr>
+                  <th>
+                    <img
+                      src={imagePath}
+                      className="image"
+                      width={300}
+                    />
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    <Link href={`/posts/${id}`} className="name">
+                      {name}
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p className="price">{price}円（税抜き）</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          );
+        })}
+    </Layout>
   );
 }

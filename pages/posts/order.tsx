@@ -6,7 +6,7 @@ import { Item, OrderItem } from "../../types/types";
 export const fetcher: (args: string) => Promise<any> = (...args) => fetch(...args).then(res => res.json());
 
 export default function Order() {
-  const { data, error } = useSWR("http://localhost:8000/order", fetcher);
+  const { data, error } = useSWR("http://localhost:8000/orderItems", fetcher);
   const { mutate } = useSWRConfig()
 
   if (error) return <div>Failed to load</div>;
