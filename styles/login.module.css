@@ -1,0 +1,50 @@
+.formContainer {
+    width: 40%;
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 3px;
+    margin: 20px auto;
+    padding: 10px 15px 15px 15px;
+}
+
+.h1 {
+    font-size: 20px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.label {
+    font-size: 15px;
+    font-weight: 700;
+    margin: auto 0;
+}
+
+.error {
+    font-size: 10px;
+    font-weight: 700;
+    color: red;
+}
+
+.labelError {
+    display: flex;
+    line-height: 15px;
+    margin-top: 5px;
+}
+
+.input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.loginBtn {
+    background-color: blue;
+}
+
+.forCreate {
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    color: #337AB7;
+    font-weight: 500;
+}
+.forCreate:hover {
+    border-bottom: 1ox solid #142d44;
+}
