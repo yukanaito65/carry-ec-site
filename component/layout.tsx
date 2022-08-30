@@ -1,7 +1,21 @@
-import styles from "./layout.module.css"
-import { useState } from "react";
-import Link from "next/link";
+import styles from './layout.module.css';
+import { useState } from 'react';
+import Link from 'next/link';
+import { User } from '../types/types';
+import { userAgent } from 'next/server';
 
+// fetchでuserのlogined値を取得
+export function getAllUserLogined() {
+  return fetch(`http://localhost:8000/users/`)
+    .then((res) => res.json())
+    .then((data) => {
+      return data.map((data: User) => {
+        return {
+          user: { logined: data.logined },
+        };
+      });
+    });
+}
 
 export function Layout({ children }: { children: any }) {
   // const [show, setShow] = useState("");
@@ -12,6 +26,19 @@ export function Layout({ children }: { children: any }) {
   //     setShow("");
   //   }
   // }
+
+  // userのlogined値をfalesに変換
+  async function onClickLogout() {
+    const users = await getAllUserLogined();
+    users.logined === true;
+    console.log(users);
+    return fetch("http://localhost:8000/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users)
+    });
+    
+  }
 
   return (
     <div className={styles.container}>
@@ -43,7 +70,11 @@ export function Layout({ children }: { children: any }) {
             </Link>
             <Link href="/">
               <a>
-                <li>ログアウト</li>
+                <li>
+                  <button onClick={() => onClickLogout}>
+                    ログアウト
+                  </button>
+                </li>
               </a>
             </Link>
           </ul>
@@ -59,5 +90,5 @@ export function Layout({ children }: { children: any }) {
       </nav> */}
       {children}
     </div>
-  )
+  );
 }

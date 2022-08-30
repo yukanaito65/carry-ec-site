@@ -118,19 +118,37 @@
       "deleted": false
     }
   ],
+
+  "orderItems": [
+    {
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
+      "id": 1
+    },
+    {
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
+      "id": 2
+    }
+  ],
+
   "users": [
     {
       "name": "楽子",
       "email": "aaaaa@gmail.com",
       "password": "580",
-      "logined": "false",
+      "logined": false,
       "id": 1
     },
     {
       "name": "楽太",
       "description": "bbbbb@gmail.com",
       "password": "asd",
-      "logined": "false",
+      "logined": false,
       "id": 2
     },
     {
