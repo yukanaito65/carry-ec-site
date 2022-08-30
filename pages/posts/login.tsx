@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { Layout } from '../../component/layout';
 import styles from '../../styles/login.module.css';
+import useSWR from 'swr';
+import { fetcher } from '../../component/jsonitems';
 
 // idとメアドとパスワードをfetchで取得する
 
@@ -13,12 +15,10 @@ export async function getAllJsonUser() {
     .then((data) => {
       return data.map((data: User) => {
         return {
-          user: {
             id: data.id,
             email: data.email,
             password: data.password,
             logined: data.logined,
-          },
         };
       });
     });
@@ -26,16 +26,11 @@ export async function getAllJsonUser() {
 
 // html
 export default function Login() {
-  const initialValue = { mail: '', pass: '' };
-  const [formValue, setFormValue] = useState<any>(initialValue);
+  const [mailText, setMailText] = useState<any>("");
+  const [passText, setPassText] = useState<any>("");
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    let newFormValue = formValue;
-    newFormValue[name] = value;
-    setFormValue(newFormValue);
-    console.log(formValue);
-  };
+  const onChangeMail = (e: any) => setMailText(e.target.value);
+  const onChangePass = (e: any) => setPassText(e.target.value);
 
   // ログインボタンをクリックした時に、Userのloginedをtrueにする & ページ遷移する”
   async function onCkickMatch() {
@@ -43,21 +38,29 @@ export default function Login() {
 
     // console.log(users[0]);
 
-    users.forEach(
+    users.map(
       (user: {
         id: number;
         email: string;
         password: string;
         logined: boolean;
       }) => {
+        console.log(user);
+        console.log(user.email);
+        console.log(mailText);
+        console.log(user.password);
+        console.log(passText);
         if (
-          user.email === formValue.mail &&
-          user.password === formValue.pass
+          user.email === mailText &&
+          user.password === passText
         ) {
-          user.logined = true;
+
+          return user.logined = true;
         }
       }
     );
+
+    console.log(users);
 
     return fetch("http://localhost:8000/users", {
       method: "PUT",
@@ -80,7 +83,7 @@ export default function Login() {
                 <label className={styles.label}>
                   メールアドレス：
                 </label>
-                {formValue.mail === '' && (
+                {mailText === '' && (
                   <p className={styles.error}>
                     メールアドレスを入力してください
                   </p>
@@ -93,14 +96,15 @@ export default function Login() {
                 placeholder="Email"
                 name="mail"
                 id="email"
-                onChange={(e) => handleChange(e)}
+                value={mailText}
+                onChange={onChangeMail}
               />
             </div>
 
             <div>
               <div className={styles.labelError}>
                 <label className={styles.label}>パスワード：</label>
-                {formValue.pass === '' && (
+                {passText === "" && (
                   <p className={styles.error}>
                     パスワードを入力してください
                   </p>
@@ -113,13 +117,14 @@ export default function Login() {
                 placeholder="Password"
                 name="pass"
                 id="password"
-                onChange={(e) => handleChange(e)}
+                value={passText}
+                onChange={onChangePass}
               />
             </div>
-            {formValue.pass === '' && (
+            {passText === '' && (
               <button onClick={() => onCkickMatch()}>ログイン</button>
             )}
-            {!(formValue.pass === '') && (
+            {!(passText === '') && (
               <Link href="/">
                 <button className={styles.loginBtn} onClick={() => onCkickMatch()}>
                   ログイン
