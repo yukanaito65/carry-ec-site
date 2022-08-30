@@ -6,6 +6,7 @@ import { Layout } from '../../component/layout';
 import styles from '../../styles/login.module.css';
 
 // idとメアドとパスワードをfetchで取得する
+
 export async function getAllJsonUser() {
   return fetch(`http://localhost:8000/users/`)
     .then((res) => res.json())
@@ -41,6 +42,7 @@ export default function Login() {
     const users = await getAllJsonUser();
 
     // console.log(users[0]);
+
     users.forEach(
       (user: {
         id: number;
@@ -56,11 +58,12 @@ export default function Login() {
         }
       }
     );
-    return fetch('http://localhost:8000/users', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(users),
-    }).then((res) => res.json());
+
+    return fetch("http://localhost:8000/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(users)
+    })
   }
 
   return (

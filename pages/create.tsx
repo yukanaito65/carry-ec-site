@@ -1,4 +1,3 @@
-import { trace } from 'console';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -8,7 +7,6 @@ export default function User() {
   const [firstName, setFirstName] = useState('');
 
   const [email, setEmail] = useState('');
-  const [zipcode, setZipcode] = useState('');
   const [address, setAddress] = useState('');
   const [tel, setTel] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +23,7 @@ export default function User() {
       password &&
       checkPassword
     ) {
-      router.push('posts/login');
+      router.push('/');
       return fetch('http://localhost:8000/users', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
@@ -39,25 +37,18 @@ export default function User() {
           checkPassword: checkPassword,
         }),
       });
-    }
-    if (!lastName || !firstName) {
+    }  if (!lastName || !firstName) {
       alert('名前を入力してください。');
-    }
-    if (!email) {
+      return;
+    }  if (!email) {
       alert('メールアドレスを入力してください。');
-    }
-    if (!address) {
+    }  if (!address) {
       alert('住所を入力してください。');
-    }
-    if (!tel) {
+    }  if (!tel) {
       alert('電話番号を入力してください');
-    }
-
-    if (!password) {
+    }  if (!password) {
       alert('パスワードを入力してください。');
-    }
-
-    if (!checkPassword) {
+    }  if (!checkPassword) {
       alert('確認用のパスワードを入力してください。');
     } else {
       alert('全ての項目を入力してください');
@@ -67,35 +58,31 @@ export default function User() {
   };
 
   return (
-    <>
-    <fieldset>
-      <legend>ユーザ登録</legend>
     <form action="post">
-<div>
-       <p>名前：</p>
-        <label htmlFor="lastName">姓</label>
+      <p>
+        {' '}
+        <label htmlFor="lastName">姓:</label>
         <input
           type="text"
           id="lastName"
           name="lastName"
           value={lastName}
-          placeholder="LastName"
           onChange={(e) => {
             setlastName(e.target.value);
           }}
         />
-        <label htmlFor="firstName">名</label>
+        <label htmlFor="firstName">名:</label>
         <input
           type="text"
           id="firstName"
           name="firstName"
           value={firstName}
-          placeholder="FirstName"
           onChange={(e) => {
             setFirstName(e.target.value);
           }}
         />
-      </div>
+      </p>
+
       <p>
         <label htmlFor="email">メールアドレス:</label>
 
@@ -104,37 +91,23 @@ export default function User() {
           id="email"
           name="email"
           value={email}
-          placeholder="Email"
           onChange={(e) => {
             setEmail(e.target.value);
           }}
         />
       </p>
       <p>
-        <label htmlFor="zipcode">郵便番号:</label>
-        <input
-          type="text"
-          id="zipcode"
-          name="zipcode"
-          value={zipcode}
-          placeholder="Zipcode"
-          onChange={(e) => {
-            setZipcode(e.target.value);
-          }}
-        />
-      </p>
-      <p>
-        <label htmlFor="address">住所：</label>
+        <label htmlFor="address">住所:</label>
+
         <input
           type="text"
           id="address"
           name="address"
           value={address}
-          placeholder="Address"
           onChange={(e) => {
             setAddress(e.target.value);
           }}
-        ></input>
+        />
       </p>
       <p>
         <label htmlFor="tel">電話番号:</label>
@@ -144,7 +117,6 @@ export default function User() {
           id="tel"
           name="tel"
           value={tel}
-          placeholder="PhoneNumber"
           onChange={(e) => {
             setTel(e.target.value);
           }}
@@ -158,21 +130,19 @@ export default function User() {
           id="password"
           name="password"
           value={password}
-          placeholder="PassWord"
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
       </p>
       <p>
-        <label htmlFor="checkPassword">確認用パスワード:</label>
+        <label htmlFor="checkPassword">パスワード:</label>
 
         <input
           type="password"
           id="checkPassword"
           name="checkPassword"
           value={checkPassword}
-          placeholder="Comfirmaition Password"
           onChange={(e) => {
             setCheckPassword(e.target.value);
           }}
@@ -183,7 +153,5 @@ export default function User() {
       </button>
       <button type="reset">キャンセル</button>
     </form>
-    </fieldset>
-    </>
   );
 }
