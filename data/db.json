@@ -139,14 +139,14 @@
       "name": "楽子",
       "email": "aaaaa@gmail.com",
       "password": "580",
-      "logined": "false",
+      "logined": false,
       "id": 1
     },
     {
       "name": "楽太",
       "description": "bbbbb@gmail.com",
       "password": "asd",
-      "logined": "false",
+      "logined": false,
       "id": 2
     }
   ],

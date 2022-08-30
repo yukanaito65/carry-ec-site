@@ -7,8 +7,9 @@ import styles from '../../styles/login.module.css';
 import useSWR from 'swr';
 import { fetcher } from '../../component/jsonitems';
 
-// idとメアドとパスワードをfetchで取得する
 
+
+// idとメアドとパスワードをfetchで取得する
 export async function getAllJsonUser() {
   return fetch(`http://localhost:8000/users/`)
     .then((res) => res.json())
@@ -35,7 +36,6 @@ export default function Login() {
   // ログインボタンをクリックした時に、Userのloginedをtrueにする & ページ遷移する”
   async function onCkickMatch() {
     const users = await getAllJsonUser();
-
     // console.log(users[0]);
 
     users.map(
@@ -54,7 +54,6 @@ export default function Login() {
           user.email === mailText &&
           user.password === passText
         ) {
-
           return user.logined = true;
         }
       }
@@ -77,6 +76,7 @@ export default function Login() {
       <Layout>
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
+          
           <div>
             <div>
               <div className={styles.labelError}>
@@ -121,8 +121,11 @@ export default function Login() {
                 onChange={onChangePass}
               />
             </div>
+
             {passText === '' && (
-              <button onClick={() => onCkickMatch()}>ログイン</button>
+                <Link href='/posts/login'>
+              <button className={styles.loginBtn} onClick={() => onCkickMatch()}>ログイン</button>
+              </Link>
             )}
             {!(passText === '') && (
               <Link href="/">
@@ -143,5 +146,8 @@ export default function Login() {
   );
 }
 
-// エラーメッセが消えない -> 17業目のエラーが関係してる？
-// db.jsonに存在してるアドレスとパスを入れてもページ遷移されない -> 不明
+
+// 間違ったアドレス・パスワードを入れても一覧画面に遷移する
+// db.jsonのloginedが変更されない
+// ログインボタンの消去
+// ログアウト機能の確認
