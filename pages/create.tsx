@@ -13,20 +13,8 @@ export default function User() {
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
-  const [passwordError, setPasswordError] = useState('');
 
-  const handleBlur = (e: any) => {
-    const password = e.target.value;
-    if (!password) {
-      setPasswordError('パスワードを入力してください');
-    } else if (password.length < 8) {
-      setPasswordError('8文字以上で入力してください');
-    } else if (password.length > 16) {
-      setPasswordError('16文字以下で入力してください');
-    } else {
-      setPasswordError;
-    }
-  }; //パスワードを入力したときに、表示される関数。
+
 
   const onClickRegister = () => {     //全ての項目があるときに、db.jsonのusersに値が追加される。
     fetch("http://localhost:8000/users").then(res => res.json()).then(data => {
@@ -39,11 +27,11 @@ export default function User() {
           tel &&
           8 <= password.length &&
           password.length <= 16 &&
-          checkPassword)
+          checkPassword === password)
       ) {
-        alert('埋めてください')
-      } else if (data.filter((el: any) => el.email === email).length > 0) {
-        alert("既にあります")
+        alert('すべての全ての項目を入力してください')
+      } else if (data.filter((el: any) => el.email === email).length > 0) { //既にあるEメールアドレスはエラーになる
+        alert("Eメールアドレスが既にあります")
       } else {
         router.push('/');
         return fetch('http://localhost:8000/users', {
@@ -205,9 +193,12 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="password">パスワード:</label>
-            {passwordError && (
-              <span className={styles.subTitle}>{passwordError}</span>
-            )}
+            {password.length < 1 && (
+              <span className={styles.subTitle}>
+                パスワードを入力してください
+              </span>)}
+            {password.length <= 8 && password.length >= 1&&(<span className={styles.subTitle}>パスワードは8文字以上16文字以下で入力してください</span>)}
+            {password.length >= 16 &&(<span className={styles.subTitle}>パスワードは8文字以上16文字以下で入力してください</span>)}
             <input
               type="password"
               id="password"
@@ -218,7 +209,6 @@ export default function User() {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              onBlur={handleBlur}
             />
           </div>
           <div className={styles.title}>
