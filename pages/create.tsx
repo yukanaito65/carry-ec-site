@@ -14,42 +14,46 @@ export default function User() {
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
 
-
-
-  const onClickRegister = () => {     //全ての項目があるときに、db.jsonのusersに値が追加される。
-    fetch("http://localhost:8000/users").then(res => res.json()).then(data => {
-      if (
-        !(lastName &&
-          firstName &&
-          email &&
-          zipcode &&
-          address &&
-          tel &&
-          8 <= password.length &&
-          password.length <= 16 &&
-          checkPassword === password)
-      ) {
-        alert('すべての全ての項目を入力してください')
-      } else if (data.filter((el: any) => el.email === email).length > 0) { //既にあるEメールアドレスはエラーになる
-        alert("Eメールアドレスが既にあります")
-      } else {
-        router.push('/');
-        return fetch('http://localhost:8000/users', {
-          method: 'POST',
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify({
-            lastName: lastName,
-            firstName: firstName,
-            email: email,
-            zipcode: zipcode,
-            address: address,
-            tel: tel,
-            password: password,
-            checkPassword: checkPassword,
-          }),
-        });
-      }
-    })
+  const onClickRegister = () => {
+    fetch('http://localhost:8000/users')
+      .then((res) => res.json())
+      .then((data) => {
+        if (
+          !(
+            lastName &&
+            firstName &&
+            email.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/) && //メールアドレスが正規表現と一致するか
+            zipcode.match(/^\d{3}-\d{4}$/) &&//郵便番号が正規表現と一致するか
+            address &&
+            tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&//電話番号が正規表現と一致するか。
+            8 <= password.length &&
+            password.length <= 16 && //パスワードの長さが、8文字以上16文字以下
+            checkPassword === password //パスワードと確認用パスワードが一致するか 
+          )
+        ) {
+          alert('すべての全ての項目を正しく入力してください');
+        } else if (
+          data.filter((el: any) => el.email === email).length > 0 //入力したEメールの値とfetchしたデータの中のEメールの値が一致しており、0以上の文字数があるとき
+        ) {
+          alert('Eメールアドレスが既にあります');
+        } else {
+          router.push('/');//登録内容が正しい場合、ボタンを押すと、ホーム画面に遷移。
+          return fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({
+              lastName: lastName,
+              firstName: firstName,
+              email: email,
+              zipcode: zipcode,
+              address: address,
+              tel: tel,
+              password: password,
+              checkPassword: checkPassword,
+            }),
+          });
+        }
+      });
     // if (
     //   !lastName ||
     //   !firstName ||
@@ -67,6 +71,13 @@ export default function User() {
 
     //   return;
     // }
+    //  if (!zipcode.match(/^\d{3}-\d{4}$/)) {
+    //   alert('郵便番号はXXX-XXXXの形式で入力してください');
+    // }
+
+    // if (!tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/)) {
+    //   alert('電話番号はXXX-XXXX-XXXXの形式で入力してください');
+    // }
   };
 
   return (
@@ -80,7 +91,8 @@ export default function User() {
               <span className={styles.subTitle}>
                 名前を入力してください
               </span>
-            )} {/*入力されてない時だけ"名前を入力してください”を表示 以下全てのinputに同様の機能追加*/}
+            )}{' '}
+            {/*入力されてない時だけ"名前を入力してください”を表示 以下全てのinputに同様の機能追加*/}
             <div>
               <label htmlFor="lastName">姓</label>
 
@@ -88,7 +100,6 @@ export default function User() {
                 type="text"
                 id="lastName"
                 name="lastName"
-
                 value={lastName}
                 placeholder="LastName"
                 className={styles.form_name}
@@ -97,9 +108,9 @@ export default function User() {
                 }}
               />
 
-              <label htmlFor="firstName"> 
+              <label htmlFor="firstName">
                 &nbsp;&nbsp;&nbsp;&nbsp;名
-             </label>     
+              </label>
 
               <input
                 type="text"
@@ -121,6 +132,7 @@ export default function User() {
                 メールアドレスを入力してください
               </span>
             )}
+            {!email.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)&& email.length>=1&&(<span className={styles.subTitle}>メールアドレスの形式が不正です</span>)}
             <input
               type="email"
               id="email"
@@ -140,6 +152,12 @@ export default function User() {
                 郵便番号を入力してください
               </span>
             )}
+            {!zipcode.match(/^\d{3}-\d{4}$/) &&
+              zipcode.length >= 1 && (
+                <span className={styles.subTitle}>
+                  郵便番号はXXX-XXXXの形式で入力してください
+                </span>
+              )}
             <input
               type="text"
               id="zipcode"
@@ -173,11 +191,17 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="tel">電話番号:</label>
-            {tel.length < 1 && (
+            {tel.length === 0 && (
               <span className={styles.subTitle}>
                 電話を入力してください
               </span>
             )}
+            {!tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
+              tel.length >= 1 && (
+                <span className={styles.subTitle}>
+                  電話番号はXXX-XXXX-XXXXの形式で入力してください
+                </span>
+              )}
 
             <input
               type="tel"
@@ -196,9 +220,18 @@ export default function User() {
             {password.length < 1 && (
               <span className={styles.subTitle}>
                 パスワードを入力してください
-              </span>)}
-            {password.length <= 8 && password.length >= 1&&(<span className={styles.subTitle}>パスワードは8文字以上16文字以下で入力してください</span>)}
-            {password.length >= 16 &&(<span className={styles.subTitle}>パスワードは8文字以上16文字以下で入力してください</span>)}
+              </span>
+            )}
+            {password.length <= 8 && password.length >= 1 && (
+              <span className={styles.subTitle}>
+                パスワードは8文字以上16文字以下で入力してください
+              </span>
+            )}
+            {password.length >= 16 && (
+              <span className={styles.subTitle}>
+                パスワードは8文字以上16文字以下で入力してください
+              </span>
+            )}
             <input
               type="password"
               id="password"
@@ -222,7 +255,8 @@ export default function User() {
               <span className={styles.subTitle}>
                 パスワードと確認用パスワードが不一致です。
               </span>
-            )}{/*パスワードと確認用パスワードが違ったら表示される*/}
+            )}
+            {/*パスワードと確認用パスワードが違ったら表示される*/}
             <input
               type="password"
               id="checkPassword"
@@ -255,7 +289,8 @@ export default function User() {
                 setPassword(''),
                 setCheckPassword('');
             }}
-          >{/* キャンセルボタンが押されたときに、全ての値をリセットする*/}
+          >
+            {/* キャンセルボタンが押されたときに、全ての値をリセットする*/}
             キャンセル
           </button>
         </form>
