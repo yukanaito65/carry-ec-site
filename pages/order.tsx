@@ -32,7 +32,6 @@ export default function Order() {
                 <th>サイズ、価格（税抜）、数量</th>
                 <th>トッピング、価格（税抜）</th>
                 <th>小計</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
