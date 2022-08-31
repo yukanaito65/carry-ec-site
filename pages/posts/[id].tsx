@@ -6,7 +6,7 @@ import { fetcher } from "../../component/jsonitems";
 import { Layout } from "../../component/layout";
 import { getAllJsonIds, getJsonData } from "../../lib/json";
 import { Item, Topping } from "../../types/types";
-// import styles from "../../components/details.modules.css";
+import detailStyle from "../../component/details.module.css"
 
 export async function getStaticPaths() {
   const paths = await getAllJsonIds();
@@ -77,28 +77,32 @@ export default function Details({ jsonData }: { jsonData: Item }) {
 
   return (
     <Layout>
-      <h1>商品詳細</h1>
-      <div>
-        <img src={imagePath} width={300} />
-        <h2>{name}</h2>
-        <p>{description}</p>
+      <h1 className={detailStyle.textTitle}>商品詳細</h1>
+      <div className={detailStyle.item}>
+        <img src={imagePath} width={300} className={detailStyle.itemImg} />
+        <div className={detailStyle.itemDetail}>
+         <h2>{name}</h2>
+         <p>{description}</p>
+        </div>
       </div>
-      <h3>トッピング: 1つにつき200円（税抜）</h3>
-      {data.map(({ name, id }: Topping, index: any) => (
+      <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
+      <div className={detailStyle.optionTag}>
+        {data.map(({ name, id }: Topping, index: any) => (
         <>
           <input type="checkbox" id={name} name={name} checked={checked[index]} onChange={() => onChangeCheck(index)} />
           <label htmlFor={name}>{name}</label>
         </>
-      ))}
-      <h3>数量:</h3>
-      <select name="count" id="count">
+        ))}
+      </div>
+      <h3 className={detailStyle.quantity}>数量:</h3>
+      <select name="count" id="count" className={detailStyle.select}>
         {arr.map((el) => (
           <option key={el} value={el}>{el}</option>
         ))}
       </select>
-      <p>この商品金額: 38000円（税抜）</p>
+      <p className={detailStyle.total}>この商品金額: 38000円（税抜）</p>
       <Link href="/">
-        <button onClick={() => onClickCart()}>カートに追加</button>
+        <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
       </Link>
     </Layout>
   );
