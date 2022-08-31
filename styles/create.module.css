@@ -24,6 +24,8 @@
   color: aliceblue;
   float: left;
   margin-top: 3%;
+  margin-left: 4px;
+  border-radius:5px 5px 5px 5px;
 }
 
 .userName{
@@ -39,6 +41,13 @@
     text-align: left;
 }
 
-.legend{
-    text-align: center;
+.form_title{
+    text-align: left;
+    margin-top:3px ;
+    
+}
+
+.subTitle{
+    color: red;
+    font-size: small;
 }

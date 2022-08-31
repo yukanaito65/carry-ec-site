@@ -118,7 +118,6 @@
       "deleted": false
     }
   ],
-
   "orderItems": [
     {
       "name": "カツカレー",
@@ -135,12 +134,12 @@
       "id": 2
     }
   ],
-
   "users": [
     {
 
       "id": 2,
       "password": "asd",
+
       "logined": "false"
     },
     {
@@ -148,7 +147,9 @@
       "email": "aaaaa@gmail.com",
       "password": "580",
       "logined": true
+
     }
+
   ],
   "order": [
     {
