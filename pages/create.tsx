@@ -29,54 +29,61 @@ export default function User() {
   }; //パスワードを入力したときに、表示される関数。
 
   const onClickRegister = () => {     //全ての項目があるときに、db.jsonのusersに値が追加される。
-    if (
-      lastName &&
-      firstName &&
-      email &&
-      zipcode &&
-      address &&
-      tel &&
-      password &&
-      checkPassword
-    ) {
-      router.push('/');
-      return fetch('http://localhost:8000/users', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          lastName: lastName,
-          firstName: firstName,
-          email: email,
-          zipcode: zipcode,
-          address: address,
-          tel: tel,
-          password: password,
-          checkPassword: checkPassword,
-        }),
-      });
-    }
-    if (
-      !lastName ||
-      !firstName ||
-      !email ||
-      !zipcode ||
-      !address ||
-      !tel ||
-      !password ||
-      !checkPassword
-    ) {
-      alert('全ての項目を入力してください'); //一つでも項目の入力がされてなかったら、アラートを表示
-      router.push('/create');
-    } else {
-      alert('全ての項目を入力してください');
+    fetch("http://localhost:8000/users").then(res => res.json()).then(data => {
+      if (
+        !(lastName &&
+          firstName &&
+          email &&
+          zipcode &&
+          address &&
+          tel &&
+          8 <= password.length &&
+          password.length <= 16 &&
+          checkPassword)
+      ) {
+        alert('埋めてください')
+      } else if (data.filter((el: any) => el.email === email).length > 0) {
+        alert("既にあります")
+      } else {
+        router.push('/');
+        return fetch('http://localhost:8000/users', {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({
+            lastName: lastName,
+            firstName: firstName,
+            email: email,
+            zipcode: zipcode,
+            address: address,
+            tel: tel,
+            password: password,
+            checkPassword: checkPassword,
+          }),
+        });
+      }
+    })
+    // if (
+    //   !lastName ||
+    //   !firstName ||
+    //   !email ||
+    //   !zipcode ||
+    //   !address ||
+    //   !tel ||
+    //   !password ||
+    //   !checkPassword
+    // ) {
+    //   alert('全ての項目を入力してください'); //一つでも項目の入力がされてなかったら、アラートを表示
+    //   router.push('/create');
+    // } else {
+    //   alert('全ての項目を入力してください');
 
-      return;
-    }
+    //   return;
+    // }
   };
 
   return (
     <Layout>
-      <fieldset className={styles.fieldset_style}> 
+      <fieldset className={styles.fieldset_style}>
         <p className={styles.form_title}>ユーザ登録</p>
         <form action="post">
           <div className={styles.title}>
@@ -93,6 +100,7 @@ export default function User() {
                 type="text"
                 id="lastName"
                 name="lastName"
+
                 value={lastName}
                 placeholder="LastName"
                 className={styles.form_name}
@@ -100,9 +108,11 @@ export default function User() {
                   setlastName(e.target.value);
                 }}
               />
+
               <label htmlFor="firstName"> 
-                &nbsp;&nbsp;&nbsp;&nbsp;名　  
+                &nbsp;&nbsp;&nbsp;&nbsp;名
              </label>     
+
               <input
                 type="text"
                 id="firstName"
@@ -196,7 +206,7 @@ export default function User() {
           <div className={styles.title}>
             <label htmlFor="password">パスワード:</label>
             {passwordError && (
-              <span className={styles.subTitle}>{passwordError}</span> 
+              <span className={styles.subTitle}>{passwordError}</span>
             )}
             <input
               type="password"
@@ -254,7 +264,7 @@ export default function User() {
                 setEmail(''),
                 setPassword(''),
                 setCheckPassword('');
-            }} 
+            }}
           >{/* キャンセルボタンが押されたときに、全ての値をリセットする*/}
             キャンセル
           </button>

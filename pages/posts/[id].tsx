@@ -6,7 +6,7 @@ import { fetcher } from "../../component/jsonitems";
 import { Layout } from "../../component/layout";
 import { getAllJsonIds, getJsonData } from "../../lib/json";
 import { Item, Topping } from "../../types/types";
-// import styles from "../../components/details.modules.css";
+import detailStyle from "../../component/details.module.css"
 
 //posts/1などのpathを用意する
 export async function getStaticPaths() {
@@ -33,12 +33,14 @@ export async function getStaticProps({ params }: { params: { id: number } }) {
 
 export default function Details({ jsonData }: { jsonData: Item }) {
   //toppingを拾ってきてCSRで表示
-  const { data, error } = useSWR("http://localhost:8000/topping/", fetcher, {refreshInterval: 1000});
+  const { data, error } = useSWR("http://localhost:8000/topping/", fetcher, { refreshInterval: 1000 });
 
   //初期値ではトッピングは何も選ばれていない状態
   const initialChecked: any[] = [false, false, false, false, false, false, false, false];
   const [checked, setChecked] = useState<any>(initialChecked);
-
+  //注文個数のstate
+  const [count, setCount] = useState(1);
+  //追加されたtoppingのstate
   const [toppingList, setToppingList] = useState([]);
 
   if (error) return <div>Failed to load</div>;
@@ -50,26 +52,32 @@ export default function Details({ jsonData }: { jsonData: Item }) {
     //splice関数 = 配列の一部を入れ替える
     newCheck.splice(index, 1, !(newCheck[index]));
     setChecked(newCheck);
-    console.log(checked)
-  }
-
-  const arr = [];
-  for (let i = 0; i < 13; i++) {
-    arr.push(i);
-  }
-
-  const { id, name, imagePath, description, price } = jsonData;
-  const onClickCart = () => {
+    console.log(checked);
     let newToppingList = [...toppingList];
     //toppingにcheckedのtrue, falseを割り当てる
     data.map((el: any, index: number) => {
       el.checked = checked[index];
     });
     console.log(data);
+    //toppingがtrueになっているものだけを集める
     newToppingList = data.filter((el: any) => el.checked == true);
     setToppingList(newToppingList)
     console.log(newToppingList);
     console.log(toppingList)
+  }
+
+  const arr = [];
+  for (let i = 1; i < 13; i++) {
+    arr.push(i);
+  }
+
+  //注文個数を代入
+  const onChangeCount = (event: any) => {
+    setCount(event.target.value)
+  }
+
+  const { id, name, imagePath, description, price } = jsonData;
+  const onClickCart = () => {
 
     //dbJsonのorderItemsに反映させる
     fetch("http://localhost:8000/orderItems/", {
@@ -79,36 +87,42 @@ export default function Details({ jsonData }: { jsonData: Item }) {
         name: name,
         price: price,
         imagePath: imagePath,
-        toppingList: toppingList
+        toppingList: toppingList,
+        count: Number(count),
+        TotalPrice: (price + 200 * checked.filter((el: any) => el === true).length) * count
       })
     })
   }
 
   return (
     <Layout>
-      <h1>商品詳細</h1>
-      <div>
-        <img src={imagePath} width={300} />
-        <h2>{name}</h2>
-        <p>{description}</p>
+      <h1 className={detailStyle.textTitle}>商品詳細</h1>
+      <div className={detailStyle.item}>
+        <img src={imagePath} width={300} className={detailStyle.itemImg} />
+        <div className={detailStyle.itemDetail}>
+         <h2>{name}</h2>
+         <p>{description}</p>
+        </div>
       </div>
-      <h3>トッピング: 1つにつき200円（税抜）</h3>
+      <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
+      <div className={detailStyle.optionTag}>
       {//toppingのデータを一つ一つ表示
-      data.map(({ name, id }: Topping, index: any) => (
-        <>
-          <input type="checkbox" id={name} name={name} checked={checked[index]} onChange={() => onChangeCheck(index)} />
-          <label htmlFor={name}>{name}</label>
-        </>
-      ))}
-      <h3>数量:</h3>
-      <select name="count" id="count">
+        data.map(({ name, id }: Topping, index: any) => (
+          <>
+            <input type="checkbox" id={name} name={name} checked={checked[index]} onChange={() => onChangeCheck(index)} />
+            <label htmlFor={name}>{name}</label>
+          </>
+        ))}
+        </div>
+      <h3 className={detailStyle.quantity}>数量:</h3>
+      <select name="count" id="count" className={detailStyle.select} value={count} onChange={onChangeCount}>
         {arr.map((el) => (
           <option key={el} value={el}>{el}</option>
         ))}
       </select>
-      <p>この商品金額: 38000円（税抜）</p>
+      <p className={detailStyle.total}>この商品金額: {(price + 200 * checked.filter((el: any) => el === true).length) * count}円（税抜）</p>
       <Link href="/">
-        <button onClick={() => onClickCart()}>カートに追加</button>
+        <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
       </Link>
     </Layout>
   );
