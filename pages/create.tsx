@@ -100,6 +100,7 @@ export default function User() {
                 type="text"
                 id="lastName"
                 name="lastName"
+
                 value={lastName}
                 placeholder="LastName"
                 className={styles.form_name}
@@ -107,9 +108,11 @@ export default function User() {
                   setlastName(e.target.value);
                 }}
               />
-              <label htmlFor="firstName">
+
+              <label htmlFor="firstName"> 
                 &nbsp;&nbsp;&nbsp;&nbsp;名
-              </label>
+             </label>     
+
               <input
                 type="text"
                 id="firstName"
