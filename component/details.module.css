@@ -1,0 +1,84 @@
+.textTitle {
+    text-align: center;
+    font-size: 30px;
+    background-color: bisque;
+    margin-top: 30px;
+}
+
+.itemImg {
+    margin: auto;
+    display: block;
+    border-radius: 30px;
+    width: 400px;
+    height: 300px;
+    padding: 0 0 15px 0;
+}
+
+.item {
+    display: flex;
+    margin-top: 70px;
+}
+
+.itemDetail {
+    display: block;
+    font-size: 20px;
+    margin: auto;
+    width: 40%;
+    padding: 10px;
+    border: thick double bisque
+}
+
+.optionTitle {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.optionTag {
+    text-align: center;
+}
+
+.quantity {
+    text-align: center;
+}
+
+.select {
+    text-align: center;
+    font-size: 16px;
+    display: block;
+    line-height: 1.42857143;
+    border: 1px solid;
+    margin-bottom: 30px;
+    width: 10em;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+}
+
+.total {
+    text-align: center;
+    font-size: 30px;
+}
+
+.Btn {
+    color: black;
+    background-color: yellow;
+    border-color: yellow;
+    display: block;
+    padding: 6px 12px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
+    border: 2px solid black;
+    width: 20em;
+    height: 35px;
+
+
+    font-size: 14px;
+    font-weight: normal;
+    font-family:monospace;
+    line-height: 1.42857143;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+}
