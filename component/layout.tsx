@@ -53,7 +53,7 @@ export function Layout({ children }: { children: any }) {
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="/posts/order">
+            <Link href="order">
               <a>
                 <li>ショッピングカート</li>
               </a>
