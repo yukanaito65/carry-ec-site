@@ -52,19 +52,10 @@ export default function Details({ jsonData }: { jsonData: Item }) {
     //splice関数 = 配列の一部を入れ替える
     newCheck.splice(index, 1, !(newCheck[index]));
     setChecked(newCheck);
-    console.log(checked);
-    let newToppingList = [...toppingList];
-    //toppingにcheckedのtrue, falseを割り当てる
-    data.map((el: any, index: number) => {
-      el.checked = checked[index];
-    });
-    console.log(data);
-    //toppingがtrueになっているものだけを集める
-    newToppingList = data.filter((el: any) => el.checked == true);
-    setToppingList(newToppingList)
-    console.log(newToppingList);
-    console.log(toppingList)
   }
+  console.log(checked);
+  console.log(data);
+  console.log(toppingList)
 
   const arr = [];
   for (let i = 1; i < 13; i++) {
@@ -78,7 +69,16 @@ export default function Details({ jsonData }: { jsonData: Item }) {
 
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
+    //toppingにcheckedのtrue, falseを割り当てる
+    data.map((el: any, index: number) => {
+      el.checked = checked[index];
+    });
 
+    //toppingがtrueになっているものだけを集める
+    let newToppingList = [...toppingList];
+    newToppingList = data.filter((el: any) => el.checked == true);
+    setToppingList(newToppingList)
+    
     //dbJsonのorderItemsに反映させる
     fetch("http://localhost:8000/orderItems/", {
       method: "POST",
@@ -100,20 +100,30 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       <div className={detailStyle.item}>
         <img src={imagePath} width={300} className={detailStyle.itemImg} />
         <div className={detailStyle.itemDetail}>
-         <h2>{name}</h2>
-         <p>{description}</p>
+          <h2>{name}</h2>
+          <p>{description}</p>
         </div>
       </div>
+      <label>
+        <input type="radio" />
+        <span>&nbsp;M&nbsp;</span>
+        &nbsp;&nbsp;{price}円
+      </label>
+      <label>
+        <input type="radio" />
+        <span>&nbsp;L&nbsp;</span>
+        &nbsp;&nbsp;{price + 200}円
+      </label>
       <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
       <div className={detailStyle.optionTag}>
-      {//toppingのデータを一つ一つ表示
-        data.map(({ name, id }: Topping, index: any) => (
-          <>
-            <input type="checkbox" id={name} name={name} checked={checked[index]} onChange={() => onChangeCheck(index)} />
-            <label htmlFor={name}>{name}</label>
-          </>
-        ))}
-        </div>
+        {//toppingのデータを一つ一つ表示
+          data.map(({ name, id }: Topping, index: any) => (
+            <>
+              <input type="checkbox" id={name} name={name} checked={checked[index]} onChange={() => onChangeCheck(index)} />
+              <label htmlFor={name}>{name}</label>
+            </>
+          ))}
+      </div>
       <h3 className={detailStyle.quantity}>数量:</h3>
       <select name="count" id="count" className={detailStyle.select} value={count} onChange={onChangeCount}>
         {arr.map((el) => (
