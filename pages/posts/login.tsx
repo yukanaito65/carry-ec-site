@@ -1,78 +1,51 @@
 import { useState } from 'react';
-import { User } from '../../types/types';
 import Link from 'next/link';
 import Head from 'next/head';
 import { Layout } from '../../component/layout';
 import styles from '../../styles/login.module.css';
-import useSWR from 'swr';
-import { fetcher } from '../../component/jsonitems';
-
-
 
 // idとメアドとパスワードをfetchで取得する
-export async function getAllJsonUser() {
-  return fetch(`http://localhost:8000/users/`)
-    .then((res) => res.json())
-    .then((data) => {
-      return data.map((data: User) => {
-        return {
-          id: data.id,
-          email: data.email,
-          password: data.password,
-          logined: data.logined,
-        };
-      });
-    });
-}
+// export async function getAllJsonUser() {
+//   return fetch(`http://localhost:8000/users/`)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       return data.map((data: User) => {
+//         return {
+//           id: data.id,
+//           email: data.email,
+//           password: data.password,
+//           logined: data.logined,
+//         };
+//       });
+//     });
+// }
 
 // html
 export default function Login() {
-  const [mailText, setMailText] = useState<any>("");
-  const [passText, setPassText] = useState<any>("");
+  const [mailText, setMailText] = useState<any>('');
+  const [passText, setPassText] = useState<any>('');
 
   const onChangeMail = (e: any) => setMailText(e.target.value);
   const onChangePass = (e: any) => setPassText(e.target.value);
 
-  // ログインボタンをクリックした時に、Userのloginedをtrueにする & ページ遷移する”
+  // ログインボタンをクリックした時のアクション
   async function onCkickMatch() {
-    const users = await getAllJsonUser();
-    // console.log(users[0]);
-
-    users.map(
-      (user: {
-        id: number;
-        email: string;
-        password: string;
-        logined: boolean;
-      }) => {
-        console.log(user);
-        console.log(user.email);
-        console.log(mailText);
-        console.log(user.password);
-        console.log(passText);
-        if (
-          user.email === mailText &&
-          user.password === passText
-        ) {
-          user.logined = true;
-        }
+    // データ取得
+    fetch(
+      `http://localhost:8000/users?email=${mailText}&password=${passText}`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: mailText,
+          password: passText,
+          logined: true,
+        }),
       }
-    );
-    console.log(users);
-    users.map((user: any, index: any) => {
-      fetch(`http://localhost:8000/users/${index + 1}`, {
-        method: "delete"
-      })
-    })
-    users.map((user: any, index: any) => {
-      fetch("http://localhost:8000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user)
-      })
-    })
+    ).catch((error) => {
+      console.error('失敗しました', error);
+    });
   }
-
 
   return (
     <>
@@ -82,7 +55,7 @@ export default function Login() {
       <Layout>
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
-          
+
           <div>
             <div>
               <div className={styles.labelError}>
@@ -110,7 +83,7 @@ export default function Login() {
             <div>
               <div className={styles.labelError}>
                 <label className={styles.label}>パスワード：</label>
-                {passText === "" && (
+                {passText === '' && (
                   <p className={styles.error}>
                     パスワードを入力してください
                   </p>
@@ -129,13 +102,21 @@ export default function Login() {
             </div>
 
             {passText === '' && (
-                <Link href='/posts/login'>
-              <button className={styles.loginBtn} onClick={() => onCkickMatch()}>ログイン</button>
+              <Link href="/posts/login">
+                <button
+                  className={styles.loginBtn}
+                  onClick={() => onCkickMatch()}
+                >
+                  ログイン
+                </button>
               </Link>
             )}
             {!(passText === '') && (
               <Link href="/">
-                <button className={styles.loginBtn} onClick={() => onCkickMatch()}>
+                <button
+                  className={styles.loginBtn}
+                  onClick={() => onCkickMatch()}
+                >
                   ログイン
                 </button>
               </Link>
@@ -148,10 +129,8 @@ export default function Login() {
         </Link>
       </Layout>
     </>
-
   );
 }
-
 
 // 間違ったアドレス・パスワードを入れても一覧画面に遷移する
 // db.jsonのloginedが変更されない
