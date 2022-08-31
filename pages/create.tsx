@@ -13,69 +13,86 @@ export default function User() {
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
+  const [passwordError, setPasswordError] = useState('');
 
-  const onClickRegister = () => {
-    if (
-      lastName &&
-      firstName &&
-      email &&
-      zipcode &&
-      address &&
-      tel &&
-      password &&
-      checkPassword
-    ) {
-      router.push('/');
-      return fetch('http://localhost:8000/users', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({
-          lastName: lastName,
-          firstName: firstName,
-          email: email,
-          zipcode: zipcode,
-          address: address,
-          tel: tel,
-          password: password,
-          checkPassword: checkPassword,
-        }),
-      });
-    }
-    if (!lastName || !firstName) {
-      alert('名前を入力してください。');
-    }
-    if (!email) {
-      alert('メールアドレスを入力してください。');
-    }
-    if (!zipcode) {
-      alert('郵便番号を入力してください。');
-    }
-    if (!address) {
-      alert('住所を入力してください。');
-    }
-    if (!tel) {
-      alert('電話番号を入力してください');
-    }
+  const handleBlur = (e: any) => {
+    const password = e.target.value;
     if (!password) {
-      alert('パスワードを入力してください。');
-    }
-    if (!checkPassword) {
-      alert('確認用のパスワードを入力してください。');
+      setPasswordError('パスワードを入力してください');
+    } else if (password.length < 8) {
+      setPasswordError('8文字以上で入力してください');
+    } else if (password.length > 16) {
+      setPasswordError('16文字以下で入力してください');
     } else {
-      alert('全ての項目を入力してください');
-      router.push('/create');
-      return;
+      setPasswordError;
     }
+  }; //パスワードを入力したときに、表示される関数。
+
+  const onClickRegister = () => {     //全ての項目があるときに、db.jsonのusersに値が追加される。
+    fetch("http://localhost:8000/users").then(res => res.json()).then(data => {
+      if (
+        !(lastName &&
+          firstName &&
+          email &&
+          zipcode &&
+          address &&
+          tel &&
+          8 <= password.length &&
+          password.length <= 16 &&
+          checkPassword)
+      ) {
+        alert('埋めてください')
+      } else if (data.filter((el: any) => el.email === email).length > 0) {
+        alert("既にあります")
+      } else {
+        router.push('/');
+        return fetch('http://localhost:8000/users', {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({
+            lastName: lastName,
+            firstName: firstName,
+            email: email,
+            zipcode: zipcode,
+            address: address,
+            tel: tel,
+            password: password,
+            checkPassword: checkPassword,
+          }),
+        });
+      }
+    })
+    // if (
+    //   !lastName ||
+    //   !firstName ||
+    //   !email ||
+    //   !zipcode ||
+    //   !address ||
+    //   !tel ||
+    //   !password ||
+    //   !checkPassword
+    // ) {
+    //   alert('全ての項目を入力してください'); //一つでも項目の入力がされてなかったら、アラートを表示
+    //   router.push('/create');
+    // } else {
+    //   alert('全ての項目を入力してください');
+
+    //   return;
+    // }
   };
 
   return (
     <Layout>
       <fieldset className={styles.fieldset_style}>
-        <legend className={styles.legend}>ユーザ登録</legend>
-
+        <p className={styles.form_title}>ユーザ登録</p>
         <form action="post">
           <div className={styles.title}>
             <label htmlFor="lastName">名前：</label>
+            {lastName.length < 1 && (
+              <span className={styles.subTitle}>
+                名前を入力してください
+              </span>
+            )} {/*入力されてない時だけ"名前を入力してください”を表示 以下全てのinputに同様の機能追加*/}
             <div>
               <label htmlFor="lastName">姓</label>
 
@@ -83,6 +100,7 @@ export default function User() {
                 type="text"
                 id="lastName"
                 name="lastName"
+
                 value={lastName}
                 placeholder="LastName"
                 className={styles.form_name}
@@ -90,9 +108,11 @@ export default function User() {
                   setlastName(e.target.value);
                 }}
               />
-              <label htmlFor="firstName">
+
+              <label htmlFor="firstName"> 
                 &nbsp;&nbsp;&nbsp;&nbsp;名
-              </label>
+             </label>     
+
               <input
                 type="text"
                 id="firstName"
@@ -108,6 +128,11 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="email">メールアドレス:</label>
+            {email.length < 1 && (
+              <span className={styles.subTitle}>
+                メールアドレスを入力してください
+              </span>
+            )}
             <input
               type="email"
               id="email"
@@ -122,6 +147,11 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="zipcode">郵便番号:</label>
+            {zipcode.length < 1 && (
+              <span className={styles.subTitle}>
+                郵便番号を入力してください
+              </span>
+            )}
             <input
               type="text"
               id="zipcode"
@@ -136,6 +166,11 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="address">住所：</label>
+            {address.length < 1 && (
+              <span className={styles.subTitle}>
+                住所を入力してください
+              </span>
+            )}
             <input
               type="text"
               id="address"
@@ -150,11 +185,14 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="tel">電話番号:</label>
+            {tel.length < 1 && (
+              <span className={styles.subTitle}>
+                電話を入力してください
+              </span>
+            )}
 
             <input
-              type="tel" 
-              pattern="[\d-]*"
-              required
+              type="tel"
               id="tel"
               name="tel"
               value={tel}
@@ -167,11 +205,8 @@ export default function User() {
           </div>
           <div className={styles.title}>
             <label htmlFor="password">パスワード:</label>
-            {password.length < 8 && (
-              <span>8文字以上で入力してください</span>
-            )}
-            {password.length > 16 && (
-              <span>16文字以下で入力してください</span>
+            {passwordError && (
+              <span className={styles.subTitle}>{passwordError}</span>
             )}
             <input
               type="password"
@@ -183,13 +218,21 @@ export default function User() {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              onBlur={handleBlur}
             />
           </div>
           <div className={styles.title}>
             <label htmlFor="checkPassword">確認用パスワード:</label>
-            {checkPassword !== password && (
-              <span>パスワードと確認用パスワードが不一致です。</span>
+            {checkPassword.length < 1 && (
+              <span className={styles.subTitle}>
+                確認用パスワードを入力してください
+              </span>
             )}
+            {checkPassword !== password && (
+              <span className={styles.subTitle}>
+                パスワードと確認用パスワードが不一致です。
+              </span>
+            )}{/*パスワードと確認用パスワードが違ったら表示される*/}
             <input
               type="password"
               id="checkPassword"
@@ -216,13 +259,13 @@ export default function User() {
               setAddress(''),
                 setlastName(''),
                 setFirstName(''),
-                setTel(""),
+                setTel(''),
                 setZipcode(''),
                 setEmail(''),
                 setPassword(''),
                 setCheckPassword('');
             }}
-          >
+          >{/* キャンセルボタンが押されたときに、全ての値をリセットする*/}
             キャンセル
           </button>
         </form>

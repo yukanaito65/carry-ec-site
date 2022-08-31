@@ -53,7 +53,7 @@ export function Layout({ children }: { children: any }) {
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="/posts/order">
+            <Link href="order">
               <a>
                 <li>ショッピングカート</li>
               </a>
@@ -63,6 +63,7 @@ export function Layout({ children }: { children: any }) {
                 <li>注文履歴</li>
               </a>
             </Link>
+            {/*ログインしたら、代わりにユーザー名などを表示したい */}
             <Link href="/posts/login">
               <a>
                 <li>ログイン</li>
