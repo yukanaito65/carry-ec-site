@@ -6,7 +6,7 @@ import { fetcher } from "../../component/jsonitems";
 import { Layout } from "../../component/layout";
 import { getAllJsonIds, getJsonData } from "../../lib/json";
 import { Item, Topping } from "../../types/types";
-// import styles from "../../components/details.modules.css";
+import detailStyle from "../../component/details.module.css"
 
 //posts/1などのpathを用意する
 export async function getStaticPaths() {
@@ -96,13 +96,16 @@ export default function Details({ jsonData }: { jsonData: Item }) {
 
   return (
     <Layout>
-      <h1>商品詳細</h1>
-      <div>
-        <img src={imagePath} width={300} />
-        <h2>{name}</h2>
-        <p>{description}</p>
+      <h1 className={detailStyle.textTitle}>商品詳細</h1>
+      <div className={detailStyle.item}>
+        <img src={imagePath} width={300} className={detailStyle.itemImg} />
+        <div className={detailStyle.itemDetail}>
+         <h2>{name}</h2>
+         <p>{description}</p>
+        </div>
       </div>
-      <h3>トッピング: 1つにつき200円（税抜）</h3>
+      <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
+      <div className={detailStyle.optionTag}>
       {//toppingのデータを一つ一つ表示
         data.map(({ name, id }: Topping, index: any) => (
           <>
@@ -110,15 +113,16 @@ export default function Details({ jsonData }: { jsonData: Item }) {
             <label htmlFor={name}>{name}</label>
           </>
         ))}
-      <h3>数量:</h3>
-      <select name="count" id="count" value={count} onChange={onChangeCount}>
+        </div>
+      <h3 className={detailStyle.quantity}>数量:</h3>
+      <select name="count" id="count" className={detailStyle.select} value={count} onChange={onChangeCount}>
         {arr.map((el) => (
           <option key={el} value={el}>{el}</option>
         ))}
       </select>
-      <p>この商品金額: {(price + 200 * checked.filter((el: any) => el === true).length) * count}円（税抜）</p>
+      <p className={detailStyle.total}>この商品金額: {(price + 200 * checked.filter((el: any) => el === true).length) * count}円（税抜）</p>
       <Link href="/">
-        <button onClick={() => onClickCart()}>カートに追加</button>
+        <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
       </Link>
     </Layout>
   );
