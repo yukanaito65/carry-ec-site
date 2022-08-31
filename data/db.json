@@ -207,6 +207,7 @@
   "users": [
     {
       "id": 2,
+      "email": "bbbbb@gmail.com",
       "password": "asd",
       "logined": "false"
     },
@@ -214,18 +215,9 @@
       "id": 1,
       "email": "aaaaa@gmail.com",
       "password": "580",
-      "logined": true
-    },
-    {
-      "lastName": "a",
-      "firstName": "a",
-      "email": "aaaaa@gmail.com",
-      "zipcode": "aa",
-      "address": "a",
-      "tel": "a",
-      "password": "a",
-      "checkPassword": "a",
-      "id": 3
+
+      "logined": false
+
     }
   ],
   "order": [
