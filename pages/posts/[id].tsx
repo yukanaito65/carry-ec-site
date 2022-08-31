@@ -102,6 +102,16 @@ export default function Details({ jsonData }: { jsonData: Item }) {
         <h2>{name}</h2>
         <p>{description}</p>
       </div>
+      <label>
+        <input type="radio" />
+        <span>&nbsp;M&nbsp;</span>
+        &nbsp;&nbsp;{price}円
+      </label>
+      <label>
+        <input type="radio" />
+        <span>&nbsp;L&nbsp;</span>
+        &nbsp;&nbsp;{price + 200}円
+      </label>
       <h3>トッピング: 1つにつき200円（税抜）</h3>
       {//toppingのデータを一つ一つ表示
         data.map(({ name, id }: Topping, index: any) => (
