@@ -93,6 +93,7 @@ export default function User() {
                 type="text"
                 id="lastName"
                 name="lastName"
+
                 value={lastName}
                 placeholder="LastName"
                 className={styles.form_name}
