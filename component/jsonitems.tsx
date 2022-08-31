@@ -17,6 +17,7 @@ export default function Items() {
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
     setNameText(event.target.value);
+  // 検索画面用useState()
   const [searchData, setSearchData]: any[] = useState([]);
 
   if (error) return <div>failed to load</div>;
@@ -25,16 +26,13 @@ export default function Items() {
   // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
   // 抽出したdetaをsetSearchDataに保管
   const onClickSearch = () => {
-    const newSerachData = data.filter((e: any) => {
-      return e.name.indexOf(nameText) >= 0;
-    });
-
     setSearchData(
       data.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
   };
+
   // クリアボタンを押した時setNameTextを空で返す
   const formReset = () => {
     setNameText('');
@@ -90,8 +88,10 @@ export default function Items() {
       </div>
 
       <div className={styles.itemWrapper}>
-        {/* 検索テキストがからの場合 */}
+        {/* 条件分岐 */}
         {nameText == ''
+        // 「？」はtrue、「:」はfalse
+        // 検索テキストが空の場合
           ? data.map((item: Item) => {
               const { id, name, price, imagePath } = item;
               return (
