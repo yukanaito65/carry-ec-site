@@ -36,7 +36,7 @@ export default function Details({ jsonData }: { jsonData: Item }) {
   const { data, error } = useSWR("http://localhost:8000/topping/", fetcher);
 
   //初期値ではトッピングは何も選ばれていない状態
-  const initialChecked: any[] = [false, false, false, false, false, false, false, false];
+  const initialChecked: any[] = [false, false, false, false, false, false, false, false, false];
   const [checked, setChecked] = useState<any>(initialChecked);
   //注文個数のstate
   const [count, setCount] = useState(1);
@@ -126,16 +126,6 @@ export default function Details({ jsonData }: { jsonData: Item }) {
           <p>{description}</p>
         </div>
       </div>
-      <label>
-        <input type="radio" />
-        <span>&nbsp;M&nbsp;</span>
-        &nbsp;&nbsp;{price}円
-      </label>
-      <label>
-        <input type="radio" />
-        <span>&nbsp;L&nbsp;</span>
-        &nbsp;&nbsp;{price + 200}円
-      </label>
       <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
       <div className={detailStyle.optionTag}>
         {//toppingのデータを一つ一つ表示

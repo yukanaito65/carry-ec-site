@@ -30,7 +30,7 @@ export default function Order() {
             <thead className={styles.thead}>
               <tr>
                 <th className={styles.th_style}>商品名</th>
-                <th className={styles.th_style}>サイズ、価格（税抜）、数量</th>
+                <th className={styles.th_style}>価格（税抜）、数量</th>
                 <th className={styles.th_style}>トッピング、価格（税抜）</th>
                 <th className={styles.th_style}>小計</th>
                 <th className={styles.th_style}></th>
