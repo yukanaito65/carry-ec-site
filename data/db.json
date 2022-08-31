@@ -138,29 +138,16 @@
 
   "users": [
     {
-      "name": "楽子",
+
+      "id": 2,
+      "password": "asd",
+      "logined": "false"
+    },
+    {
+      "id": 1,
       "email": "aaaaa@gmail.com",
       "password": "580",
-      "logined": false,
-      "id": 1
-    },
-    {
-      "name": "楽太",
-      "description": "bbbbb@gmail.com",
-      "password": "asd",
-      "logined": false,
-      "id": 2
-    },
-    {
-      "lastName": "sdfsd",
-      "firstName": "ssdf",
-      "email": "ffdsdf",
-      "zipcode": "dfasdf",
-      "address": "dfsadf",
-      "tel": "fasfds",
-      "password": "fasdf",
-      "checkPassword": "adfsdf",
-      "id": 3
+      "logined": true
     }
   ],
   "order": [
