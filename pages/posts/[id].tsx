@@ -53,9 +53,6 @@ export default function Details({ jsonData }: { jsonData: Item }) {
     newCheck.splice(index, 1, !(newCheck[index]));
     setChecked(newCheck);
   }
-  console.log(checked);
-  console.log(data);
-  console.log(toppingList)
 
   const arr = [];
   for (let i = 1; i < 13; i++) {
@@ -70,15 +67,13 @@ export default function Details({ jsonData }: { jsonData: Item }) {
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
     //toppingにcheckedのtrue, falseを割り当てる
-    data.map((el: any, index: number) => {
-      el.checked = checked[index];
-    });
+    data.map((el: any, index: number) => el.checked = checked[index]);
 
     //toppingがtrueになっているものだけを集める
     let newToppingList = [...toppingList];
     newToppingList = data.filter((el: any) => el.checked == true);
     setToppingList(newToppingList)
-    
+
     //dbJsonのorderItemsに反映させる
     fetch("http://localhost:8000/orderItems/", {
       method: "POST",
@@ -93,6 +88,9 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       })
     })
   }
+  console.log(checked);
+  console.log(data);
+  console.log(toppingList)
 
   return (
     <Layout>

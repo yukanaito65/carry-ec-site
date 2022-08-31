@@ -157,6 +157,24 @@
       "count": 1,
       "TotalPrice": 2500,
       "id": 7
+    },
+    {
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1690,
+      "id": 8
+    },
+    {
+      "name": "牛すじカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/3.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 2090,
+      "id": 9
     }
   ],
   "users": [
