@@ -101,7 +101,7 @@ export default function User() {
                 }}
               />
               <label htmlFor="firstName"> 
-                &nbsp;&nbsp;&nbsp;&nbsp;名　  
+                &nbsp;&nbsp;&nbsp;&nbsp;名
              </label>     
               <input
                 type="text"
