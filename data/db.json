@@ -155,30 +155,25 @@
       "imagePath": "/img_curry/1.jpg",
       "toppingList": [
         {
+          "name": "オニオン",
+          "id": 1,
+          "checked": true
+        },
+        {
+          "name": "チーズ",
+          "id": 2,
+          "checked": true
+        },
+        {
+          "name": "ピーマン",
+          "id": 3,
+          "checked": true
+        },
+        {
           "name": "ロースハム",
           "id": 4,
           "checked": true
         },
-        {
-          "name": "ほうれん草",
-          "id": 5,
-          "checked": true
-        },
-        {
-          "name": "ナス",
-          "id": 6,
-          "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 2090,
-      "id": 7
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
         {
           "name": "ほうれん草",
           "id": 5,
@@ -196,7 +191,16 @@
         }
       ],
       "count": 2,
-      "TotalPrice": 4180,
+      "TotalPrice": 6180,
+      "id": 7
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "price": 1490,
+      "imagePath": "/img_curry/2.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1690,
       "id": 8
     }
   ],
@@ -211,6 +215,7 @@
       "id": 1,
       "email": "aaaaa@gmail.com",
       "password": "580",
+
       "logined": false
     }
   ],
