@@ -42,7 +42,17 @@ export default function Details({ jsonData }: { jsonData: Item }) {
   const [count, setCount] = useState(1);
   //追加されたtoppingのstate
   const [toppingList, setToppingList] = useState([]);
+  useEffect(() => {
+    //toppingにcheckedのtrue, falseを割り当てる
+    data.map((el: any, index: number) => el.checked = checked[index]);
 
+    //toppingがtrueになっているものだけを集める
+    let newToppingList = [...toppingList];
+    newToppingList = data.filter((el: any) => el.checked == true);
+    setToppingList(newToppingList)
+
+  }, [checked])
+  
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
@@ -64,16 +74,10 @@ export default function Details({ jsonData }: { jsonData: Item }) {
     setCount(event.target.value)
   }
 
+
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
-    //toppingにcheckedのtrue, falseを割り当てる
-    data.map((el: any, index: number) => el.checked = checked[index]);
-
-    //toppingがtrueになっているものだけを集める
-    let newToppingList = [...toppingList];
-    newToppingList = data.filter((el: any) => el.checked == true);
-    setToppingList(newToppingList)
-
+    
     //dbJsonのorderItemsに反映させる
     fetch("http://localhost:8000/orderItems/", {
       method: "POST",
