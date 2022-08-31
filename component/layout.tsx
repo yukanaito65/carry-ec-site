@@ -17,6 +17,27 @@ export function getAllUserLogined() {
     });
 }
 
+
+// ログアウト機能（loginedがtrueのデータを取得してfalseに変更）
+
+// const handleClick = () => {
+//   fetch(
+//     `http://localhost:8000/users?logined=true`,
+//     {
+//       method: 'GET',
+//     }
+//   )
+//     .then((res) => res.json())
+//     .then((data) => {
+//       data.logined = false;
+//     });
+// };
+
+
+
+
+
+
 export function Layout({ children }: { children: any }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {

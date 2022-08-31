@@ -132,6 +132,24 @@
       "imagePath": "/img_curry/1.jpg",
       "toppingList": [],
       "id": 2
+    },
+    {
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
+      "id": 3
+    },
+    {
+      "toppingList": [],
+      "id": 4
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "price": 1490,
+      "imagePath": "/img_curry/2.jpg",
+      "toppingList": [],
+      "id": 5
     }
   ],
   "users": [

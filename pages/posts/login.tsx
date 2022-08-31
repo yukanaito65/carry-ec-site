@@ -3,49 +3,44 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { Layout } from '../../component/layout';
 import styles from '../../styles/login.module.css';
+import { useRouter } from 'next/router';
 
-// idとメアドとパスワードをfetchで取得する
-// export async function getAllJsonUser() {
-//   return fetch(`http://localhost:8000/users/`)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       return data.map((data: User) => {
-//         return {
-//           id: data.id,
-//           email: data.email,
-//           password: data.password,
-//           logined: data.logined,
-//         };
-//       });
-//     });
-// }
 
 // html
 export default function Login() {
   const [mailText, setMailText] = useState<any>('');
   const [passText, setPassText] = useState<any>('');
+  const [ok, setOk] = useState(false);
+  const router = useRouter();
 
   const onChangeMail = (e: any) => setMailText(e.target.value);
   const onChangePass = (e: any) => setPassText(e.target.value);
 
-  // ログインボタンをクリックした時のアクション
-  async function onCkickMatch() {
-    // データ取得
-    fetch(
-      `http://localhost:8000/users?email=${mailText}&password=${passText}`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: mailText,
-          password: passText,
-          logined: true,
-        }),
+  // データ取得
+  fetch(
+    `http://localhost:8000/users?email=${mailText}&password=${passText}`,
+    {
+      method: 'GET',
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.length === 1) {
+        setOk(true);
+      } else {
+        setOk(false);
       }
-    ).catch((error) => {
-      console.error('失敗しました', error);
     });
-  }
+
+    // ページ遷移
+  const handleClick = () => {
+    console.log(ok);
+    if (ok === false) {
+      return;
+    } else {
+      router.push('/');
+    }
+  };
 
   return (
     <>
@@ -59,7 +54,7 @@ export default function Login() {
           <div>
             <div>
               <div className={styles.labelError}>
-                <label className={styles.label}>
+                <label htmlFor='email' className={styles.label}>
                   メールアドレス：
                 </label>
                 {mailText === '' && (
@@ -82,7 +77,7 @@ export default function Login() {
 
             <div>
               <div className={styles.labelError}>
-                <label className={styles.label}>パスワード：</label>
+                <label htmlFor='password' className={styles.label}>パスワード：</label>
                 {passText === '' && (
                   <p className={styles.error}>
                     パスワードを入力してください
@@ -101,26 +96,13 @@ export default function Login() {
               />
             </div>
 
-            {passText === '' && (
-              <Link href="/posts/login">
-                <button
-                  className={styles.loginBtn}
-                  onClick={() => onCkickMatch()}
-                >
-                  ログイン
-                </button>
-              </Link>
-            )}
-            {!(passText === '') && (
-              <Link href="/">
-                <button
-                  className={styles.loginBtn}
-                  onClick={() => onCkickMatch()}
-                >
-                  ログイン
-                </button>
-              </Link>
-            )}
+            <button
+              type="button"
+              className={styles.loginBtn}
+              onClick={() => handleClick()}
+            >
+              ログイン
+            </button>
           </div>
         </form>
 
@@ -132,7 +114,7 @@ export default function Login() {
   );
 }
 
-// 間違ったアドレス・パスワードを入れても一覧画面に遷移する
+
 // db.jsonのloginedが変更されない
-// ログインボタンの消去
+// ログインボタンの消去(服部くんがやってくれる？)
 // ログアウト機能の確認
