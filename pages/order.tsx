@@ -63,6 +63,7 @@ export default function Order() {
               ))}
             </tbody>
           </table>
+          
         </div>
       </Layout>
     </>
