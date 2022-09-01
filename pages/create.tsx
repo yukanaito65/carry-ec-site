@@ -38,7 +38,7 @@ export default function User() {
           alert('Eメールアドレスが既にあります');
         } else {
           router.push('/');//登録内容が正しい場合、ボタンを押すと、ホーム画面に遷移。
-          return fetch('http://localhost:8000/users/${cookieId}', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
+          return fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
