@@ -38,12 +38,11 @@ export default function User() {
           alert('Eメールアドレスが既にあります');
         } else {
           router.push('/posts/login');//登録内容が正しい場合、ボタンを押すと、ログイン画面に遷移。
-          return fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
+           fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
-              lastName: lastName,
-              firstName: firstName,
+              name: `${lastName}${firstName}`,
               email: email,
               zipcode: zipcode,
               address: address,
@@ -52,8 +51,16 @@ export default function User() {
               checkPassword: checkPassword,
             }),
           });
+          fetch(`http://localhost:8000/users?name=${lastName}${firstName}`)
+          .then(res=>res.json())
+          .then(data=>{
+            document.cookie=`id=${data[0].id}`
+            document.cookie=`name=${data[0].name}`
+          })
+
         }
       });
+
     // if (
     //   !lastName ||
     //   !firstName ||
