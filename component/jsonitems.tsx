@@ -14,10 +14,12 @@ export default function Items() {
     fetcher
   );
 
+  // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
     setNameText(event.target.value);
-  // 検索画面用useState()
+
+  // 検索欄に入力された文字を含む商品だけをsetSearchDataに代入
   const [searchData, setSearchData]: any[] = useState([]);
 
   if (error) return <div>failed to load</div>;
@@ -27,7 +29,7 @@ export default function Items() {
   // 抽出したdetaをsetSearchDataに保管
   const onClickSearch = () => {
     setSearchData(
-      data.filter((e: any) => {
+      sortedData.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -39,8 +41,15 @@ export default function Items() {
     setSearchData([]);
   };
 
+  const sortedData = data.sort(function (
+    { price: a }: any,
+    { price: b }: any
+  ) {
+    return a - b;
+  });
+
   return (
-    <Layout>
+    <Layout show={true}>
       <div className={styles.searchWrapper}>
         <p>
           <span className={styles.serchTitle}>商品を検索する</span>
@@ -90,9 +99,9 @@ export default function Items() {
       <div className={styles.itemWrapper}>
         {/* 条件分岐 */}
         {nameText == ''
-        // 「？」はtrue、「:」はfalse
-        // 検索テキストが空の場合
-          ? data.map((item: Item) => {
+          ? // 「？」はtrue、「:」はfalse
+            // 検索テキストが空の場合
+            sortedData.map((item: Item) => {
               const { id, name, price, imagePath } = item;
               return (
                 <div key={id}>

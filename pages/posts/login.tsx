@@ -42,8 +42,8 @@ export default function Login() {
       return;
     } else {
       router.push('/');
-      document.cookie = `id = ${dataId}`;
-      document.cookie = `name = ${dataLastName}`;
+      document.cookie = `id = ${dataId}; max-age = 86400`;
+      document.cookie = `name = ${dataLastName}; max-age = 86400`;
     }
   };
 
@@ -52,7 +52,7 @@ export default function Login() {
       <Head>
         <title>ログイン画面</title>
       </Head>
-      <Layout>
+      <Layout show={false} >
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
 

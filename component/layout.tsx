@@ -21,7 +21,10 @@ function onClickLogout() {
   document.cookie = `${cookieName}; max-age=0`;
 }
 
-export function Layout({ children }: { children: any }) {
+
+
+
+export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
   //   if (show === "") {
@@ -40,34 +43,40 @@ export function Layout({ children }: { children: any }) {
             <img src="/img_curry/header_logo.png" height={35} />
           </a>
         </Link>
+        <div className={styles.span}></div>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="/posts/order">
+            <Link href="/order">
               <a>
                 <li>ショッピングカート</li>
               </a>
             </Link>
-            <Link href="/">
+            
+            {show === true ?
+              <>
+                <Link href="/">
               <a>
                 <li>注文履歴</li>
               </a>
             </Link>
             {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-            {document.cookie.indexOf('id') && (
-              <a>
-                <li>{}</li>
-              </a>
-            )}
-            {!document.cookie.indexOf('id') && (
-              <Link href="/posts/login">
-                <a>
-                  <li>ログイン</li>
-                </a>
-              </Link>
-             )} 
+            {document.cookie && 
+            <a>
+              <li>{
+                document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+                }さんようこそ</li>
+            </a>
+            }
+            {!(document.cookie) && 
+            <Link href="/posts/login">
+            <a>
+              <li>ログイン</li>
+            </a>
+            </Link>
+            }
             <Link href="/">
               <a>
                 <li>
@@ -77,6 +86,9 @@ export function Layout({ children }: { children: any }) {
                 </li>
               </a>
             </Link>
+              </> :
+              <></>
+            }
           </ul>
         </div>
       </header>
