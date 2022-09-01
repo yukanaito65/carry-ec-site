@@ -10,22 +10,36 @@ export default function CheckUser() {
   const [day, setDay] = useState('');
   const router = useRouter();
 
+  const cookieName = document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+  fetch(
+    `http://localhost:8000/users?name=${cookieName}`,
+    {
+      method: 'GET',
+    }
+  )
+    .then((res) => res.json())
+    .then(({name}) => {
+        setName(name)
+    });
+
+
+
+
   const onClickCheck = () => {
     fetch('http://localhost:8000/users')
       .then((res) => res.json())
       .then((data) => {
         if (
           !(
-            (
-              day &&
-              name &&
-              email.match(
-                /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
-              ) && //メールアドレスが正規表現と一致するか
-              zipcode.match(/^\d{3}-\d{4}$/) && //郵便番号が正規表現と一致するか
-              address &&
-              tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/)
-            ) //電話番号が正規表現と一致するか。
+            name &&
+            email.match(
+              /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+            ) && //メールアドレスが正規表現と一致するか
+            zipcode.match(/^\d{3}-\d{4}$/) && //郵便番号が正規表現と一致するか
+            address &&
+            tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
+            //電話番号が正規表現と一致するか。
+            day
           )
         ) {
           alert('すべての全ての項目を正しく入力してください');
@@ -49,7 +63,7 @@ export default function CheckUser() {
   };
 
   return (
-    <fieldset>
+    <div>
       <p>お届け先情報</p>
       <form action="post">
         <table>
@@ -203,10 +217,9 @@ export default function CheckUser() {
           <label htmlFor="credit">クレジットカード決済</label>
         </div>
       </form>
-    </fieldset>
+    </div>
   );
 }
 
 // 支払いのvalue設定できていない
 // css
-// ボタンどうするか
