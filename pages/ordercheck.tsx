@@ -90,7 +90,6 @@ export default function OrderCheck() {
         <Customer></Customer>
       </div>
 
-
         <button>この内容で注文する</button>
       </div>
     </Layout>
