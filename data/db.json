@@ -242,6 +242,28 @@
       "email": "aaaaa@gmail.com",
       "password": "580",
       "logined": false
+    },
+    {
+      "lastName": "adsfdf",
+      "firstName": "sadfsa",
+      "email": "aaa@gmail.com",
+      "zipcode": "123-4455",
+      "address": "toukyousdf",
+      "tel": "080-1234-5678",
+      "password": "aaaaaaaaa",
+      "checkPassword": "aaaaaaaaa",
+      "id": 3
+    },
+    {
+      "lastName": "zzz",
+      "firstName": "zzz",
+      "email": "aaaa@gmail.com",
+      "zipcode": "206-0002",
+      "address": "一ノ宮1-27-1",
+      "tel": "080-2222-2222",
+      "password": "qqqqqqqq",
+      "checkPassword": "qqqqqqqq",
+      "id": 4
     }
   ],
   "order": [

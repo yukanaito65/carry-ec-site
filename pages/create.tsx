@@ -222,12 +222,12 @@ export default function User() {
                 パスワードを入力してください
               </span>
             )}
-            {password.length <= 8 && password.length >= 1 && (
+            {password.length < 8 && password.length >= 1 && (
               <span className={styles.subTitle}>
                 パスワードは8文字以上16文字以下で入力してください
               </span>
             )}
-            {password.length >= 16 && (
+            {password.length > 16 && (
               <span className={styles.subTitle}>
                 パスワードは8文字以上16文字以下で入力してください
               </span>
