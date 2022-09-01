@@ -125,16 +125,6 @@
       "imagePath": "/img_curry/1.jpg",
       "toppingList": [
         {
-          "name": "オニオン",
-          "id": 1,
-          "checked": true
-        },
-        {
-          "name": "チーズ",
-          "id": 2,
-          "checked": true
-        },
-        {
           "name": "ピーマン",
           "id": 3,
           "checked": true
@@ -142,26 +132,6 @@
         {
           "name": "ロースハム",
           "id": 4,
-          "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 2290,
-      "id": 7
-    },
-    {
-      "name": "ヒレカツカレー",
-      "price": 2700,
-      "imagePath": "/img_curry/6.jpg",
-      "toppingList": [
-        {
-          "name": "オニオン",
-          "id": 1,
-          "checked": true
-        },
-        {
-          "name": "チーズ",
-          "id": 2,
           "checked": true
         },
         {
@@ -172,41 +142,36 @@
       ],
       "count": 1,
       "TotalPrice": 2090,
-      "id": 1
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
-        {
-          "name": "オニオン",
-          "id": 1,
-          "checked": true
-        },
-        {
-          "name": "チーズ",
-          "id": 2,
-          "checked": true
-        },
-        {
-          "name": "ピーマン",
-          "id": 3,
-          "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 2090,
-      "id": 4
+      "id": 9
     },
     {
       "name": "カツカレー",
       "price": 1490,
       "imagePath": "/img_curry/1.jpg",
+      "toppingList": [
+        {
+          "name": "ロースハム",
+          "id": 4,
+          "checked": true
+        },
+        {
+          "name": "ほうれん草",
+          "id": 5,
+          "checked": true
+        }
+      ],
+      "count": 1,
+      "TotalPrice": 1890,
+      "id": 10
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "price": 1490,
+      "imagePath": "/img_curry/2.jpg",
       "toppingList": [],
       "count": 1,
       "TotalPrice": 1490,
-      "id": 5
+      "id": 11
     }
   ],
   "users": [

@@ -81,7 +81,7 @@ export default function OrderCheck() {
           ご注文金額合計：
           {total.reduce(function (sum, element) {
             return sum + element;
-          }, 0)}
+          }, 0) * 1.1}
           円
         </p>
       </div>

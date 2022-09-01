@@ -34,6 +34,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   //   }
   // }
 
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -47,7 +48,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="/posts/order">
+            <Link href="/order">
               <a>
                 <li>ショッピングカート</li>
               </a>
@@ -61,12 +62,14 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
               </a>
             </Link>
             {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-            {document.cookie.indexOf('id') && 
+            {document.cookie && 
             <a>
-              <li>{}</li>
+              <li>{
+                document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+                }さんようこそ</li>
             </a>
             }
-            {!(document.cookie.indexOf('id')) && 
+            {!(document.cookie) && 
             <Link href="/posts/login">
             <a>
               <li>ログイン</li>
