@@ -1,8 +1,9 @@
-import { userAgent } from 'next/server';
 import useSWR from 'swr';
 import { Layout } from '../component/layout';
 import { OrderItem } from '../types/types';
-import Customer from '../component/checkuser'
+import Customer from '../component/checkuser';
+import styles from '../component/check.module.css';
+import Link from 'next/link';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -16,7 +17,7 @@ export default function OrderCheck() {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  const onClickCheck = () => { };
+  const onClickCheck = () => {};
 
   //　中身がtotalPriceだけの配列をpushする
   let total: number[] = [];
@@ -24,8 +25,8 @@ export default function OrderCheck() {
   return (
     <Layout show={true}>
       <div>
-        <h1>注文内容確認</h1>
-        <table border={1}>
+        <h1 className={styles.title}>注文内容確認</h1>
+        <table className={styles.item} border={1}>
           <thead>
             <tr>
               <th>商品名</th>
@@ -55,9 +56,13 @@ export default function OrderCheck() {
                       {price}円/{count}個
                     </td>
                     <td>
-                      {toppingList.map(
-                        (topping: any) => `${topping.name} 300円`
-                      )}
+                      {toppingList.map((topping: any) => (
+                        <ul key={id}>
+                          <li className={styles.topping}>
+                            {topping.name} 300円
+                          </li>
+                        </ul>
+                      ))}
                     </td>
                     <td>{TotalPrice}円</td>
                   </tr>
@@ -66,31 +71,36 @@ export default function OrderCheck() {
             )}
           </tbody>
         </table>
+        <div className={styles.total}>
+          {data.map(({ TotalPrice }: any) => {
+            total.push(TotalPrice);
+          })}
+          <p>
+            消費税：
+            {Math.floor(
+              total.reduce(function (sum, element) {
+                return sum + element;
+              }, 0) / 10
+            )}
+            円
+          </p>
+          <p>
+            ご注文金額合計：
+            {Math.floor(
+              total.reduce(function (sum, element) {
+                return sum + element;
+              }, 0) * 1.1
+            )}
+            円
+          </p>
+        </div>
+
         <div>
-        {data.map(({ TotalPrice }: any) => {
-          total.push(TotalPrice);
-        })}
-        <p>
-          消費税：
-          {total.reduce(function (sum, element) {
-            return sum + element;
-          }, 0) / 10}
-          円
-        </p>
-        <p>
-          ご注文金額合計：
-          {total.reduce(function (sum, element) {
-            return sum + element;
-          }, 0) * 1.1}
-          円
-        </p>
-      </div>
-
-      <div>
-        <Customer></Customer>
-      </div>
-
-        <button>この内容で注文する</button>
+          <Customer></Customer>
+        </div>
+        <Link href="http://localhost:3000/">
+          <button className={styles.btn}>この内容で注文する</button>
+        </Link>
       </div>
     </Layout>
   );
