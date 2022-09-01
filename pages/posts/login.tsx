@@ -30,7 +30,7 @@ export default function Login() {
       if (data.length === 1) {
         setOk(true);
         setDataId(data[0].id);
-        setDataLastName(data[0].lastName);
+        setDataLastName(data[0].name);
       } else {
         setOk(false);
       }

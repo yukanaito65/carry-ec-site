@@ -42,8 +42,7 @@ export default function User() {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
-              lastName: lastName,
-              firstName: firstName,
+              name: `${lastName} ${firstName}`,
               email: email,
               zipcode: zipcode,
               address: address,

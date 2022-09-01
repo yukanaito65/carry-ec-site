@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import styles from './check.module.css';
 
 export default function CheckUser() {
   const [name, setName] = useState('');
@@ -10,20 +11,21 @@ export default function CheckUser() {
   const [day, setDay] = useState('');
   const router = useRouter();
 
-  const cookieName = document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
-  fetch(
-    `http://localhost:8000/users?name=${cookieName}`,
-    {
-      method: 'GET',
-    }
-  )
+  const cookieName = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('name'))
+    .split('=')[1];
+  fetch(`http://localhost:8000/users?name=${cookieName}`, {
+    method: 'GET',
+  })
     .then((res) => res.json())
-    .then(({name}) => {
-        setName(name)
+    .then((data) => {
+      setName(data[0].name),
+        setEmail(data[0].email),
+        setZipcode(data[0].zipcode),
+        setAddress(data[0].address),
+        setTel(data[0].tel);
     });
-
-
-
 
   const onClickCheck = () => {
     fetch('http://localhost:8000/users')
@@ -64,11 +66,11 @@ export default function CheckUser() {
 
   return (
     <div>
-      <p>お届け先情報</p>
+      <h2 className={styles.title}>お届け先情報</h2>
       <form action="post">
-        <table>
+        <table className={styles.userTitle}>
           <tr>
-            <td>
+            <td className={styles.td}>
               <label htmlFor="name">お名前：</label>
               {name.length < 1 && (
                 <span>名前を入力してください</span>
@@ -80,6 +82,7 @@ export default function CheckUser() {
                 type="text"
                 id="name"
                 name="name"
+                className={styles.input}
                 value={name}
                 placeholder="name"
                 onChange={(e) => {
@@ -90,7 +93,7 @@ export default function CheckUser() {
           </tr>
 
           <tr>
-            <td>
+            <td className={styles.td}>
               <label htmlFor="email">メールアドレス:</label>
               {email.length < 1 && (
                 <span>メールアドレスを入力してください</span>
@@ -107,6 +110,7 @@ export default function CheckUser() {
                 type="email"
                 id="email"
                 name="email"
+                className={styles.input}
                 value={email}
                 placeholder="Email"
                 onChange={(e) => {
@@ -117,7 +121,7 @@ export default function CheckUser() {
           </tr>
 
           <tr>
-            <td>
+            <td className={styles.td}>
               <label htmlFor="zipcode">郵便番号:</label>
               {zipcode.length < 1 && (
                 <span>郵便番号を入力してください</span>
@@ -134,6 +138,7 @@ export default function CheckUser() {
                 type="text"
                 id="zipcode"
                 name="zipcode"
+                className={styles.input}
                 value={zipcode}
                 placeholder="Zipcode"
                 onChange={(e) => {
@@ -144,7 +149,7 @@ export default function CheckUser() {
           </tr>
 
           <tr>
-            <td>
+            <td className={styles.td}>
               <label htmlFor="address">住所：</label>
               {address.length < 1 && (
                 <span>住所を入力してください</span>
@@ -155,6 +160,7 @@ export default function CheckUser() {
                 type="text"
                 id="address"
                 name="address"
+                className={styles.input}
                 value={address}
                 placeholder="Address"
                 onChange={(e) => {
@@ -165,7 +171,7 @@ export default function CheckUser() {
           </tr>
 
           <tr>
-            <td>
+            <td className={styles.td}>
               <label htmlFor="tel">電話番号:</label>
               {tel.length === 0 && (
                 <span>電話を入力してください</span>
@@ -182,6 +188,7 @@ export default function CheckUser() {
                 type="tel"
                 id="tel"
                 name="tel"
+                className={styles.input}
                 value={tel}
                 placeholder="PhoneNumber"
                 onChange={(e) => {
@@ -192,13 +199,14 @@ export default function CheckUser() {
           </tr>
 
           <tr>
-            <td>
+            <td className={styles.td}>
               <label htmlFor="day">配達日時</label>
             </td>
             <td>
               <input
                 type="datetime-local"
                 name="day"
+                className={styles.input}
                 value={day}
                 onChange={(e) => {
                   setDay(e.target.value);
@@ -209,12 +217,14 @@ export default function CheckUser() {
         </table>
 
         <div>
-          <p>お支払い方法</p>
-          <input type="radio" name="money" />
-          <label htmlFor="money">代金引換</label>
+          <h2 className={styles.credit}>お支払い方法</h2>
+          <div className={styles.creditTd}>
+            <input type="radio" name="money" className={styles.cred}/>
+            <label htmlFor="money"className={styles.cred}>代金引換</label>
 
-          <input type="radio" name="credit" />
-          <label htmlFor="credit">クレジットカード決済</label>
+            <input type="radio" name="credit" className={styles.cred}/>
+            <label htmlFor="credit" className={styles.cred}>クレジットカード決済</label>
+          </div>
         </div>
       </form>
     </div>
