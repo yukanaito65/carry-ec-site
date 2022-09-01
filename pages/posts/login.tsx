@@ -5,18 +5,20 @@ import { Layout } from '../../component/layout';
 import styles from '../../styles/login.module.css';
 import { useRouter } from 'next/router';
 
-
 // html
 export default function Login() {
   const [mailText, setMailText] = useState<any>('');
   const [passText, setPassText] = useState<any>('');
   const [ok, setOk] = useState(false);
+  const [dataId, setDataId] = useState(0);
+  const [dataLastName, setDataLastName] = useState("");
   const router = useRouter();
 
   const onChangeMail = (e: any) => setMailText(e.target.value);
   const onChangePass = (e: any) => setPassText(e.target.value);
 
   // データ取得
+  
   fetch(
     `http://localhost:8000/users?email=${mailText}&password=${passText}`,
     {
@@ -27,18 +29,22 @@ export default function Login() {
     .then((data) => {
       if (data.length === 1) {
         setOk(true);
+        setDataId(data[0].id);
+        setDataLastName(data[0].lastName);
       } else {
         setOk(false);
       }
     });
 
-    // ページ遷移
+  // ページ遷移
   const handleClick = () => {
     console.log(ok);
     if (ok === false) {
       return;
     } else {
       router.push('/');
+      document.cookie = `id = ${dataId}`;
+      document.cookie = `name = ${dataLastName}`;
     }
   };
 
@@ -54,7 +60,7 @@ export default function Login() {
           <div>
             <div>
               <div className={styles.labelError}>
-                <label htmlFor='email' className={styles.label}>
+                <label htmlFor="email" className={styles.label}>
                   メールアドレス：
                 </label>
                 {mailText === '' && (
@@ -77,7 +83,9 @@ export default function Login() {
 
             <div>
               <div className={styles.labelError}>
-                <label htmlFor='password' className={styles.label}>パスワード：</label>
+                <label htmlFor="password" className={styles.label}>
+                  パスワード：
+                </label>
                 {passText === '' && (
                   <p className={styles.error}>
                     パスワードを入力してください
@@ -113,7 +121,6 @@ export default function Login() {
     </>
   );
 }
-
 
 // db.jsonのloginedが変更されない
 // ログインボタンの消去(服部くんがやってくれる？)
