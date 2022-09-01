@@ -117,7 +117,7 @@ export default function Details({ jsonData }: { jsonData: Item }) {
 
 
   return (
-    <Layout>
+    <Layout show={true}>
       <h1 className={detailStyle.textTitle}>商品詳細</h1>
       <div className={detailStyle.item}>
         <img src={imagePath} width={300} className={detailStyle.itemImg} />

@@ -42,7 +42,7 @@ export default function Items() {
   };
 
   return (
-    <Layout>
+    <Layout show={true}>
       <div className={styles.searchWrapper}>
         <p>
           <span className={styles.serchTitle}>商品を検索する</span>
