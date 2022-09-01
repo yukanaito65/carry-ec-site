@@ -38,7 +38,6 @@ export default function Login() {
 
   // ページ遷移
   const handleClick = () => {
-    console.log(ok);
     if (ok === false) {
       return;
     } else {
@@ -121,7 +120,3 @@ export default function Login() {
     </>
   );
 }
-
-// db.jsonのloginedが変更されない
-// ログインボタンの消去(服部くんがやってくれる？)
-// ログアウト機能の確認

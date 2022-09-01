@@ -4,25 +4,22 @@ import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
 
-
 // ログアウトボタンのクッキー削除
 function onClickLogout() {
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
   const cookieId = document.cookie
-  .split('; ')
-  .find(row => row.startsWith('id'))
+    .split('; ')
+    .find((row) => row.startsWith('id'));
   console.log(cookieId); //id=1
   document.cookie = `${cookieId}; max-age=0`;
 
   // クッキーのname削除
-  const cookieName = document.cookie
-  console.log(cookieName); 
+  const cookieName = document.cookie;
+  console.log(cookieName);
   document.cookie = `${cookieName}; max-age=0`;
 }
-
-
 
 export function Layout({ children }: { children: any }) {
   // const [show, setShow] = useState("");
@@ -33,6 +30,7 @@ export function Layout({ children }: { children: any }) {
   //     setShow("");
   //   }
   // }
+
 
   return (
     <div className={styles.container}>
@@ -58,18 +56,18 @@ export function Layout({ children }: { children: any }) {
               </a>
             </Link>
             {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-            {document.cookie.indexOf('id') && 
-            <a>
-              <li>{}</li>
-            </a>
-            }
-            {!(document.cookie.indexOf('id')) && 
-            <Link href="/posts/login">
-            <a>
-              <li>ログイン</li>
-            </a>
-            </Link>
-            }
+            {document.cookie.indexOf('id') && (
+              <a>
+                <li>{}</li>
+              </a>
+            )}
+            {!document.cookie.indexOf('id') && (
+              <Link href="/posts/login">
+                <a>
+                  <li>ログイン</li>
+                </a>
+              </Link>
+             )} 
             <Link href="/">
               <a>
                 <li>
