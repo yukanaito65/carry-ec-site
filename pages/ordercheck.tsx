@@ -1,5 +1,6 @@
 import { userAgent } from 'next/server';
 import useSWR from 'swr';
+import { Layout } from '../component/layout';
 import { OrderItem } from '../types/types';
 import Customer from '../component/checkuser'
 
@@ -15,56 +16,57 @@ export default function OrderCheck() {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  const onClickCheck = () => {};
+  const onClickCheck = () => { };
 
   //　中身がtotalPriceだけの配列をpushする
   let total: number[] = [];
 
   return (
-    <div>
-      <h1>注文内容確認</h1>
-      <table border={1}>
-        <thead>
-          <tr>
-            <th>商品名</th>
-            <th>価格（税抜）・数量</th>
-            <th>トッピング・価格（税抜）</th>
-            <th>小計</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(
-            ({
-              name,
-              id,
-              TotalPrice,
-              price,
-              imagePath,
-              count,
-              toppingList,
-            }: any) => {
-              return (
-                <tr key={id}>
-                  <td>
-                    <img src={imagePath} width={100} />
-                    <p>{name}</p>
-                  </td>
-                  <td>
-                    {price}円/{count}個
-                  </td>
-                  <td>
-                    {toppingList.map(
-                      (topping: any) => `${topping.name} 300円`
-                    )}
-                  </td>
-                  <td>{TotalPrice}円</td>
-                </tr>
-              );
-            }
-          )}
-        </tbody>
-      </table>
+    <Layout show={true}>
       <div>
+        <h1>注文内容確認</h1>
+        <table border={1}>
+          <thead>
+            <tr>
+              <th>商品名</th>
+              <th>価格（税抜）・数量</th>
+              <th>トッピング・価格（税抜）</th>
+              <th>小計</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map(
+              ({
+                name,
+                id,
+                TotalPrice,
+                price,
+                imagePath,
+                count,
+                toppingList,
+              }: any) => {
+                return (
+                  <tr key={id}>
+                    <td>
+                      <img src={imagePath} width={100} />
+                      <p>{name}</p>
+                    </td>
+                    <td>
+                      {price}円/{count}個
+                    </td>
+                    <td>
+                      {toppingList.map(
+                        (topping: any) => `${topping.name} 300円`
+                      )}
+                    </td>
+                    <td>{TotalPrice}円</td>
+                  </tr>
+                );
+              }
+            )}
+          </tbody>
+        </table>
+        <div>
         {data.map(({ TotalPrice }: any) => {
           total.push(TotalPrice);
         })}
@@ -88,7 +90,9 @@ export default function OrderCheck() {
         <Customer></Customer>
       </div>
 
-      <button>この内容で注文する</button>
-    </div>
+
+        <button>この内容で注文する</button>
+      </div>
+    </Layout>
   );
 }
