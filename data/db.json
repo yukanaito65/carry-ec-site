@@ -120,36 +120,15 @@
   ],
   "orderItems": [
     {
-      "name": "とんかつカレーラーメン",
-      "price": 1900,
-      "imagePath": "/img_curry/5.jpg",
+      "name": "カツカレー",
+      "price": 1490,
+      "imagePath": "/img_curry/1.jpg",
       "toppingList": [
-        {
-
-          "name": "オニオン",
-          "id": 1,
-          "checked": true
-        },
-        {
-          "name": "チーズ",
-          "id": 2,
-          "checked": true
-        },
         {
           "name": "ピーマン",
           "id": 3,
           "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 2500,
-      "id": 1
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
+        },
         {
           "name": "ロースハム",
           "id": 4,
@@ -159,16 +138,11 @@
           "name": "ほうれん草",
           "id": 5,
           "checked": true
-        },
-        {
-          "name": "ナス",
-          "id": 6,
-          "checked": true
         }
       ],
       "count": 1,
       "TotalPrice": 2090,
-      "id": 4
+      "id": 1
     },
     {
       "name": "カツカレー",
@@ -193,7 +167,7 @@
       ],
       "count": 1,
       "TotalPrice": 2090,
-      "id": 5
+      "id": 2
     }
   ],
   "users": [

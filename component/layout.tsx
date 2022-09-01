@@ -38,7 +38,7 @@ export function getAllUserLogined() {
 
 
 
-export function Layout({ children }: { children: any }) {
+export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
   //   if (show === "") {
@@ -58,7 +58,7 @@ export function Layout({ children }: { children: any }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(users)
     });
-    
+
   }
 
   return (
@@ -74,31 +74,35 @@ export function Layout({ children }: { children: any }) {
         </div> */}
         <div className={styles.pcHeaderNav}>
           <ul>
-            <Link href="order">
+            <Link href="/order">
               <a>
                 <li>ショッピングカート</li>
               </a>
             </Link>
-            <Link href="/">
-              <a>
-                <li>注文履歴</li>
-              </a>
-            </Link>
-            {/*ログインしたら、代わりにユーザー名などを表示したい */}
-            <Link href="/posts/login">
-              <a>
-                <li>ログイン</li>
-              </a>
-            </Link>
-            <Link href="/">
-              <a>
-                <li>
-                  <button onClick={() => onClickLogout}>
-                    ログアウト
-                  </button>
-                </li>
-              </a>
-            </Link>
+            {show === true ?
+              <>
+                <Link href="/">
+                  <a>
+                    <li>注文履歴</li>
+                  </a>
+                </Link>
+                <Link href="/posts/login">
+                  <a>
+                    <li>ログイン</li>
+                  </a>
+                </Link>
+                <Link href="/">
+                  <a>
+                    <li>
+                      <button onClick={() => onClickLogout}>
+                        ログアウト
+                      </button>
+                    </li>
+                  </a>
+                </Link>
+              </> :
+              <></>
+            }
           </ul>
         </div>
       </header>

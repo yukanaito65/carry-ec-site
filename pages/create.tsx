@@ -81,7 +81,7 @@ export default function User() {
   };
 
   return (
-    <Layout>
+    <Layout show={false}>
       <fieldset className={styles.fieldset_style}>
         <p className={styles.form_title}>ユーザ登録</p>
         <form action="post">
