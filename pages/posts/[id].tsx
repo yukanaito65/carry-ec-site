@@ -33,52 +33,69 @@ export async function getStaticProps({ params }: { params: { id: number } }) {
 
 export default function Details({ jsonData }: { jsonData: Item }) {
   //toppingを拾ってきてCSRで表示
-  const { data, error } = useSWR("http://localhost:8000/topping/", fetcher, { refreshInterval: 1000 });
+  const { data, error } = useSWR("http://localhost:8000/topping/", fetcher);
 
   //初期値ではトッピングは何も選ばれていない状態
-  const initialChecked: any[] = [false, false, false, false, false, false, false, false];
+  const initialChecked: any[] = [false, false, false, false, false, false, false, false, false];
   const [checked, setChecked] = useState<any>(initialChecked);
   //注文個数のstate
   const [count, setCount] = useState(1);
   //追加されたtoppingのstate
   const [toppingList, setToppingList] = useState([]);
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  const [show, setShow] = useState(true);
+
+
 
   //クリックされたときにtrueとfalseが入れ替わる
-  const onChangeCheck = (index: number) => {
+  function onChangeCheck(index: number) {
     const newCheck = [...checked];
     //splice関数 = 配列の一部を入れ替える
     newCheck.splice(index, 1, !(newCheck[index]));
     setChecked(newCheck);
+
+    setShow(true);
+
+
   }
-  console.log(checked);
-  console.log(data);
-  console.log(toppingList)
+
+  function onClickDec() {
+    //toppingにcheckedのtrue, falseを割り当てる
+    data.map((el: any, index: number) => el.checked = checked[index]);
+
+    //toppingがtrueになっているものだけを集める
+    let newToppingList = [...toppingList];
+    newToppingList = data.filter((el: any) => el.checked == true);
+    setToppingList(newToppingList)
+
+    setShow(false);
+  }
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
+
 
   const arr = [];
   for (let i = 1; i < 13; i++) {
     arr.push(i);
   }
 
+  
+
   //注文個数を代入
   const onChangeCount = (event: any) => {
+    
+    setShow(true);
     setCount(event.target.value)
   }
 
+
+
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
-    //toppingにcheckedのtrue, falseを割り当てる
-    data.map((el: any, index: number) => {
-      el.checked = checked[index];
-    });
 
-    //toppingがtrueになっているものだけを集める
-    let newToppingList = [...toppingList];
-    newToppingList = data.filter((el: any) => el.checked == true);
-    setToppingList(newToppingList)
-    
+
     //dbJsonのorderItemsに反映させる
     fetch("http://localhost:8000/orderItems/", {
       method: "POST",
@@ -93,9 +110,14 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       })
     })
   }
+  console.log(checked);
+  console.log(data);
+  console.log(toppingList)
+
+
 
   return (
-    <Layout>
+    <Layout show={true}>
       <h1 className={detailStyle.textTitle}>商品詳細</h1>
       <div className={detailStyle.item}>
         <img src={imagePath} width={300} className={detailStyle.itemImg} />
@@ -104,16 +126,6 @@ export default function Details({ jsonData }: { jsonData: Item }) {
           <p>{description}</p>
         </div>
       </div>
-      <label>
-        <input type="radio" />
-        <span>&nbsp;M&nbsp;</span>
-        &nbsp;&nbsp;{price}円
-      </label>
-      <label>
-        <input type="radio" />
-        <span>&nbsp;L&nbsp;</span>
-        &nbsp;&nbsp;{price + 200}円
-      </label>
       <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
       <div className={detailStyle.optionTag}>
         {//toppingのデータを一つ一つ表示
@@ -131,9 +143,11 @@ export default function Details({ jsonData }: { jsonData: Item }) {
         ))}
       </select>
       <p className={detailStyle.total}>この商品金額: {(price + 200 * checked.filter((el: any) => el === true).length) * count}円（税抜）</p>
+      {show === true ? 
+      <button className={detailStyle.Btn} onClick={() => onClickDec()}>確定</button> :
       <Link href="/">
         <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
-      </Link>
+      </Link>}
     </Layout>
   );
 }

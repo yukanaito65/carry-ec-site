@@ -53,7 +53,7 @@ export default function Login() {
       <Head>
         <title>ログイン画面</title>
       </Head>
-      <Layout>
+      <Layout show={false} >
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
 

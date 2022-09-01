@@ -14,10 +14,12 @@ export default function Items() {
     fetcher
   );
 
+  // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
   const onChangeNameText = (event: any) =>
     setNameText(event.target.value);
-  // 検索画面用useState()
+
+  // 検索欄に入力された文字を含む商品だけをsetSearchDataに代入
   const [searchData, setSearchData]: any[] = useState([]);
 
   if (error) return <div>failed to load</div>;
@@ -40,7 +42,7 @@ export default function Items() {
   };
 
   return (
-    <Layout>
+    <Layout show={true}>
       <div className={styles.searchWrapper}>
         <p>
           <span className={styles.serchTitle}>商品を検索する</span>

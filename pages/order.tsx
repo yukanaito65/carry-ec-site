@@ -3,6 +3,8 @@ import useSWR, { useSWRConfig } from "swr";
 import { Layout } from "../component/layout";
 import { Item, OrderItem } from "../types/types";
 import styles from "../styles/order.module.css";
+import Link from "next/link";
+import utilStyles from "../styles/utils.module.css"
 
 export const fetcher: (args: string) => Promise<any> = (...args) => fetch(...args).then(res => res.json());
 
@@ -15,22 +17,22 @@ export default function Order() {
 
   //削除ボタンの機能
   const onClickDelete = (id: number) => {
-    fetch(`http://localhost:8000/orderItems/${id}`, {
-      method: "delete"
-    });
+    fetch(`http://localhost:8000/orderItems/${id}`, { method: "delete" });
     mutate("http://localhost:8000/orderItems");
   }
 
   return (
     <>
-      <Layout>
+      <Layout show={true}>
         <div>
           <h1 className={styles.h1_style}>ショッピングカート</h1>
+          {data.length === 0 ? 
+          <p className={styles.msg} >商品が登録されていません</p> :
           <table className={styles.table_style}>
             <thead className={styles.thead}>
               <tr>
                 <th className={styles.th_style}>商品名</th>
-                <th className={styles.th_style}>サイズ、価格（税抜）、数量</th>
+                <th className={styles.th_style}>価格（税抜）、数量</th>
                 <th className={styles.th_style}>トッピング、価格（税抜）</th>
                 <th className={styles.th_style}>小計</th>
                 <th className={styles.th_style}></th>
@@ -62,9 +64,17 @@ export default function Order() {
                 </tr>
               ))}
             </tbody>
-          </table>
-          
+          </table> 
+          }
         </div>
+        {document.cookie ? 
+        <Link href="/ordercheck">
+          <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
+        </Link> :
+        <Link href="posts/login">
+          <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
+        </Link> 
+      }
       </Layout>
     </>
   )

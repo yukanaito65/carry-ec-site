@@ -24,7 +24,7 @@ function onClickLogout() {
 
 
 
-export function Layout({ children }: { children: any }) {
+export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
   //   if (show === "") {
@@ -52,7 +52,10 @@ export function Layout({ children }: { children: any }) {
                 <li>ショッピングカート</li>
               </a>
             </Link>
-            <Link href="/">
+            
+            {show === true ?
+              <>
+                <Link href="/">
               <a>
                 <li>注文履歴</li>
               </a>
@@ -79,6 +82,9 @@ export function Layout({ children }: { children: any }) {
                 </li>
               </a>
             </Link>
+              </> :
+              <></>
+            }
           </ul>
         </div>
       </header>
