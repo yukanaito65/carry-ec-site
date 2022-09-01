@@ -67,11 +67,12 @@ export default function Order() {
           </table> 
           }
         </div>
-        {document.cookie ? 
+        {
+        document.cookie ? 
         <Link href="/ordercheck">
           <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
         </Link> :
-        <Link href="posts/login">
+        <Link href={{pathname: "/posts/login", query: {currentUrl: true}}}>
           <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
         </Link> 
       }
