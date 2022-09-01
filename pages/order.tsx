@@ -3,6 +3,8 @@ import useSWR, { useSWRConfig } from "swr";
 import { Layout } from "../component/layout";
 import { Item, OrderItem } from "../types/types";
 import styles from "../styles/order.module.css";
+import detailStyle from "../component/details.module.css"
+
 
 export const fetcher: (args: string) => Promise<any> = (...args) => fetch(...args).then(res => res.json());
 
@@ -15,9 +17,7 @@ export default function Order() {
 
   //削除ボタンの機能
   const onClickDelete = (id: number) => {
-    fetch(`http://localhost:8000/orderItems/${id}`, {
-      method: "delete"
-    });
+    fetch(`http://localhost:8000/orderItems/${id}`, {method: "delete"});
     mutate("http://localhost:8000/orderItems");
   }
 
@@ -64,6 +64,8 @@ export default function Order() {
             </tbody>
           </table>
         </div>
+        
+        <button className={detailStyle.Btn}>注文確認画面へ</button>
       </Layout>
     </>
   )
