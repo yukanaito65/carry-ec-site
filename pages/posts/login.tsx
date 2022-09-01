@@ -30,7 +30,7 @@ export default function Login() {
       if (data.length === 1) {
         setOk(true);
         setDataId(data[0].id);
-        setDataLastName(data[0].lastName);
+        setDataLastName(data[0].name);
       } else {
         setOk(false);
       }
@@ -40,6 +40,10 @@ export default function Login() {
   const handleClick = () => {
     if (ok === false) {
       return;
+    } else if(router.query.currentUrl) {
+      router.push("/order");
+      document.cookie = `id = ${dataId}`;
+      document.cookie = `name = ${dataLastName}`;
     } else {
       router.push('/');
       document.cookie = `id = ${dataId}; max-age = 86400`;
