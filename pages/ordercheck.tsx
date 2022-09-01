@@ -1,6 +1,7 @@
 import { userAgent } from 'next/server';
 import useSWR from 'swr';
 import { OrderItem } from '../types/types';
+import Customer from '../component/checkuser'
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -16,6 +17,7 @@ export default function OrderCheck() {
 
   const onClickCheck = () => {};
 
+  //　中身がtotalPriceだけの配列をpushする
   let total: number[] = [];
 
   return (
@@ -70,14 +72,20 @@ export default function OrderCheck() {
           消費税：
           {total.reduce(function (sum, element) {
             return sum + element;
-          }, 0)}
+          }, 0) / 10}
+          円
         </p>
-
-        <p>ご注文金額合計：</p>
+        <p>
+          ご注文金額合計：
+          {total.reduce(function (sum, element) {
+            return sum + element;
+          }, 0)}
+          円
+        </p>
       </div>
 
       <div>
-        <p>お届け先情報</p>
+        <Customer></Customer>
       </div>
 
       <button>この内容で注文する</button>

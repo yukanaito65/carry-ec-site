@@ -29,7 +29,7 @@ export default function Items() {
   // 抽出したdetaをsetSearchDataに保管
   const onClickSearch = () => {
     setSearchData(
-      data.filter((e: any) => {
+      sortedData.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -40,6 +40,13 @@ export default function Items() {
     setNameText('');
     setSearchData([]);
   };
+
+  const sortedData = data.sort(function (
+    { price: a }: any,
+    { price: b }: any
+  ) {
+    return a - b;
+  });
 
   return (
     <Layout>
@@ -92,9 +99,9 @@ export default function Items() {
       <div className={styles.itemWrapper}>
         {/* 条件分岐 */}
         {nameText == ''
-        // 「？」はtrue、「:」はfalse
-        // 検索テキストが空の場合
-          ? data.map((item: Item) => {
+          ? // 「？」はtrue、「:」はfalse
+            // 検索テキストが空の場合
+            sortedData.map((item: Item) => {
               const { id, name, price, imagePath } = item;
               return (
                 <div key={id}>
