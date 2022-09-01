@@ -4,37 +4,23 @@ import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
 
-// fetchでuserのlogined値を取得
-export function getAllUserLogined() {
-  return fetch(`http://localhost:8000/users/`)
-    .then((res) => res.json())
-    .then((data) => {
-      return data.map((data: User) => {
-        return {
-          user: { logined: data.logined },
-        };
-      });
-    });
+
+// ログアウトボタンのクッキー削除
+function onClickLogout() {
+  console.log(document.cookie); // id=1; name=undefined
+
+  // クッキーのid削除
+  const cookieId = document.cookie
+  .split('; ')
+  .find(row => row.startsWith('id'))
+  console.log(cookieId); //id=1
+  document.cookie = `${cookieId}; max-age=0`;
+
+  // クッキーのname削除
+  const cookieName = document.cookie
+  console.log(cookieName); 
+  document.cookie = `${cookieName}; max-age=0`;
 }
-
-
-// ログアウト機能（loginedがtrueのデータを取得してfalseに変更）
-
-// const handleClick = () => {
-//   fetch(
-//     `http://localhost:8000/users?logined=true`,
-//     {
-//       method: 'GET',
-//     }
-//   )
-//     .then((res) => res.json())
-//     .then((data) => {
-//       data.logined = false;
-//     });
-// };
-
-
-
 
 
 
@@ -48,18 +34,6 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   //   }
   // }
 
-  // userのlogined値をfalesに変換
-  async function onClickLogout() {
-    const users = await getAllUserLogined();
-    users.logined === true;
-    console.log(users);
-    return fetch("http://localhost:8000/users", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(users)
-    });
-
-  }
 
   return (
     <div className={styles.container}>
@@ -79,27 +53,38 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
                 <li>ショッピングカート</li>
               </a>
             </Link>
+            
             {show === true ?
               <>
                 <Link href="/">
-                  <a>
-                    <li>注文履歴</li>
-                  </a>
-                </Link>
-                <Link href="/posts/login">
-                  <a>
-                    <li>ログイン</li>
-                  </a>
-                </Link>
-                <Link href="/">
-                  <a>
-                    <li>
-                      <button onClick={() => onClickLogout}>
-                        ログアウト
-                      </button>
-                    </li>
-                  </a>
-                </Link>
+              <a>
+                <li>注文履歴</li>
+              </a>
+            </Link>
+            {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
+            {document.cookie && 
+            <a>
+              <li>{
+                document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+                }さんようこそ</li>
+            </a>
+            }
+            {!(document.cookie) && 
+            <Link href="/posts/login">
+            <a>
+              <li>ログイン</li>
+            </a>
+            </Link>
+            }
+            <Link href="/">
+              <a>
+                <li>
+                  <button onClick={() => onClickLogout()}>
+                    ログアウト
+                  </button>
+                </li>
+              </a>
+            </Link>
               </> :
               <></>
             }
