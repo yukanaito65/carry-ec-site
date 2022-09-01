@@ -41,8 +41,12 @@ export default function Login() {
     console.log(ok);
     if (ok === false) {
       return;
+    } else if(router.query.currentUrl) {
+      router.push("/order");
+      document.cookie = `id = ${dataId}`;
+      document.cookie = `name = ${dataLastName}`;
     } else {
-      router.push('/');
+      router.push("/")
       document.cookie = `id = ${dataId}`;
       document.cookie = `name = ${dataLastName}`;
     }
