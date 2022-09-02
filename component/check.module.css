@@ -52,6 +52,10 @@
     margin-left: 5px;
 }
 
+.alert {
+    color: red;
+}
+
 /* 商品 */
 
 .item {
