@@ -199,8 +199,11 @@ export default function CheckUser() {
           </tr>
 
           <tr>
-            <td className={styles.td}>
-              <label htmlFor="day">配達日時</label>
+            <td>
+              <label htmlFor="day" className={styles.td}>配達日時：</label>
+              {day.length === 0 && (
+                <span className={styles.alert}>配達日時を選択して下さい。</span>
+              )}
             </td>
             <td>
               <input
@@ -219,11 +222,11 @@ export default function CheckUser() {
         <div>
           <h2 className={styles.credit}>お支払い方法</h2>
           <div className={styles.creditTd}>
-            <input type="radio" name="money" className={styles.cred}/>
+            <input type="radio" id= "money" name="credit" className={styles.cred}/>
             <label htmlFor="money"className={styles.cred}>代金引換</label>
 
-            <input type="radio" name="credit" className={styles.cred}/>
-            <label htmlFor="credit" className={styles.cred}>クレジットカード決済</label>
+            <input type="radio" id="card" name="credit" className={styles.cred}/>
+            <label htmlFor="card" className={styles.cred}>クレジットカード決済</label>
           </div>
         </div>
       </form>
