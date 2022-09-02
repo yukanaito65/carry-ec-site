@@ -38,13 +38,16 @@ export default function Login() {
 
   // ページ遷移
   const handleClick = () => {
-    console.log(ok);
     if (ok === false) {
       return;
+    } else if(router.query.currentUrl) {
+      router.push("/order");
+      document.cookie = `id = ${dataId}; max-age = 86400`;
+      document.cookie = `name = ${dataLastName}; max-age = 86400`;
     } else {
       router.push('/');
-      document.cookie = `id = ${dataId}`;
-      document.cookie = `name = ${dataLastName}`;
+      document.cookie = `id = ${dataId}; max-age = 86400`;
+      document.cookie = `name = ${dataLastName}; max-age = 86400`;
     }
   };
 
@@ -121,7 +124,3 @@ export default function Login() {
     </>
   );
 }
-
-// db.jsonのloginedが変更されない
-// ログインボタンの消去(服部くんがやってくれる？)
-// ログアウト機能の確認

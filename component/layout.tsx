@@ -6,21 +6,23 @@ import { userAgent } from 'next/server';
 
 
 // ログアウトボタンのクッキー削除
-function onClickLogout() {
+ function onClickLogout() {
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
+
   const cookieId = document.cookie
-  .split('; ')
-  .find(row => row.startsWith('id'))
+    .split('; ')
+    .find((row) => row.startsWith('id'));
   console.log(cookieId); //id=1
   document.cookie = `${cookieId}; max-age=0`;
 
   // クッキーのname削除
-  const cookieName = document.cookie
-  console.log(cookieName); 
+  const cookieName = document.cookie;
+  console.log(cookieName);
   document.cookie = `${cookieName}; max-age=0`;
 }
+
 
 
 
@@ -43,6 +45,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             <img src="/img_curry/header_logo.png" height={35} />
           </a>
         </Link>
+        <div className={styles.span}></div>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
         </div> */}
@@ -65,6 +68,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             {document.cookie && 
             <a>
               <li>{
+                //@ts-ignore
                 document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
                 }さんようこそ</li>
             </a>
