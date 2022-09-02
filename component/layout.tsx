@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
 
+
 // ログアウトボタンのクッキー削除
-function onClickLogout() {
+ function onClickLogout() {
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
+
   const cookieId = document.cookie
     .split('; ')
     .find((row) => row.startsWith('id'));
