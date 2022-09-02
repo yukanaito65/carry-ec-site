@@ -1,5 +1,6 @@
 .container {
   padding: 0 15px;
+  margin-top: 55px;
 }
 
 .header {
@@ -8,7 +9,14 @@
   align-items: center;
   background-color: #F8F8F8;
   padding: 0 15px;
+  width: 100%;
+  position: fixed; /* ウィンドウを基準に画面に固定 */
+    top: 0; /* 上下の固定位置を上から0pxにする */
+    left: 0; /* 左右の固定位置を左から0pxにする */
+  z-index: 10;
 }
+
+
 
 .hamburgerMenu {
   display: none;
