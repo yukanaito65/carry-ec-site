@@ -42,8 +42,8 @@ export default function Login() {
       return;
     } else if(router.query.currentUrl) {
       router.push("/order");
-      document.cookie = `id = ${dataId}`;
-      document.cookie = `name = ${dataLastName}`;
+      document.cookie = `id = ${dataId}; max-age = 86400`;
+      document.cookie = `name = ${dataLastName}; max-age = 86400`;
     } else {
       router.push('/');
       document.cookie = `id = ${dataId}; max-age = 86400`;
