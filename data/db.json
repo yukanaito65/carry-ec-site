@@ -187,14 +187,14 @@
       "password": "580",
       "logined": false
     },
-    {
+    { "name":"aaa",
       "email": "tenjuhattori@gmail.com",
       "zipcode": "111-0000",
       "address": "東京都",
       "tel": "070-3527-4395",
       "password": "123456789",
       "checkPassword": "123456789",
-      "histry": [
+      "history": [
         {
           "name": "カツカレー",
           "price": 1490,

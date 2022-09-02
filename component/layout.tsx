@@ -4,15 +4,15 @@ import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
 
-
+export const  cookieId = document.cookie
+.split('; ')
+.find(row => row.startsWith('id'))
 // ログアウトボタンのクッキー削除
-function onClickLogout() {
+ function onClickLogout() {
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
-  const cookieId = document.cookie
-  .split('; ')
-  .find(row => row.startsWith('id'))
+
   console.log(cookieId); //id=1
   document.cookie = `${cookieId}; max-age=0`;
 
