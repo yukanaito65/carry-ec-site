@@ -68,6 +68,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             {document.cookie && 
             <a>
               <li>{
+                //@ts-ignore
                 document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
                 }さんようこそ</li>
             </a>
