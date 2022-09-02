@@ -143,51 +143,6 @@
       "count": 1,
       "TotalPrice": 2090,
       "id": 1
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 1490,
-      "id": 11
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 1490,
-      "id": 12
-    },
-    {
-      "name": "ヒレカツカレー",
-      "price": 2700,
-      "imagePath": "/img_curry/6.jpg",
-      "toppingList": [],
-      "count": 2,
-      "TotalPrice": 5400,
-      "id": 13
-    },
-    {
-      "name": "ほうれん草のカレードリア",
-      "price": 2160,
-      "imagePath": "/img_curry/10.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 2160,
-      "id": 14
-    },
-    {
-      "name": "牛すじカレー",
-      "price": 1490,
-      "imagePath": "/img_curry/3.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 1490,
-      "id": 15
     }
   ],
   "users": [
@@ -203,20 +158,14 @@
       "password": "580",
       "logined": false
     },
-<<<<<<< HEAD
-    { "name":"aaa",
-=======
     {
-      "lastName": "服部",
-      "firstName": "天樹",
->>>>>>> 29379f00fecc157f4172f911ca6d37514a78bbbf
+      "name": "aaa",
       "email": "tenjuhattori@gmail.com",
       "zipcode": "111-0000",
       "address": "東京都",
       "tel": "070-3527-4395",
       "password": "123456789",
       "checkPassword": "123456789",
-<<<<<<< HEAD
       "history": [
         {
           "name": "カツカレー",
@@ -273,8 +222,6 @@
           "id": 11
         }
       ],
-=======
->>>>>>> 29379f00fecc157f4172f911ca6d37514a78bbbf
       "id": 3
     },
     {
@@ -298,8 +245,8 @@
       "password": "12345678",
       "checkPassword": "12345678",
       "id": 5
-},
-{
+    },
+    {
       "name": "啄人 寺田",
       "email": "aaaa@gmail.com",
       "zipcode": "222-2222",
