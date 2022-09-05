@@ -111,6 +111,7 @@ export default function Login() {
               type="button"
               className={styles.loginBtn}
               onClick={() => handleClick()}
+              data-testid="loginButton"
             >
               ログイン
             </button>
