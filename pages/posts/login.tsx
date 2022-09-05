@@ -11,7 +11,7 @@ export default function Login() {
   const [passText, setPassText] = useState<any>('');
   const [ok, setOk] = useState(false);
   const [dataId, setDataId] = useState(0);
-  const [dataLastName, setDataLastName] = useState("");
+  const [dataName, setDataName] = useState("");
   const router = useRouter();
 
   const onChangeMail = (e: any) => setMailText(e.target.value);
@@ -30,7 +30,7 @@ export default function Login() {
       if (data.length === 1) {
         setOk(true);
         setDataId(data[0].id);
-        setDataLastName(data[0].name);
+        setDataName(data[0].name);
       } else {
         setOk(false);
       }
@@ -38,16 +38,13 @@ export default function Login() {
 
   // ページ遷移
   const handleClick = () => {
+    console.log(ok);
     if (ok === false) {
       return;
-    } else if(router.query.currentUrl) {
-      router.push("/order");
-      document.cookie = `id = ${dataId}; max-age = 86400`;
-      document.cookie = `name = ${dataLastName}; max-age = 86400`;
     } else {
       router.push('/');
-      document.cookie = `id = ${dataId}; max-age = 86400`;
-      document.cookie = `name = ${dataLastName}; max-age = 86400`;
+      document.cookie = `id = ${dataId}`;
+      document.cookie = `name = ${dataName}`;
     }
   };
 
@@ -124,3 +121,7 @@ export default function Login() {
     </>
   );
 }
+
+// db.jsonのloginedが変更されない
+// ログインボタンの消去(服部くんがやってくれる？)
+// ログアウト機能の確認

@@ -18,7 +18,7 @@ export default function OrderCheck() {
   if (!data) return <div>Loading...</div>;
 
   const onClickCheck = () => {
-  //  @ts-ignore
+    //@ts-ignore
     const cookieId = document.cookie
       .split('; ')
       .find((row) => row.startsWith('id'))
