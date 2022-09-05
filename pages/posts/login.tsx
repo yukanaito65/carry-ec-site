@@ -45,7 +45,7 @@ export default function Login() {
       router.push('/');
       document.cookie = `id = ${dataId}`;
       document.cookie = `name = ${dataName}`;
-    }
+    } 
   };
 
   return (
