@@ -25,7 +25,7 @@ export default function Order() {
     <>
       <Layout show={true}>
         <div>
-          <h1 className={styles.h1_style}>ショッピングカート</h1>
+          <h1 className={styles.h1_style}>Cart</h1>
           {data.length === 0 ? 
           <p className={styles.msg} >商品が登録されていません</p> :
           <table className={styles.table_style}>
