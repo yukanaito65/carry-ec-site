@@ -125,7 +125,7 @@ export default function OrderCheck() {
                 return sum + element;
               }, 0) * 1.1
             )}
-            円
+            円（税込）
           </p>
         </div>
 

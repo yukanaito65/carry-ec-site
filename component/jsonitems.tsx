@@ -26,7 +26,7 @@ export default function Items() {
   if (!data) return <div>loading...</div>;
 
   // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
-  // 抽出したdetaをsetSearchDataに保管
+  // 抽出したdataをsetSearchDataに保管
   const onClickSearch = () => {
     setSearchData(
       sortedData.filter((e: any) => {
@@ -98,7 +98,7 @@ export default function Items() {
 
       <div className={styles.itemWrapper}>
         {/* 条件分岐 */}
-        {nameText == ''
+        {nameText == '' || searchData == ''
           ? // 「？」はtrue、「:」はfalse
             // 検索テキストが空の場合
             sortedData.map((item: Item) => {

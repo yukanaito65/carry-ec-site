@@ -1,0 +1,1 @@
+import onClickSearch from './jsonitems'
