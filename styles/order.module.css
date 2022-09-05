@@ -40,7 +40,10 @@
     background-color: rgb(24, 103, 208);
     color: aliceblue;
     border-radius:5px 5px 5px 5px;
+}
 
+.btn:hover {
+    cursor: pointer;
 }
 
 

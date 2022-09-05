@@ -22,6 +22,7 @@ export default function OrderCheck() {
 
 
   const onClickCheck = () => {
+    //@ts-ignore
     const cookieId = document.cookie
     .split('; ')
     .find((row) => row.startsWith('id'))

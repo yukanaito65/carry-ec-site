@@ -46,5 +46,6 @@ test("SWRのmiddlewareを利用したパターン", () => {
   );
   screen.debug();
   const linkElement = screen.getByText(/商品名/);
+  console.log(linkElement)
   expect(linkElement).toBeInTheDocument();
 }) 
