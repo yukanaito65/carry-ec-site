@@ -5,12 +5,15 @@ import { Item, OrderItem } from "../types/types";
 import styles from "../styles/order.module.css";
 import Link from "next/link";
 import utilStyles from "../styles/utils.module.css"
+import checkStyles from '../component/check.module.css';
+import { useState } from "react";
 
 export const fetcher: (args: string) => Promise<any> = (...args) => fetch(...args).then(res => res.json());
 
 export default function Order() {
   const { data, error } = useSWR("http://localhost:8000/orderItems", fetcher);
   const { mutate } = useSWRConfig()
+  const [showBtn, setShowBtn] = useState(false);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -20,6 +23,33 @@ export default function Order() {
     fetch(`http://localhost:8000/orderItems/${id}`, { method: "DELETE" });
     mutate("http://localhost:8000/orderItems");
   }
+
+  const onClickConfirm = () => {
+    fetch(`http://localhost:8000/order`)
+    .then(res => res.json())
+    .then(json => {
+      json.map((e: any, index: number) => {
+        console.log(e);
+        fetch(`http://localhost:8000/order/${e.id}`, {
+          method: "delete",
+        })
+      })
+    });
+    setShowBtn(true);
+  }
+
+  const onClickOrder = () => {
+    data.map((el: any) => {
+      fetch("http://localhost:8000/order", {
+        method: "POST",
+        headers: { 'Content-type': 'application/json' },
+        //@ts-ignore
+        body: JSON.stringify(el)
+      })
+    })
+  }
+
+  let total: number[] = [];
 
   return (
     <>
@@ -66,15 +96,46 @@ export default function Order() {
                   ))}
                 </tbody>
               </table>
+
+              <div className={checkStyles.total}>
+                {data.map(({ TotalPrice }: any) => {
+                  total.push(TotalPrice);
+                })}
+                <p>
+                  消費税：
+                  {Math.floor(
+                    total.reduce(function (sum, element) {
+                      return sum + element;
+                    }, 0) / 10
+                  )}
+                  円
+                </p>
+                <p>
+                  ご注文金額合計：
+                  {Math.floor(
+                    total.reduce(function (sum, element) {
+                      return sum + element;
+                    }, 0) * 1.1
+                  )}
+                  円（税込）
+                </p>
+              </div>
+
               <div>
                 {
+                  showBtn ? 
+                <div>
+                {
                   document.cookie ?
-                  <Link href="/ordercheck">
-                    <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
-                  </Link> :
-                <Link href={{ pathname: "/posts/login", query: { currentUrl: true } }}>
-                  <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
-                </Link> 
+                    <Link href="/ordercheck">
+                      <button onClick={onClickOrder} className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
+                    </Link> :
+                    <Link href={{ pathname: "/posts/login", query: { currentUrl: true } }}>
+                      <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
+                    </Link>
+                }
+                </div> :
+                <button onClick={onClickConfirm} className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`}>確定</button>
                 }
 
               </div>

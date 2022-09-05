@@ -13,8 +13,8 @@ export async function getStaticPaths() {
   const paths = await getAllJsonIds();
   return {
     paths,
-    //yarn build → yarn startをしても動くようにblocking
-    fallback: "blocking",
+    //idがない場合は404になるようにfalse
+    fallback: false,
   };
 }
 
