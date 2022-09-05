@@ -37,7 +37,7 @@ const onClickRegister = () => {
           data.filter((el: any) => el.email === email).length > 0 //入力したEメールの値とfetchしたデータの中のEメールの値が一致しており、0以上の文字数があるとき
         ) {
           alert('Eメールアドレスが既にあります');
-        } else {
+        }else {
           router.push('/posts/login');//登録内容が正しい場合、ボタンを押すと、ログイン画面に遷移。
            fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
             method: 'POST',
