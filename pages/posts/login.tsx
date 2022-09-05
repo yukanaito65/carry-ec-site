@@ -41,10 +41,14 @@ export default function Login() {
     console.log(ok);
     if (ok === false) {
       return;
+    }else if(router.query.currentUrl) {
+      router.push("/order");
+      document.cookie = `id=${dataId}; max-age=86400`;
+      document.cookie = `name=${dataName}; max-age=86400`;
     } else {
       router.push('/');
-      document.cookie = `id = ${dataId}`;
-      document.cookie = `name = ${dataName}`;
+      document.cookie = `id=${dataId}; max-age=86400`;
+      document.cookie = `name=${dataName}; max-age=86400`;
     }
   };
 

@@ -145,7 +145,7 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       <p className={detailStyle.total}>この商品金額: {(price + 200 * checked.filter((el: any) => el === true).length) * count}円（税抜）</p>
       {show === true ? 
       <button className={detailStyle.confirmBtn} onClick={() => onClickDec()}>確定</button> :
-      <Link href="/">
+      <Link href="/order">
         <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
       </Link>}
     </Layout>
