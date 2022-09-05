@@ -184,11 +184,73 @@
     {
       "name": "服部 天樹",
       "email": "tenjuhattori@gmail.com",
-      "zipcode": "104-0052",
+      "zipcode": "104-0054",
       "address": "東京都",
       "tel": "070-3527-4395",
-      "password": "tma9yru6e",
-      "checkPassword": "tma9yru6e",
+      "password": "wav_egk3e",
+      "checkPassword": "wav_egk3e",
+      "history": [
+        {
+          "name": "カツカレー",
+          "price": 1490,
+          "imagePath": "/img_curry/1.jpg",
+          "toppingList": [
+            {
+              "name": "ピーマン",
+              "id": 3,
+              "checked": true
+            },
+            {
+              "name": "ロースハム",
+              "id": 4,
+              "checked": true
+            }
+          ],
+          "count": 2,
+          "TotalPrice": 3780,
+          "id": 2
+        },
+        {
+          "name": "バラエティー４",
+          "price": 2160,
+          "imagePath": "/img_curry/13.jpg",
+          "toppingList": [
+            {
+              "name": "ピーマン",
+              "id": 3,
+              "checked": true
+            },
+            {
+              "name": "ロースハム",
+              "id": 4,
+              "checked": true
+            }
+          ],
+          "count": 1,
+          "TotalPrice": 2560,
+          "id": 3
+        },
+        {
+          "name": "カレーうどん",
+          "price": 2160,
+          "imagePath": "/img_curry/8.jpg",
+          "toppingList": [
+            {
+              "name": "チーズ",
+              "id": 2,
+              "checked": true
+            },
+            {
+              "name": "ピーマン",
+              "id": 3,
+              "checked": true
+            }
+          ],
+          "count": 4,
+          "TotalPrice": 10240,
+          "id": 4
+        }
+      ],
       "id": 1
     }
   ],
