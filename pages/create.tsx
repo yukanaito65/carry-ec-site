@@ -14,6 +14,7 @@ export default function User() {
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
 
+  
 const onClickRegister = () => {
     fetch('http://localhost:8000/users')
       .then((res) => res.json())
