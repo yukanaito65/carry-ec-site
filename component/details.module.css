@@ -58,6 +58,12 @@
 .total {
     text-align: center;
     font-size: 30px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 4px;
+
 }
 
 .Btn {
