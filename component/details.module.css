@@ -61,9 +61,9 @@
 }
 
 .Btn {
-    color: black;
-    background-color: yellow;
-    border-color: yellow;
+    color: white;
+    background-color: blue;
+    border-color: blue;
     display: block;
     padding: 6px 12px;
     margin-right: auto;
@@ -84,5 +84,24 @@
 }
 
 .confirmBtn {
-    
+    color: black;
+    background-color: yellow;
+    border-color: yellow;
+    display: block;
+    padding: 6px 12px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
+    border: 2px solid black;
+    width: 20em;
+    height: 35px;
+
+
+    font-size: 14px;
+    font-weight: normal;
+    font-family:monospace;
+    line-height: 1.42857143;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
 }
