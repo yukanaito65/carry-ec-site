@@ -26,13 +26,17 @@ export default function Items() {
   if (!data) return <div>loading...</div>;
 
   // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
-  // 抽出したdetaをsetSearchDataに保管
+  // 抽出したdataをsetSearchDataに保管
   const onClickSearch = () => {
-    setSearchData(
-      sortedData.filter((e: any) => {
-        return e.name.indexOf(nameText) >= 0;
-      })
-    );
+    if (nameText == '') {
+      alert('検索欄にキーワードを入力してください！');
+    } else {
+      setSearchData(
+        sortedData.filter((e: any) => {
+          return e.name.indexOf(nameText) >= 0;
+        })
+      );
+    }
   };
 
   // クリアボタンを押した時setNameTextを空で返す
@@ -41,6 +45,7 @@ export default function Items() {
     setSearchData([]);
   };
 
+  // 値段が安い順に並べる
   const sortedData = data.sort(function (
     { price: a }: any,
     { price: b }: any
@@ -148,11 +153,8 @@ export default function Items() {
                     </tr>
                     <tr>
                       <th>
-                        <Link
-                          href={`/posts/${id}`}
-                          className={styles.name}
-                        >
-                          {name}
+                        <Link href={`/posts/${id}`}>
+                          <a className={styles.name}>{name}</a>
                         </Link>
                       </th>
                     </tr>

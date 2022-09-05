@@ -17,7 +17,7 @@ export default function Order() {
 
   //削除ボタンの機能
   const onClickDelete = (id: number) => {
-    fetch(`http://localhost:8000/orderItems/${id}`, { method: "delete" });
+    fetch(`http://localhost:8000/orderItems/${id}`, { method: "DELETE" });
     mutate("http://localhost:8000/orderItems");
   }
 
@@ -26,55 +26,61 @@ export default function Order() {
       <Layout show={true}>
         <div>
           <h1 className={styles.h1_style}>ショッピングカート</h1>
-          {data.length === 0 ? 
-          <p className={styles.msg} >商品が登録されていません</p> :
-          <table className={styles.table_style}>
-            <thead className={styles.thead}>
-              <tr>
-                <th className={styles.th_style}>商品名</th>
-                <th className={styles.th_style}>価格（税抜）、数量</th>
-                <th className={styles.th_style}>トッピング、価格（税抜）</th>
-                <th className={styles.th_style}>小計</th>
-                <th className={styles.th_style}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map(({ name, id, TotalPrice, price, imagePath, count, toppingList }: any) => (
-                <tr key={id} className={styles.tr}>
-                  <td className={styles.td}>
-                    <img src={imagePath} width={100} />
-                    <p>{name}</p>
-                  </td>
-                  <td className={styles.td}>
-                    数量：{count}個 <br />
-                    単品価格：{price}円
-                  </td>
-                  <td className={styles.td}>
-                    {toppingList.map((topping: { name: string; checked: boolean; id: number }) => (
-                      <ul key={id}>
-                        <li>{topping.name}</li>
-                      </ul>
-                    ))}
-                    価格：{toppingList.length * 200}円
-                  </td>
-                  <td className={styles.td}>
-                    {TotalPrice}円
-                  </td>
-                  <td className={styles.td}><button className={styles.btn} onClick={() => onClickDelete(id)}>削除</button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table> 
+          {data.length === 0 ?
+            <p className={styles.msg} >商品が登録されていません</p> :
+            <>
+              <table className={styles.table_style}>
+                <thead className={styles.thead}>
+                  <tr>
+                    <th className={styles.th_style}>商品名</th>
+                    <th className={styles.th_style}>価格（税抜）、数量</th>
+                    <th className={styles.th_style}>トッピング、価格（税抜）</th>
+                    <th className={styles.th_style}>小計</th>
+                    <th className={styles.th_style}></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map(({ name, id, TotalPrice, price, imagePath, count, toppingList }: any) => (
+                    <tr key={id} className={styles.tr}>
+                      <td className={styles.td}>
+                        <img src={imagePath} width={100} />
+                        <p>{name}</p>
+                      </td>
+                      <td className={styles.td}>
+                        数量：{count}個 <br />
+                        単品価格：{price}円
+                      </td>
+                      <td className={styles.td}>
+                        {toppingList.map((topping: { name: string; checked: boolean; id: number }) => (
+                          <ul key={id}>
+                            <li>{topping.name}</li>
+                          </ul>
+                        ))}
+                        価格：{toppingList.length * 200}円
+                      </td>
+                      <td className={styles.td}>
+                        {TotalPrice}円
+                      </td>
+                      <td className={styles.td}><button className={styles.btn} onClick={() => onClickDelete(id)}>削除</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div>
+                {
+                  document.cookie ?
+                  <Link href="/ordercheck">
+                    <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
+                  </Link> :
+                <Link href={{ pathname: "/posts/login", query: { currentUrl: true } }}>
+                  <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
+                </Link> 
+                }
+
+              </div>
+            </>
           }
         </div>
-        {document.cookie ? 
-        <Link href="/ordercheck">
-          <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
-        </Link> :
-        <Link href="posts/login">
-          <button className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`} >注文へ進む</button>
-        </Link> 
-      }
       </Layout>
     </>
   )

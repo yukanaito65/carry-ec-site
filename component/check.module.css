@@ -4,7 +4,7 @@
     text-decoration: underline;
     text-decoration-color: #f08a0c;
     text-decoration-thickness: 0.1em;
-    text-underline-offset: 7px;
+    text-underline-offset: 4px;
 }
 
 .userTitle {
@@ -32,7 +32,7 @@
     text-decoration: underline;
     text-decoration-color: #f08a0c;
     text-decoration-thickness: 0.1em;
-    text-underline-offset: 7px;
+    text-underline-offset: 4px;
 
 }
 
@@ -50,6 +50,10 @@
 .cred {
     margin-right: 5px;
     margin-left: 5px;
+}
+
+.alert {
+    color: red;
 }
 
 /* 商品 */
