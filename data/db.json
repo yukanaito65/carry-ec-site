@@ -239,6 +239,26 @@
       "password": "11111111",
       "checkPassword": "11111111",
       "id": 1
+    },
+    {
+      "name": "z z",
+      "email": "a@gmail.com",
+      "zipcode": "123-4566",
+      "address": "ざあ",
+      "tel": "090-2222-2222",
+      "password": "aaaaaaaa",
+      "checkPassword": "aaaaaaaa",
+      "id": 6
+    },
+    {
+      "name": "a a",
+      "email": "aa@gmail.com",
+      "zipcode": "123-4567",
+      "address": "ww",
+      "tel": "080-1234-5678",
+      "password": "aaaaaaaa",
+      "checkPassword": "aaaaaaaa",
+      "id": 7
     }
   ],
   "order": [
