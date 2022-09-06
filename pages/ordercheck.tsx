@@ -140,10 +140,11 @@ export default function OrderCheck() {
         <div>
           <Customer></Customer>
         </div>
-
-        <button className={styles.btn} onClick={() => onClickCheck()}>
-          この内容で注文する
-        </button>
+        <Link href="/thankyou">
+          <button className={styles.btn} onClick={() => onClickCheck()}>
+            この内容で注文する
+          </button>
+        </Link>
       </div>
     </Layout>
   );

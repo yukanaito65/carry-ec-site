@@ -146,7 +146,7 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       .replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,')}円（税抜）</p>
       {show === true ? 
       <button className={detailStyle.confirmBtn} onClick={() => onClickDec()}>確定</button> :
-      <Link href="/">
+      <Link href="/order">
         <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
       </Link>}
     </Layout>
