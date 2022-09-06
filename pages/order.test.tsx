@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react"
-import Order from "./order";
+import { fireEvent, getByTestId, render, screen } from "@testing-library/react"
+import Order, { onClickDelete } from "./order";
 import renderer from 'react-test-renderer'
 import useSWR, { Middleware, SWRConfig, SWRResponse } from "swr"
-
+//CSRのデータを仮置きする変数
 const testMiddleware: Middleware = () => {
   return (): SWRResponse<any, any> => {
     return {
@@ -38,14 +38,60 @@ const testMiddleware: Middleware = () => {
   }
 }
 
-test("SWRのmiddlewareを利用したパターン", () => {
+//できた
+test("fetchから取ってきた商品名が表示される", () => {
+  render(
+    //仮置きデータを入れる
+    <SWRConfig value={{ use: [testMiddleware] }}>
+      <Order />
+    </SWRConfig>
+  );
+  const linkElement = screen.getByText(/ポークポークカレー・ミート/);
+  expect(linkElement).toBeInTheDocument();
+})
+
+test("fetchから取ってきた価格が表示される", () => {
+  render(
+    <SWRConfig value={{ use: [testMiddleware] }}>
+      <Order />
+    </SWRConfig>
+  );
+  const linkElement = screen.getByText(/2090/i);
+  expect(linkElement).toBeInTheDocument();
+})
+
+test("ボタンが商品の個数分だけある", async () => {
+  render(
+    <SWRConfig value={{ use: [testMiddleware] }}>
+      <Order />
+    </SWRConfig>
+  );
+  const buttonList = await screen.findAllByRole("button");
+  expect(buttonList).toHaveLength(3);
+})
+
+jest.mock('./order', () => {
+  const originalModule = jest.requireActual('./order');
+  return {
+    __esModule: true,
+    ...originalModule,
+    onClickDelete: jest.fn((id, mutate) => console.log("呼ばれた")),
+  };
+});
+
+
+test("削除ボタンを押したときにonClickDeleteが機能する", async () => {
+  const testString = (x: string) => {
+    console.log(x)
+  }
   render(
     <SWRConfig value={{ use: [testMiddleware] }}>
       <Order />
     </SWRConfig>
   );
   screen.debug();
-  const linkElement = screen.getByText(/商品名/);
-  console.log(linkElement)
-  expect(linkElement).toBeInTheDocument();
-}) 
+  const deleteButton = await screen.findByTestId('delete');
+  console.log(deleteButton);
+  fireEvent.click(deleteButton);
+  onClickDelete(1, testString);
+})

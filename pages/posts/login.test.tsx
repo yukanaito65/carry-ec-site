@@ -13,6 +13,7 @@ test('ログインボタンの取得', () => {
   expect(button).toHaveBeenCalled();
 });
 
+
 // できない
 describe('onClick', () => {
   it('should calls', () => {

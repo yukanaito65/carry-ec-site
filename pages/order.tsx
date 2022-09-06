@@ -9,6 +9,12 @@ import checkStyles from '../component/check.module.css';
 import { useState } from "react";
 
 export const fetcher: (args: string) => Promise<any> = (...args) => fetch(...args).then(res => res.json());
+  //削除ボタンの機能
+export function onClickDelete(id: number, mutate: Function) {
+    console.log("aaaaaaaaa");
+    fetch(`http://localhost:8000/orderItems/${id}`, { method: "DELETE" });
+    mutate("http://localhost:8000/orderItems");
+  }
 
 export default function Order() {
   const { data, error } = useSWR("http://localhost:8000/orderItems", fetcher);
@@ -18,11 +24,7 @@ export default function Order() {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  //削除ボタンの機能
-  const onClickDelete = (id: number) => {
-    fetch(`http://localhost:8000/orderItems/${id}`, { method: "DELETE" });
-    mutate("http://localhost:8000/orderItems");
-  }
+
 
   const onClickConfirm = () => {
     fetch(`http://localhost:8000/order`)
@@ -91,7 +93,9 @@ export default function Order() {
                       <td className={styles.td}>
                         {TotalPrice}円
                       </td>
-                      <td className={styles.td}><button className={styles.btn} onClick={() => onClickDelete(id)}>削除</button></td>
+                      <td className={styles.td}>
+                        <button data-testid="delete" className={styles.btn} onClick={() => onClickDelete(id, mutate)}>削除</button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
