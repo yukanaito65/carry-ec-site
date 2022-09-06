@@ -13,6 +13,7 @@ export default function Login() {
   const [dataId, setDataId] = useState(0);
   const [dataName, setDataName] = useState("");
   const router = useRouter();
+  const [errShow, setErrShow] = useState(false);
 
   const onChangeMail = (e: any) => setMailText(e.target.value);
   const onChangePass = (e: any) => setPassText(e.target.value);
@@ -40,7 +41,7 @@ export default function Login() {
   const handleClick = () => {
     console.log(ok);
     if (ok === false) {
-      return;
+      setErrShow(true);
     }else if(router.query.currentUrl) {
       router.push("/order");
       document.cookie = `id=${dataId}; max-age=86400`;
@@ -49,8 +50,10 @@ export default function Login() {
       router.push('/');
       document.cookie = `id=${dataId}; max-age=86400`;
       document.cookie = `name=${dataName}; max-age=86400`;
+
     }
   };
+
 
   return (
     <>
@@ -60,6 +63,9 @@ export default function Login() {
       <Layout show={false} >
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
+          {errShow === true && <div>
+            <p className={styles.inputErr}>メールアドレス、またはパスワードが間違っています</p>
+          </div>}
 
           <div>
             <div>
@@ -67,12 +73,9 @@ export default function Login() {
                 <label htmlFor="email" className={styles.label}>
                   メールアドレス：
                 </label>
-                {mailText === '' && (
-                  <p className={styles.error}>
-                    メールアドレスを入力してください
-                  </p>
-                )}
-                <br />
+                {errShow === true && !mailText.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/) &&
+               mailText.length >= 1 &&
+               (<p className={styles.mailErr}>メールアドレスの形式が不正です</p>)}
               </div>
               <input
                 className={styles.input}
@@ -90,12 +93,6 @@ export default function Login() {
                 <label htmlFor="password" className={styles.label}>
                   パスワード：
                 </label>
-                {passText === '' && (
-                  <p className={styles.error}>
-                    パスワードを入力してください
-                  </p>
-                )}
-                <br />
               </div>
               <input
                 className={styles.input}
@@ -126,7 +123,3 @@ export default function Login() {
     </>
   );
 }
-
-// db.jsonのloginedが変更されない
-// ログインボタンの消去(服部くんがやってくれる？)
-// ログアウト機能の確認
