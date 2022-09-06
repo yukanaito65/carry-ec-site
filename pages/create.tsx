@@ -287,6 +287,7 @@ setShowError(false);
           </div>
           <button
             type="button"
+            data-testid="button"
             className={styles.button_style}
             onClick={() => onClickRegister()}
           >
