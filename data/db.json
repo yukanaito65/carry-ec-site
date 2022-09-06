@@ -120,13 +120,53 @@
   ],
   "orderItems": [
     {
+
+      "name": "とんかつカレーラーメン",
+      "price": 1900,
+      "imagePath": "/img_curry/5.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1900,
+      "id": 15
+    },
+    {
+
       "name": "ほうれん草のカレードリア",
       "price": 2160,
       "imagePath": "/img_curry/10.jpg",
       "toppingList": [],
+
+      "count": 3,
+      "TotalPrice": 6480,
+      "id": 16
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "price": 1490,
+      "imagePath": "/img_curry/2.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1490,
+      "id": 18
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "price": 1490,
+      "imagePath": "/img_curry/2.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1490,
+      "id": 19
+    },
+    {
+      "name": "カレーうどん",
+      "price": 2160,
+      "imagePath": "/img_curry/8.jpg",
+      "toppingList": [],
       "count": 1,
       "TotalPrice": 2160,
-      "id": 14
+      "id": 20
+
     }
   ],
   "users": [
@@ -137,12 +177,50 @@
       "logined": "false"
     },
     {
-      "id": 1,
       "email": "aaaaa@gmail.com",
       "password": "580",
-      "logined": false
+      "history": [
+        {
+          "name": "とんかつカレーラーメン",
+          "price": 1900,
+          "imagePath": "/img_curry/5.jpg",
+          "toppingList": [],
+          "count": 1,
+          "TotalPrice": 1900,
+          "id": 15
+        },
+        {
+          "name": "ほうれん草のカレードリア",
+          "price": 2160,
+          "imagePath": "/img_curry/10.jpg",
+          "toppingList": [],
+          "count": 3,
+          "TotalPrice": 6480,
+          "id": 16
+        },
+        {
+          "name": "カツカレー",
+          "price": 1490,
+          "imagePath": "/img_curry/1.jpg",
+          "toppingList": [],
+          "count": 1,
+          "TotalPrice": 1490,
+          "id": 17
+        },
+        {
+          "name": "ポークポークカレー・ミート",
+          "price": 1490,
+          "imagePath": "/img_curry/2.jpg",
+          "toppingList": [],
+          "count": 1,
+          "TotalPrice": 1490,
+          "id": 18
+        }
+      ],
+      "id": 1
     },
     {
+
       "name": "aaa",
       "email": "tenjuhattori@gmail.com",
       "zipcode": "111-0000",

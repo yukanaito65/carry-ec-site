@@ -5,7 +5,7 @@
     background-color: #F5F5F5;
     border: 1px solid #E3E3E3;
     border-radius: 3px;
-    margin: 20px auto;
+    margin: 100px auto 30px auto;
     padding: 10px 15px 15px 15px;
 }
 
@@ -14,13 +14,22 @@
     border-bottom: 1px solid #E5E5E5;
 }
 
+.inputErr {
+    color: red;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    display: block;
+    margin: 30px;
+}
+
 .label {
     font-size: 15px;
     font-weight: 700;
     margin: 10px 0;
 }
 
-.error {
+.mailErr {
     font-size: 10px;
     font-weight: 700;
     color: red;
