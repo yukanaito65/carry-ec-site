@@ -4,6 +4,7 @@ import { Item } from '../types/types';
 import React, { useState } from 'react';
 import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
+import { arrayBuffer } from 'stream/consumers';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -28,15 +29,11 @@ export default function Items() {
   // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
   // 抽出したdataをsetSearchDataに保管
   const onClickSearch = () => {
-    if (nameText == '') {
-      alert('検索欄にキーワードを入力してください！');
-    } else {
-      setSearchData(
-        sortedData.filter((e: any) => {
-          return e.name.indexOf(nameText) >= 0;
-        })
-      );
-    }
+    setSearchData(
+      sortedData.filter((e: any) => {
+        return e.name.indexOf(nameText) >= 0;
+      })
+    );
   };
 
   // クリアボタンを押した時setNameTextを空で返す
@@ -103,70 +100,86 @@ export default function Items() {
 
       <div className={styles.itemWrapper}>
         {/* 条件分岐 */}
-        {nameText == ''
-          ? // 「？」はtrue、「:」はfalse
-            // 検索テキストが空の場合
-            sortedData.map((item: Item) => {
-              const { id, name, price, imagePath } = item;
-              return (
-                <div key={id}>
-                  <table className={styles.item}>
-                    <tr>
-                      <th>
-                        <img
-                          src={imagePath}
-                          className={styles.itemImg}
-                          width={300}
-                        />
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <Link href={`/posts/${id}`}>
-                          <a className={styles.name}>{name}</a>
-                        </Link>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <p>{price}円（税抜）</p>
-                      </th>
-                    </tr>
-                  </table>
-                </div>
-              );
-            })
-          : // 検索テキストに入力した場合
-            searchData.map((item: Item) => {
-              const { id, name, price, imagePath } = item;
-              return (
-                <div key={id}>
-                  <table className={styles.item}>
-                    <tr>
-                      <th>
-                        <img
-                          src={imagePath}
-                          width={300}
-                          className={styles.itemImg}
-                        />
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <Link href={`/posts/${id}`}>
-                          <a className={styles.name}>{name}</a>
-                        </Link>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <p className="price">{price}円（税抜）</p>
-                      </th>
-                    </tr>
-                  </table>
-                </div>
-              );
-            })}
+        {nameText == '' ? (
+          // 「？」はtrue、「:」はfalse
+          // 検索テキストが空の場合
+          sortedData.map((item: Item) => {
+            const { id, name, price, imagePath } = item;
+            return (
+              <div key={id}>
+                <table className={styles.item}>
+                  <tr>
+                    <th>
+                      <img
+                        src={imagePath}
+                        className={styles.itemImg}
+                        width={300}
+                      />
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <Link href={`/posts/${id}`}>
+                        <a className={styles.name}>{name}</a>
+                      </Link>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <p>
+                        {String(price).replace(
+                          /(\d)(?=(\d\d\d)+(?!\d))/g,
+                          '$1,'
+                        )}
+                        円（税抜）
+                      </p>
+                    </th>
+                  </tr>
+                </table>
+              </div>
+            );
+          })
+        ) : // 検索テキストに入力した場合
+        searchData.length == 0 ? (
+          <p className={styles.p}>該当する商品がありません。</p>
+        ) : (
+          searchData.map((item: Item) => {
+            const { id, name, price, imagePath } = item;
+            return (
+              <div key={id}>
+                <table className={styles.item}>
+                  <tr>
+                    <th>
+                      <img
+                        src={imagePath}
+                        width={300}
+                        className={styles.itemImg}
+                      />
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <Link href={`/posts/${id}`}>
+                        <a className={styles.name}>{name}</a>
+                      </Link>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <p className="price">
+                        {String(price).replace(
+                          /(\d)(?=(\d\d\d)+(?!\d))/g,
+                          '$1,'
+                        )}
+                        円（税抜）
+                      </p>
+                    </th>
+                  </tr>
+                </table>
+              </div>
+            );
+          })
+        )}
       </div>
     </Layout>
   );

@@ -21,12 +21,20 @@ export default function CheckUser() {
   })
     .then((res) => res.json())
     .then((data) => {
-      setName(data[0].name),
-        setEmail(data[0].email),
-        setZipcode(data[0].zipcode),
-        setAddress(data[0].address),
-        setTel(data[0].tel);
+      setName(data[0].name), setEmail(data[0].email);
     });
+
+  const onClickSync = () => {
+    fetch(`http://localhost:8000/users?name=${name}`, {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setZipcode(data[0].zipcode),
+          setAddress(data[0].address),
+          setTel(data[0].tel);
+      });
+  };
 
   const onClickCheck = () => {
     fetch('http://localhost:8000/users')
@@ -68,6 +76,13 @@ export default function CheckUser() {
   return (
     <div>
       <h2 className={styles.title}>お届け先情報</h2>
+      <button
+        name="sync"
+        className={styles.sync}
+        onClick={() => onClickSync()}
+      >
+        自動入力
+      </button>
       <form action="post">
         <table className={styles.userTitle}>
           <tr>
@@ -95,7 +110,7 @@ export default function CheckUser() {
 
           <tr>
             <td className={styles.td}>
-              <label htmlFor="email">メールアドレス:</label>
+              <label htmlFor="email">メールアドレス：</label>
               {email.length < 1 && (
                 <span>メールアドレスを入力してください</span>
               )}
@@ -123,16 +138,12 @@ export default function CheckUser() {
 
           <tr>
             <td className={styles.td}>
-              <label htmlFor="zipcode">郵便番号:</label>
+              <label htmlFor="zipcode">郵便番号：</label>
               {zipcode.length < 1 && (
-                <span>郵便番号を入力してください</span>
+                <span className={styles.alert}>
+                  郵便番号を(-)を付けて入力してください
+                </span>
               )}
-              {!zipcode.match(/^\d{3}-\d{4}$/) &&
-                zipcode.length >= 1 && (
-                  <span>
-                    郵便番号はXXX-XXXXの形式で入力してください
-                  </span>
-                )}
             </td>
             <td>
               <input
@@ -153,7 +164,9 @@ export default function CheckUser() {
             <td className={styles.td}>
               <label htmlFor="address">住所：</label>
               {address.length < 1 && (
-                <span>住所を入力してください</span>
+                <span className={styles.alert}>
+                  住所を入力してください
+                </span>
               )}
             </td>
             <td>
@@ -173,16 +186,12 @@ export default function CheckUser() {
 
           <tr>
             <td className={styles.td}>
-              <label htmlFor="tel">電話番号:</label>
+              <label htmlFor="tel">電話番号：</label>
               {tel.length === 0 && (
-                <span>電話を入力してください</span>
+                <span className={styles.alert}>
+                  電話番号を(-)を付けて入力してください
+                </span>
               )}
-              {!tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
-                tel.length >= 1 && (
-                  <span>
-                    電話番号はXXX-XXXX-XXXXの形式で入力してください
-                  </span>
-                )}
             </td>
             <td>
               <input

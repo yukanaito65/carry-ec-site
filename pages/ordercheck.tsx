@@ -77,7 +77,14 @@ export default function OrderCheck() {
                       <p>{name}</p>
                     </td>
                     <td>
-                      {price}円/{count}個
+                      数量：{count}個
+                      <br />
+                      単品価格：
+                      {String(price).replace(
+                        /(\d)(?=(\d\d\d)+(?!\d))/g,
+                        '$1,'
+                      )}
+                      円
                     </td>
                     <td>
                       {toppingList.map((topping: any) => (
@@ -88,7 +95,13 @@ export default function OrderCheck() {
                         </ul>
                       ))}
                     </td>
-                    <td>{TotalPrice}円</td>
+                    <td>
+                      {String(TotalPrice).replace(
+                        /(\d)(?=(\d\d\d)+(?!\d))/g,
+                        '$1,'
+                      )}
+                      円
+                    </td>
                   </tr>
                 );
               }
@@ -102,20 +115,24 @@ export default function OrderCheck() {
           })}
           <p>
             消費税：
-            {Math.floor(
-              total.reduce(function (sum, element) {
-                return sum + element;
-              }, 0) / 10
-            )}
+            {String(
+              Math.floor(
+                total.reduce(function (sum, element) {
+                  return sum + element;
+                }, 0) / 10
+              )
+            ).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}
             円
           </p>
           <p>
             ご注文金額合計：
-            {Math.floor(
-              total.reduce(function (sum, element) {
-                return sum + element;
-              }, 0) * 1.1
-            )}
+            {String(
+              Math.floor(
+                total.reduce(function (sum, element) {
+                  return sum + element;
+                }, 0) * 1.1
+              )
+            ).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}
             円（税込）
           </p>
         </div>
