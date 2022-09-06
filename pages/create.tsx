@@ -51,7 +51,7 @@ export default function User() {
               checkPassword: checkPassword,
             }),
           });
-          fetch(`http://localhost:8000/users?name=${lastName}${firstName}`)
+          fetch(`http://localhost:8000/users?name=${lastName} ${firstName}`)
           .then(res=>res.json())
           .then(data=>{
             document.cookie=`id=${data[0].id}`

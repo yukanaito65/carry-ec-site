@@ -142,7 +142,8 @@ export default function Details({ jsonData }: { jsonData: Item }) {
           <option key={el} value={el}>{el}</option>
         ))}
       </select>
-      <p className={detailStyle.total}>この商品金額: {(price + 200 * checked.filter((el: any) => el === true).length) * count}円（税抜）</p>
+      <p className={detailStyle.total}>この商品金額: {String((price + 200 * checked.filter((el: any) => el === true).length) * count)
+      .replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,')}円（税抜）</p>
       {show === true ? 
       <button className={detailStyle.confirmBtn} onClick={() => onClickDec()}>確定</button> :
       <Link href="/">

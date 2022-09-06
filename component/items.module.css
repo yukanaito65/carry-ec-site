@@ -106,3 +106,12 @@
 .name {
     color: blue;
 }
+
+.p {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 150px;
+    font-size: 17px;
+    padding-left: 5%;
+    padding-right: 15%;
+}
