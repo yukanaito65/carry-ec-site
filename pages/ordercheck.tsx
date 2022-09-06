@@ -10,7 +10,7 @@ export const fetcher: (args: string) => Promise<any> = (...args) =>
 
 export default function OrderCheck() {
   const { data, error } = useSWR(
-    'http://localhost:8000/orderItems',
+    'http://localhost:8000/order',
     fetcher
   );
 
@@ -90,7 +90,7 @@ export default function OrderCheck() {
                       {toppingList.map((topping: any) => (
                         <ul key={id}>
                           <li className={styles.topping}>
-                            {topping.name} 300円
+                            {topping.name} 200円
                           </li>
                         </ul>
                       ))}

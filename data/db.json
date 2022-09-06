@@ -237,18 +237,13 @@
       "checkPassword": "123456789",
       "history": [
         {
-          "name": "カツカレー",
+          "name": "ポークポークカレー・ミート",
           "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
+          "imagePath": "/img_curry/2.jpg",
           "toppingList": [
             {
-              "name": "ピーマン",
-              "id": 3,
-              "checked": true
-            },
-            {
-              "name": "ロースハム",
-              "id": 4,
+              "name": "ほうれん草",
+              "id": 5,
               "checked": true
             },
             {
