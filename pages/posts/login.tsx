@@ -20,22 +20,22 @@ export default function Login() {
 
   // データ取得
   
-  fetch(
-    `http://localhost:8000/users?email=${mailText}&password=${passText}`,
-    {
-      method: 'GET',
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.length === 1) {
-        setOk(true);
-        setDataId(data[0].id);
-        setDataName(data[0].name);
-      } else {
-        setOk(false);
-      }
-    });
+  // fetch(
+  //   `http://localhost:8000/users?email=${mailText}&password=${passText}`,
+  //   {
+  //     method: 'GET',
+  //   }
+  // )
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     if (data.length === 1) {
+  //       setOk(true);
+  //       setDataId(data[0].id);
+  //       setDataName(data[0].name);
+  //     } else {
+  //       setOk(false);
+  //     }
+  //   });
 
   // ページ遷移
   const handleClick = () => {
@@ -75,7 +75,7 @@ export default function Login() {
                 </label>
                 {errShow === true && !mailText.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/) &&
                mailText.length >= 1 &&
-               (<p className={styles.mailErr}>メールアドレスの形式が不正です</p>)}
+               (<p className={styles.mailErr} data-testid="emailErr">メールアドレスの形式が不正です</p>)}
               </div>
               <input
                 className={styles.input}
@@ -85,6 +85,7 @@ export default function Login() {
                 id="email"
                 value={mailText}
                 onChange={onChangeMail}
+                data-testid="emailInput"
               />
             </div>
 
