@@ -108,3 +108,15 @@
     cursor: pointer;
     border-radius: 4px;
 }
+
+.sync {
+    display: inline-block;
+    border: 2px solid #f08a0c;
+    margin-left: 20%;
+    margin-bottom: 5px;
+
+    font-size: 14px;
+    font-family:monospace;
+    text-align: center;
+    border-radius: 4px;
+}

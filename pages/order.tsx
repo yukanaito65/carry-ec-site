@@ -80,7 +80,7 @@ export default function Order() {
                       </td>
                       <td className={styles.td}>
                         数量：{count}個 <br />
-                        単品価格：{price}円
+                        単品価格：{String(price).replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,')}円
                       </td>
                       <td className={styles.td}>
                         {toppingList.map((topping: { name: string; checked: boolean; id: number }) => (
@@ -91,7 +91,7 @@ export default function Order() {
                         価格：{toppingList.length * 200}円
                       </td>
                       <td className={styles.td}>
-                        {TotalPrice}円
+                        {String(TotalPrice).replace(/(\d)(?=(\d\d\d)+(?!\d))/g,'$1,')}円
                       </td>
                       <td className={styles.td}>
                         <button data-testid="delete" className={styles.btn} onClick={() => onClickDelete(id, mutate)}>削除</button>
