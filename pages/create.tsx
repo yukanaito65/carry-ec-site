@@ -149,7 +149,6 @@ setShowError(false);
               </span>
             )}
             {showError===true &&!email.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)&& email.length>=1&&(<span className={styles.subTitle}>メールアドレスの形式が不正です</span>)}
-            
             <input
               type="email"
               id="email"
