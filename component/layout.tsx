@@ -1,5 +1,5 @@
 import styles from './layout.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
@@ -7,10 +7,10 @@ import { userAgent } from 'next/server';
 
 // ログアウトボタンのクッキー削除
  function onClickLogout() {
+
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
-
   const cookieId = document.cookie
     .split('; ')
     .find((row) => row.startsWith('id'));
@@ -35,7 +35,12 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   //     setShow("");
   //   }
   // }
-
+  const [loginShow, setLoginShow] = useState(false);
+  useEffect(() => {
+    if(typeof window !== "undefined") {
+      setLoginShow(true)
+    }
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -66,7 +71,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
               </a>
             </Link>
             {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-            {document.cookie && 
+            {loginShow && document.cookie && 
             <a>
               <li>{
                 //@ts-ignore
@@ -74,7 +79,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
                 }さんようこそ</li>
             </a>
             }
-            {!(document.cookie) && 
+            {loginShow && !(document.cookie) && 
             <Link href="/posts/login">
             <a>
               <li>ログイン</li>
