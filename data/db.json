@@ -120,49 +120,13 @@
   ],
   "orderItems": [
     {
-      "name": "とんかつカレーラーメン",
-      "price": 1900,
-      "imagePath": "/img_curry/5.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 1900,
-      "id": 15
-    },
-    {
-      "name": "ほうれん草のカレードリア",
-      "price": 2160,
-      "imagePath": "/img_curry/10.jpg",
-      "toppingList": [],
-      "count": 3,
-      "TotalPrice": 6480,
-      "id": 16
-    },
-    {
-      "name": "ポークポークカレー・ミート",
+      "name": "カツカレー",
       "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
+      "imagePath": "/img_curry/1.jpg",
       "toppingList": [],
       "count": 1,
       "TotalPrice": 1490,
-      "id": 18
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 1490,
-      "id": 19
-    },
-    {
-      "name": "カレーうどん",
-      "price": 2160,
-      "imagePath": "/img_curry/8.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 2160,
-      "id": 20
+      "id": 9
     }
   ],
   "users": [
@@ -234,44 +198,13 @@
       "checkPassword": "123456789",
       "history": [
         {
-          "name": "ポークポークカレー・ミート",
+          "name": "牛すじカレー",
           "price": 1490,
-          "imagePath": "/img_curry/2.jpg",
-          "toppingList": [
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            },
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            }
-          ],
+          "imagePath": "/img_curry/3.jpg",
+          "toppingList": [],
           "count": 1,
-          "TotalPrice": 2090,
-          "id": 9
-        },
-        {
-          "name": "カツカレー",
-          "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
-          "toppingList": [
-            {
-              "name": "ロースハム",
-              "id": 4,
-              "checked": true
-            },
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            }
-          ],
-          "count": 1,
-          "TotalPrice": 1890,
-          "id": 10
+          "TotalPrice": 1490,
+          "id": 1
         },
         {
           "name": "ポークポークカレー・ミート",
@@ -280,7 +213,31 @@
           "toppingList": [],
           "count": 1,
           "TotalPrice": 1490,
-          "id": 11
+          "id": 2
+        },
+        {
+          "name": "味噌カツカレー",
+          "price": 1900,
+          "imagePath": "/img_curry/4.jpg",
+          "toppingList": [
+            {
+              "name": "ほうれん草",
+              "id": 5,
+              "checked": true
+            }
+          ],
+          "count": 1,
+          "TotalPrice": 2100,
+          "id": 4
+        },
+        {
+          "name": "牛すじカレー",
+          "price": 1490,
+          "imagePath": "/img_curry/3.jpg",
+          "toppingList": [],
+          "count": 1,
+          "TotalPrice": 1490,
+          "id": 5
         }
       ],
       "id": 3

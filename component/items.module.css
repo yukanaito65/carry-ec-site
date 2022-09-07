@@ -21,13 +21,12 @@
     margin: auto;
     /*検索窓を中央に配置*/
     text-align: center;
-    
 }
 
 .searchNameInput {
     height: 30px;
     padding: 5px 10px;
-    margin: 20px;
+    /* margin: 20px; */
     font-size: 12px;
     line-height: 1.5;
     border-radius: 3px;
@@ -40,6 +39,10 @@
     text-indent: 0px;
     text-align: start;
     cursor: text;
+}
+
+.buttonWrapper {
+    padding-top: 20px;
 }
 
 .searchBtn {
