@@ -10,10 +10,21 @@ export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
 export default function Items() {
-  const { data, error } = useSWR(
-    'http://localhost:8000/items',
-    fetcher
-  );
+  // 並び替え用のstate
+  const [sortSelect, setSortSelect] = useState('up');
+  const onChangeSortSelect = (event: any) =>
+    setSortSelect(event.target.value);
+  console.log(sortSelect);
+
+  // selectが昇順と降順でfetchするdataを変更する
+  let get = '';
+  if (sortSelect === 'up') {
+    get = 'http://localhost:8000/items?_sort=price&_order=asc';
+  } else if (sortSelect === 'down') {
+    get = 'http://localhost:8000/items?_sort=price&_order=desc';
+  }
+
+  const { data, error } = useSWR(get, fetcher);
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -30,7 +41,7 @@ export default function Items() {
   // 抽出したdataをsetSearchDataに保管
   const onClickSearch = () => {
     setSearchData(
-      sortedData.filter((e: any) => {
+      data.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -42,14 +53,6 @@ export default function Items() {
     setSearchData([]);
   };
 
-  // 値段が安い順に並べる
-  const sortedData = data.sort(function (
-    { price: a }: any,
-    { price: b }: any
-  ) {
-    return a - b;
-  });
-
   return (
     <Layout show={true}>
       <div className={styles.searchWrapper}>
@@ -58,6 +61,7 @@ export default function Items() {
         </p>
         <div>
           <form
+            name="form1"
             method="post"
             action="#"
             className={styles.searchForm}
@@ -72,6 +76,17 @@ export default function Items() {
               onChange={onChangeNameText}
               className={styles.searchNameInput}
             ></input>
+
+            <select
+              name="sort"
+              size={1}
+              className={styles.select}
+              value={sortSelect}
+              onChange={onChangeSortSelect}
+            >
+              <option value="up">価格昇順</option>
+              <option value="down">価格降順</option>
+            </select>
 
             <br />
 
@@ -103,7 +118,7 @@ export default function Items() {
         {nameText == '' ? (
           // 「？」はtrue、「:」はfalse
           // 検索テキストが空の場合
-          sortedData.map((item: Item) => {
+          data.map((item: Item) => {
             const { id, name, price, imagePath } = item;
             return (
               <div key={id}>
