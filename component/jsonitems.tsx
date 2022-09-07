@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
 import { arrayBuffer } from 'stream/consumers';
+import { Pagination } from './pagination';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -49,6 +50,7 @@ export default function Items() {
   ) {
     return a - b;
   });
+
 
   return (
     <Layout show={true}>
@@ -181,6 +183,7 @@ export default function Items() {
           })
         )}
       </div>
+      <Pagination () />
     </Layout>
   );
 }
