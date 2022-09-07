@@ -118,3 +118,8 @@
     padding-left: 5%;
     padding-right: 15%;
 }
+
+.select {
+    text-align: center;
+    width: 80px;
+}

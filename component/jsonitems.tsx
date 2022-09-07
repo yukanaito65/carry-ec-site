@@ -23,6 +23,20 @@ export default function Items() {
   // 検索欄に入力された文字を含む商品だけをsetSearchDataに代入
   const [searchData, setSearchData]: any[] = useState([]);
   const [suggestData, setSuggestData]: any[] = useState([]);
+  // 並び替え用のstate
+  const [sortSelect, setSortSelect] = useState('up');
+  const onChangeSortSelect = (event: any) =>
+    setSortSelect(event.target.value);
+  console.log(sortSelect);
+
+  // selectが昇順と降順でfetchするdataを変更する
+  let get = '';
+  if (sortSelect === 'up') {
+    get = 'http://localhost:8000/items?_sort=price&_order=asc';
+  } else if (sortSelect === 'down') {
+    get = 'http://localhost:8000/items?_sort=price&_order=desc';
+  }
+
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -34,7 +48,7 @@ export default function Items() {
     // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
     // 抽出したdataをsetSearchDataに保管
     setSuggestData(
-      sortedData.filter((e: any) => {
+      data.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     )
@@ -52,7 +66,7 @@ export default function Items() {
 
   const onClickSearch = () => {
     setSearchData(
-      sortedData.filter((e: any) => {
+      data.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     )
@@ -64,14 +78,6 @@ export default function Items() {
     setSearchData([]);
   };
 
-  // 値段が安い順に並べる
-  const sortedData = data.sort(function (
-    { price: a }: any,
-    { price: b }: any
-  ) {
-    return a - b;
-  });
-
   return (
     <Layout show={true}>
       <div className={styles.searchWrapper}>
@@ -80,6 +86,7 @@ export default function Items() {
         </p>
         <div>
           <form
+            name="form1"
             method="post"
             action="#"
             className={`${styles.searchForm}`}
@@ -98,6 +105,16 @@ export default function Items() {
                 onBlur={onBlurShow}
                 className={`${styles.searchNameInput} ${sugStyles.form}`}
               ></input>
+                          <select
+              name="sort"
+              size={1}
+              className={styles.select}
+              value={sortSelect}
+              onChange={onChangeSortSelect}
+            >
+              <option value="up">価格昇順</option>
+              <option value="down">価格降順</option>
+            </select>
               {showSug &&
                 <div className={sugStyles.suggest}>
                   {suggestData.map(({ name, id }: Item, index: number) => {
@@ -129,16 +146,56 @@ export default function Items() {
                 クリア
               </button>
             </div>
-          </form>
-        </div>
-      </div>
+          </form >
+        </div >
+      </div >
 
-      <div className={styles.itemWrapper}>
-        {/* 条件分岐 */}
-        {nameText == '' ? (
-          // 「？」はtrue、「:」はfalse
-          // 検索テキストが空の場合
-          sortedData.map((item: Item) => {
+    <div className={styles.itemWrapper}>
+      {/* 条件分岐 */}
+      {nameText == '' ? (
+        // 「？」はtrue、「:」はfalse
+        // 検索テキストが空の場合
+        data.map((item: Item) => {
+          const { id, name, price, imagePath } = item;
+          return (
+            <div key={id}>
+              <table className={styles.item}>
+                <tr>
+                  <th>
+                    <img
+                      src={imagePath}
+                      className={styles.itemImg}
+                      width={300}
+                    />
+                  </th>
+                </tr>
+                <tr>
+                  <th>
+                    <Link href={`/posts/${id}`}>
+                      <a className={styles.name}>{name}</a>
+                    </Link>
+                  </th>
+                </tr>
+                <tr>
+                  <th>
+                    <p>
+                      {String(price).replace(
+                        /(\d)(?=(\d\d\d)+(?!\d))/g,
+                        '$1,'
+                      )}
+                      円（税抜）
+                    </p>
+                  </th>
+                </tr>
+              </table>
+            </div>
+          );
+        })
+      ) : // 検索テキストに入力した場合
+        searchData.length == 0 ? (
+          <p className={styles.p}>該当する商品がありません。</p>
+        ) : (
+          searchData.map((item: Item) => {
             const { id, name, price, imagePath } = item;
             return (
               <div key={id}>
@@ -147,8 +204,8 @@ export default function Items() {
                     <th>
                       <img
                         src={imagePath}
-                        className={styles.itemImg}
                         width={300}
+                        className={styles.itemImg}
                       />
                     </th>
                   </tr>
@@ -161,7 +218,7 @@ export default function Items() {
                   </tr>
                   <tr>
                     <th>
-                      <p>
+                      <p className="price">
                         {String(price).replace(
                           /(\d)(?=(\d\d\d)+(?!\d))/g,
                           '$1,'
@@ -174,48 +231,8 @@ export default function Items() {
               </div>
             );
           })
-        ) : // 検索テキストに入力した場合
-          searchData.length == 0 ? (
-            <p className={styles.p}>該当する商品がありません。</p>
-          ) : (
-            searchData.map((item: Item) => {
-              const { id, name, price, imagePath } = item;
-              return (
-                <div key={id}>
-                  <table className={styles.item}>
-                    <tr>
-                      <th>
-                        <img
-                          src={imagePath}
-                          width={300}
-                          className={styles.itemImg}
-                        />
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <Link href={`/posts/${id}`}>
-                          <a className={styles.name}>{name}</a>
-                        </Link>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <p className="price">
-                          {String(price).replace(
-                            /(\d)(?=(\d\d\d)+(?!\d))/g,
-                            '$1,'
-                          )}
-                          円（税抜）
-                        </p>
-                      </th>
-                    </tr>
-                  </table>
-                </div>
-              );
-            })
-          )}
-      </div>
-    </Layout>
+        )}
+    </div>
+    </Layout >
   );
 }
