@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from '../styles/create.module.css';
 import { Layout } from '../component/layout';
-
+import Head from 'next/head';
 export default function User() {
   const [lastName, setlastName] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -52,6 +52,7 @@ const onClickRegister = () => {
               tel: tel,
               password: password,
               checkPassword: checkPassword,
+              history:[]
             }),
           });
           fetch(`http://localhost:8000/users?name=${lastName} ${firstName}`)
@@ -92,6 +93,7 @@ setShowError(false);
 
   return (
     <Layout show={false}>
+      <Head><title>会員登録</title></Head>
       <fieldset className={styles.fieldset_style}>
         <p className={styles.form_title}>ユーザ登録</p>
         <form action="post">

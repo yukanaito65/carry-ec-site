@@ -37,7 +37,7 @@ export default function OrderCheck() {
             tel: json.tel,
             password: json.password,
             checkPassword: json.checkPassword,
-            history: data,
+            history: [...json.history,...data],
           }),
         });
       });
