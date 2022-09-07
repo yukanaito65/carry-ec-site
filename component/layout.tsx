@@ -10,7 +10,6 @@ import { userAgent } from 'next/server';
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
-
   const cookieId = document.cookie
     .split('; ')
     .find((row) => row.startsWith('id'));
@@ -35,7 +34,11 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   //     setShow("");
   //   }
   // }
-
+  if(typeof window == "undefined") {
+    return (
+      <div></div>
+    )
+  }
 
   return (
     <div className={styles.container}>
