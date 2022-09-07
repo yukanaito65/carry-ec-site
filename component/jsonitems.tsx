@@ -150,8 +150,8 @@ export default function Items() {
                 value={sortSelect}
                 onChange={onChangeSortSelect}
               >
-                <option value="up">価格昇順</option>
-                <option value="down">価格降順</option>
+                <option value="up">価格[安い順]</option>
+                <option value="down">価格[高い順]</option>
               </select>
           </form >
         </div >
