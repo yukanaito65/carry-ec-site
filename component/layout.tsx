@@ -64,9 +64,10 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             
             {show === true ?
               <>
-                <Link href="/">
+                <Link href="/history">
               <a>
-                <li>注文履歴</li>
+                {document.cookie &&(<li>注文履歴</li>)}
+                
               </a>
             </Link>
             {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
