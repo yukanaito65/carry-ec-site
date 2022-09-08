@@ -28,6 +28,9 @@ export default function Items() {
   const [get, setGet] = useState(
     `http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`
   );
+  const [get2, setGet2] = useState(
+    'http://localhost:8000/items?_sort=price&_order=asc'
+  );
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -41,7 +44,7 @@ export default function Items() {
     // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
     // 抽出したdataをsetSearchDataに保管
     setSuggestData(
-      data.filter((e: any) => {
+      data2.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -60,7 +63,7 @@ export default function Items() {
   // 検索結果を表示
   const onClickSearch = () => {
     setSearchData(
-      data.filter((e: any) => {
+      data2.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -107,22 +110,49 @@ export default function Items() {
         `http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`
       );
     }
-    console.log(nowNum);
-    console.log(sortSelect);
-    console.log(get);
   }, [nowNum, sortSelect]);
+
+  useEffect(() => {
+    if (sortSelect === 'up') {
+      setGet2(`http://localhost:8000/items?_sort=price&_order=asc`);
+    } else if (sortSelect === 'down') {
+      setGet2(`http://localhost:8000/items?_sort=price&_order=desc`);
+    }
+    console.log(get2);
+  }, [sortSelect]);
+
+  // これを書くとページ遷移後に上から表示され見やすくなる
+  function onClickTopNum() {
+    setNowNum(nowNum - 1);
+  }
+
+  function onClickPrevNum() {
+    setNowNum(nowNum - 1);
+  }
 
   function onClickNextNum() {
     setNowNum(nowNum + 1);
   }
 
+  function onClickLastNum() {
+    setNowNum(nowNum + 1);
+  }
+
   const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
+
   useEffect(() => {
     fetch(get)
       .then((res) => res.json())
       .then((json) => setData(json));
-    console.log(data);
   }, [get]);
+
+  useEffect(() => {
+    fetch(get2)
+      .then((res) => res.json())
+      .then((json) => setData2(json));
+    console.log(data2);
+  }, [get2]);
 
   return (
     <Layout show={true}>
@@ -292,40 +322,54 @@ export default function Items() {
         )}
       </div>
       <div>
-        {/* 今のページ番号が1じゃなければ前へボタンを置く */}
-        <div className="flex px-3 my-12">
-          {nowNum > 1 && (
-            <button onClick={() => setNowNum(nowNum - 1)}>
-              &lt; 前へ
-            </button>
-          )}
+        <div className={styles.paginate}>
+          {/* 今のページ番号が1じゃなければ前へボタンを置く */}
+          <div className={styles.paginateWapp}>
+            {nowNum > 1 && (
+              <button
+                className={styles.prevNextBtn}
+                onClick={() => onClickTopNum()}
+              >
+                &lt;
+              </button>
+            )}
 
-          {/* 今のページが2以上なら置く */}
-          {nowNum > 1 && (
-            <button onClick={() => setNowNum(nowNum - 1)}>
-              {nowNum - 1}
-            </button>
-          )}
+            {/* 今のページが2以上なら置く */}
+            {nowNum > 1 && (
+              <button
+                className={styles.befAfBtn}
+                onClick={() => onClickPrevNum}
+              >
+                {nowNum - 1}
+              </button>
+            )}
 
-          {/* 今のページ */}
-          <span>{nowNum}</span>
+            {/* 今のページ */}
+            <p className={styles.nowPage}>{nowNum}</p>
 
-          {/* 今のページが最後じゃなければ置く */}
-          {nowNum < 3 && (
-            <button onClick={() => onClickNextNum()}>
-              {nowNum + 1}
-            </button>
-          )}
+            {/* 今のページが最後じゃなければ置く */}
+            {nowNum < 3 && (
+              <button
+                className={styles.befAfBtn}
+                onClick={() => onClickNextNum()}
+              >
+                {nowNum + 1}
+              </button>
+            )}
 
-          {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
-          {nowNum !== 3 && (
-            <button onClick={() => setNowNum(nowNum + 1)}>
-              次へ &gt;
-            </button>
-          )}
-        </div>
-        <div>
-          {nowNum} / {3}
+            {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
+            {nowNum !== 3 && (
+              <button
+                className={styles.prevNextBtn}
+                onClick={() => onClickLastNum}
+              >
+                &gt;
+              </button>
+            )}
+          </div>
+          <div className={styles.pageDisplay}>
+            {nowNum} &nbsp; / &nbsp; {3}
+          </div>
         </div>
       </div>
     </Layout>

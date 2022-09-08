@@ -14,6 +14,7 @@ export default function User() {
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
   const [showError, setShowError] = useState(false);
+  const [showExist,setShowExist ] = useState(false);
 
   const onClickAuto = () => {
     fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`)
@@ -48,8 +49,8 @@ export default function User() {
         } else if (
           data.filter((el: any) => el.email === email).length > 0 //入力したEメールの値とfetchしたデータの中のEメールの値が一致しており、0以上の文字数があるとき
         ) {
-          alert('Eメールアドレスが既にあります');
-          // setShowError(true);
+          // alert('Eメールアドレスが既にあります');
+          setShowExist(true);
         } else {
           router.push('/posts/login');//登録内容が正しい場合、ボタンを押すと、ログイン画面に遷移。
           fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
@@ -66,13 +67,6 @@ export default function User() {
               history: []
             }),
           });
-          fetch(`http://localhost:8000/users?name=${lastName} ${firstName}`)
-            .then(res => res.json())
-            .then(data => {
-              document.cookie = `id=${data[0].id}`
-              document.cookie = `name=${data[0].name}`
-            })
-          setShowError(false);
         }
       });
 
@@ -108,7 +102,7 @@ export default function User() {
       <Head><title>会員登録</title></Head>
       <fieldset className={styles.fieldset_style}>
         <p className={styles.form_title}>ユーザ登録</p>
-        <form action="/api/credit" method="POST">
+        <form  method="POST">
           <div className={styles.title}>
             <label htmlFor="lastName">名前：</label>
             {showError === true && lastName.length < 1 && (
@@ -163,6 +157,7 @@ export default function User() {
               </span>
             )}
             {showError === true && !email.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/) && email.length >= 1 && (<span className={styles.subTitle}>メールアドレスの形式が不正です</span>)}
+            {showExist ===true &&(<span className={styles.subTitle}>Eメールアドレスが既にあります。</span>)}
             <input
               type="email"
               id="email"
@@ -227,7 +222,15 @@ export default function User() {
                 電話を入力してください
               </span>
             )}
-            {showError === true && !tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
+            {showError === true &&
+             !tel.match(/^(070|080|090)-\d{4}-\d{4}$/) &&
+             !tel.match(/^0\d-\d{4}-\d{4}$/)&&
+             !tel.match(/^0\d{3}-\d{2}-\d{4}$/)&&
+             !tel.match(/^\(0\d\)\d{4}-\d{4}$/)&&
+             !tel.match(/^\(0\d{3}\)\d{2}-\d{4}$/)&&
+             !tel.match(/^050-\d{4}-\d{4}$/)&&
+             !tel.match(/^0120-\d{3}-\d{3}$/)&&
+
               tel.length >= 1 && (
                 <span className={styles.subTitle}>
                   電話番号はXXX-XXXX-XXXXの形式で入力してください
