@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
 import { arrayBuffer } from 'stream/consumers';
-import sugStyles from "../styles/suggest.module.css"
+import sugStyles from '../styles/suggest.module.css';
 
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
@@ -14,13 +14,12 @@ export const fetcher: (args: string) => Promise<any> = (...args) =>
 export default function Items() {
   // 並び替え用のstate
   const [sortSelect, setSortSelect] = useState('up');
-  const onChangeSortSelect = (event: any) => setSortSelect(event.target.value);
+  const onChangeSortSelect = (event: any) =>
+    setSortSelect(event.target.value);
   console.log(sortSelect);
 
   //該当する商品がありませんを表示するかどうか
   const [alertShow, setAlertShow] = useState(false);
-
-  
 
   // 検索欄に入力された文字を含む商品だけをsetSearchDataに代入
   const [searchData, setSearchData]: any[] = useState([]);
@@ -28,8 +27,7 @@ export default function Items() {
 
   // selectが昇順と降順でfetchするdataを変更する
   const [get, setGet] = useState(`http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`)
-  
-
+  const [get2, setGet2] = useState("http://localhost:8000/items?_sort=price&_order=asc")
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -43,28 +41,28 @@ export default function Items() {
     // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
     // 抽出したdataをsetSearchDataに保管
     setSuggestData(
-      data.filter((e: any) => {
+      data2.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
-    )
-  }, [nameText])
+    );
+  }, [nameText]);
 
   const onClickSuggest = (e: any) => {
     setShowSug(false);
     setNameText(e.target.value);
-  }
+  };
 
   //検索サジェストを表示
   const [showSug, setShowSug] = useState(false);
-  const onFocusShow = () => setShowSug(true)
-  const onBlurShow = () => setShowSug(false)
+  const onFocusShow = () => setShowSug(true);
+  const onBlurShow = () => setShowSug(false);
 
   const onClickSearch = () => {
     setSearchData(
-      data.filter((e: any) => {
+      data2.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
-    )
+    );
     setAlertShow(true);
     setShowSug(false);
   };
@@ -113,10 +111,16 @@ export default function Items() {
     } else if (sortSelect === 'down') {
       setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`);
     };
-    console.log(nowNum);
-    console.log(sortSelect);
-    console.log(get);
   },[nowNum, sortSelect])
+
+  useEffect(() => {
+    if (sortSelect === 'up') {
+      setGet2 (`http://localhost:8000/items?_sort=price&_order=asc`);
+    } else if (sortSelect === 'down') {
+      setGet2 (`http://localhost:8000/items?_sort=price&_order=desc`);
+    };
+    console.log(get2);
+  },[sortSelect])
   
   // これを書くとページ遷移後に上から表示され見やすくなる
   function onClickTopNum() {
@@ -136,12 +140,20 @@ export default function Items() {
   }
 
   const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
+
   useEffect(() => {
     fetch(get)
       .then(res => res.json())
       .then(json => setData(json))
-    console.log(data);
   }, [get])
+
+  useEffect(() => {
+    fetch(get2)
+      .then(res => res.json())
+      .then(json => setData2(json))
+    console.log(data2);
+  }, [get2])
 
   return (
     <Layout show={true}>
@@ -157,7 +169,7 @@ export default function Items() {
             className={`${styles.searchForm}`}
           >
             <label htmlFor="name">商品名</label>
-            <span className={`${sugStyles.span}`} >
+            <span className={`${sugStyles.span}`}>
               <input
                 type="text"
                 id="name"
@@ -170,16 +182,28 @@ export default function Items() {
                 // onBlur={onBlurShow}
                 className={`${styles.searchNameInput} ${sugStyles.form}`}
               ></input>
-              {showSug &&
+              {showSug && (
                 <div className={sugStyles.suggest}>
-                  {suggestData.map(({ name, id }: Item, index: number) => {
-                    if (index >= 3) return;
-                    return <button type='button' value={name} onClick={(event) => onClickSuggest(event)} key={id}>{name}</button>
-                  })}
+                  {suggestData.map(
+                    ({ name, id }: Item, index: number) => {
+                      if (index >= 3) return;
+                      return (
+                        <button
+                          type="button"
+                          value={name}
+                          onClick={(event) => onClickSuggest(event)}
+                          key={id}
+                        >
+                          {name}
+                        </button>
+                      );
+                    }
+                  )}
                 </div>
-              }
+              )}
             </span>
-            <span className={styles.buttonWrapper} >
+
+            <span className={styles.buttonWrapper}>
               <button
                 type="button"
                 value="検索"
@@ -200,19 +224,20 @@ export default function Items() {
                 クリア
               </button>
             </span>
+            <br />
             <select
-                name="sort"
-                size={1}
-                className={styles.select}
-                value={sortSelect}
-                onChange={onChangeSortSelect}
-              >
-                <option value="up">価格[安い順]</option>
-                <option value="down">価格[高い順]</option>
-              </select>
-          </form >
-        </div >
-      </div >
+              name="sort"
+              size={1}
+              className={styles.select}
+              value={sortSelect}
+              onChange={onChangeSortSelect}
+            >
+              <option value="up">価格[安い順]</option>
+              <option value="down">価格[高い順]</option>
+            </select>
+          </form>
+        </div>
+      </div>
 
       <div className={styles.itemWrapper}>
         {/* 条件分岐 */}
@@ -256,46 +281,46 @@ export default function Items() {
             );
           })
         ) : // 検索テキストに入力した場合
-          searchData.length == 0 ? (
-            <p className={styles.p}>該当する商品がありません。</p>
-          ) : (
-            searchData.map((item: Item) => {
-              const { id, name, price, imagePath } = item;
-              return (
-                <div key={id}>
-                  <table className={styles.item}>
-                    <tr>
-                      <th>
-                        <img
-                          src={imagePath}
-                          width={300}
-                          className={styles.itemImg}
-                        />
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <Link href={`/posts/${id}`}>
-                          <a className={styles.name}>{name}</a>
-                        </Link>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <p className="price">
-                          {String(price).replace(
-                            /(\d)(?=(\d\d\d)+(?!\d))/g,
-                            '$1,'
-                          )}
-                          円（税抜）
-                        </p>
-                      </th>
-                    </tr>
-                  </table>
-                </div>
-              );
-            })
-          )}
+        searchData.length == 0 ? (
+          <p className={styles.p}>該当する商品がありません。</p>
+        ) : (
+          searchData.map((item: Item) => {
+            const { id, name, price, imagePath } = item;
+            return (
+              <div key={id}>
+                <table className={styles.item}>
+                  <tr>
+                    <th>
+                      <img
+                        src={imagePath}
+                        width={300}
+                        className={styles.itemImg}
+                      />
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <Link href={`/posts/${id}`}>
+                        <a className={styles.name}>{name}</a>
+                      </Link>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <p className="price">
+                        {String(price).replace(
+                          /(\d)(?=(\d\d\d)+(?!\d))/g,
+                          '$1,'
+                        )}
+                        円（税抜）
+                      </p>
+                    </th>
+                  </tr>
+                </table>
+              </div>
+            );
+          })
+        )}
       </div>
       <div>
       <div className={styles.paginate}>

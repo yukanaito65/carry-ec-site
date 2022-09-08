@@ -13,9 +13,21 @@ export default function User() {
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const router = useRouter();
-const[showError,setShowError]=useState(false);
-  
-const onClickRegister = () => {
+  const [showError, setShowError] = useState(false);
+  const [showExist,setShowExist ] = useState(false);
+
+  const onClickAuto = () => {
+    fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`)
+    .then(res => res.json())
+    .then(json => {
+      console.log(json.results);
+      const newAddress = json.results[0].address1 + json.results[0].address2 + json.results[0].address3;
+      setAddress(newAddress);
+    })
+    // console.log(address);
+  }
+
+  const onClickRegister = () => {
     fetch('http://localhost:8000/users')
       .then((res) => res.json())
       .then((data) => {
@@ -37,11 +49,11 @@ const onClickRegister = () => {
         } else if (
           data.filter((el: any) => el.email === email).length > 0 //入力したEメールの値とfetchしたデータの中のEメールの値が一致しており、0以上の文字数があるとき
         ) {
-          alert('Eメールアドレスが既にあります');
-          // setShowError(true);
-        }else {
+          // alert('Eメールアドレスが既にあります');
+          setShowExist(true);
+        } else {
           router.push('/posts/login');//登録内容が正しい場合、ボタンを押すと、ログイン画面に遷移。
-           fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
+          fetch('http://localhost:8000/users', { //全ての入力が正しかった場合、db.jsonのusersに値を追加。
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({
@@ -52,16 +64,9 @@ const onClickRegister = () => {
               tel: tel,
               password: password,
               checkPassword: checkPassword,
-              history:[]
+              history: []
             }),
           });
-          fetch(`http://localhost:8000/users?name=${lastName} ${firstName}`)
-          .then(res=>res.json())
-          .then(data=>{
-            document.cookie=`id=${data[0].id}`
-            document.cookie=`name=${data[0].name}`
-          })
-setShowError(false);
         }
       });
 
@@ -91,21 +96,22 @@ setShowError(false);
     // }
   };
 
+
   return (
     <Layout show={false}>
       <Head><title>会員登録</title></Head>
       <fieldset className={styles.fieldset_style}>
         <p className={styles.form_title}>ユーザ登録</p>
-        <form action="post">
+        <form  method="POST">
           <div className={styles.title}>
             <label htmlFor="lastName">名前：</label>
-            {showError===true &&lastName.length < 1 && (
+            {showError === true && lastName.length < 1 && (
               <span className={styles.subTitle}>
                 姓を入力してください
               </span>
             )}{' '}
-             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             {showError===true &&firstName.length < 1 && (
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {showError === true && firstName.length < 1 && (
               <span className={styles.subTitle}>
                 名を入力してください
               </span>
@@ -145,12 +151,13 @@ setShowError(false);
           </div>
           <div className={styles.title}>
             <label htmlFor="email">メールアドレス:</label>
-            {showError===true &&email.length < 1 && (
+            {showError === true && email.length < 1 && (
               <span className={styles.subTitle}>
                 メールアドレスを入力してください
               </span>
             )}
-            {showError===true &&!email.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/)&& email.length>=1&&(<span className={styles.subTitle}>メールアドレスの形式が不正です</span>)}
+            {showError === true && !email.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/) && email.length >= 1 && (<span className={styles.subTitle}>メールアドレスの形式が不正です</span>)}
+            {showExist ===true &&(<span className={styles.subTitle}>Eメールアドレスが既にあります。</span>)}
             <input
               type="email"
               id="email"
@@ -165,12 +172,12 @@ setShowError(false);
           </div>
           <div className={styles.title}>
             <label htmlFor="zipcode">郵便番号:</label>
-            {showError===true &&zipcode.length < 1 && (
+            {showError === true && zipcode.length < 1 && (
               <span className={styles.subTitle}>
                 郵便番号を入力してください
               </span>
             )}
-            {showError===true &&!zipcode.match(/^\d{3}-\d{4}$/) &&
+            {showError === true && !zipcode.match(/^\d{3}-\d{4}$/) &&
               zipcode.length >= 1 && (
                 <span className={styles.subTitle}>
                   郵便番号はXXX-XXXXの形式で入力してください
@@ -187,10 +194,11 @@ setShowError(false);
                 setZipcode(e.target.value);
               }}
             />
+            <button type='button' onClick={() => onClickAuto()}>住所自動入力</button>
           </div>
           <div className={styles.title}>
             <label htmlFor="address">住所：</label>
-            {showError===true &&address.length < 1 && (
+            {showError === true && address.length < 1 && (
               <span className={styles.subTitle}>
                 住所を入力してください
               </span>
@@ -209,12 +217,20 @@ setShowError(false);
           </div>
           <div className={styles.title}>
             <label htmlFor="tel">電話番号:</label>
-            {showError===true &&tel.length === 0 && (
+            {showError === true && tel.length === 0 && (
               <span className={styles.subTitle}>
                 電話を入力してください
               </span>
             )}
-            {showError===true &&!tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
+            {showError === true &&
+             !tel.match(/^(070|080|090)-\d{4}-\d{4}$/) &&
+             !tel.match(/^0\d-\d{4}-\d{4}$/)&&
+             !tel.match(/^0\d{3}-\d{2}-\d{4}$/)&&
+             !tel.match(/^\(0\d\)\d{4}-\d{4}$/)&&
+             !tel.match(/^\(0\d{3}\)\d{2}-\d{4}$/)&&
+             !tel.match(/^050-\d{4}-\d{4}$/)&&
+             !tel.match(/^0120-\d{3}-\d{3}$/)&&
+
               tel.length >= 1 && (
                 <span className={styles.subTitle}>
                   電話番号はXXX-XXXX-XXXXの形式で入力してください
@@ -235,17 +251,17 @@ setShowError(false);
           </div>
           <div className={styles.title}>
             <label htmlFor="password">パスワード:</label>
-            {showError===true &&password.length < 1 && (
+            {showError === true && password.length < 1 && (
               <span className={styles.subTitle}>
                 パスワードを入力してください
               </span>
             )}
-            {showError===true &&password.length < 8 && password.length >= 1 && (
+            {showError === true && password.length < 8 && password.length >= 1 && (
               <span className={styles.subTitle}>
                 パスワードは8文字以上16文字以下で入力してください
               </span>
             )}
-            {showError===true &&password.length > 16 && (
+            {showError === true && password.length > 16 && (
               <span className={styles.subTitle}>
                 パスワードは8文字以上16文字以下で入力してください
               </span>
@@ -269,7 +285,7 @@ setShowError(false);
                 確認用パスワードを入力してください
               </span>
             )} */}
-            {showError===true &&checkPassword !== password && (
+            {showError === true && checkPassword !== password && (
               <span className={styles.subTitle}>
                 パスワードと確認用パスワードが不一致です。
               </span>
