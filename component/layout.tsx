@@ -62,11 +62,11 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
               </a>
             </Link>
             
-            {show === true && loginShow?
+            {show === true && loginShow ?
               <>
                 <Link href="/history">
               <a>
-                {document.cookie &&(<li>注文履歴</li>)}
+                {document.cookie && (<li>注文履歴</li>)}
                 
               </a>
             </Link>
