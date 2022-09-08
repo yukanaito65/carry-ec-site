@@ -62,7 +62,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
               </a>
             </Link>
             
-            {show === true ?
+            {show === true && loginShow ?
               <>
                 <Link href="/history">
               <a>
