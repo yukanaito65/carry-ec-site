@@ -120,7 +120,6 @@
   ],
   "orderItems": [
     {
-<<<<<<< HEAD
       "name": "とんかつカレーラーメン",
       "price": 1900,
       "imagePath": "/img_curry/5.jpg",
@@ -148,10 +147,7 @@
       "id": 18
     },
     {
-      "name": "ポークポークカレー・ミート",
-=======
       "name": "カツカレー",
->>>>>>> 9aee0fce854a7e0291758d94abee96534560f494
       "price": 1490,
       "imagePath": "/img_curry/1.jpg",
       "toppingList": [],
@@ -520,6 +516,15 @@
   ],
   "order": [
     {
+      "name": "とんかつカレーラーメン",
+      "price": 1900,
+      "imagePath": "/img_curry/5.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1900,
+      "id": 15
+    },
+    {
       "name": "カツカレー",
       "price": 1490,
       "imagePath": "/img_curry/1.jpg",
@@ -527,6 +532,24 @@
       "count": 1,
       "TotalPrice": 1490,
       "id": 1
+    },
+    {
+      "name": "ポークポークカレー・ミート",
+      "price": 1490,
+      "imagePath": "/img_curry/2.jpg",
+      "toppingList": [],
+      "count": 1,
+      "TotalPrice": 1490,
+      "id": 18
+    },
+    {
+      "name": "ほうれん草のカレードリア",
+      "price": 2160,
+      "imagePath": "/img_curry/10.jpg",
+      "toppingList": [],
+      "count": 3,
+      "TotalPrice": 6480,
+      "id": 16
     }
   ],
   "topping": [

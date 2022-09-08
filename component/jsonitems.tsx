@@ -7,12 +7,11 @@ import styles from '../component/items.module.css';
 import { arrayBuffer } from 'stream/consumers';
 import sugStyles from '../styles/suggest.module.css';
 
-
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
 export default function Items() {
-  // 並び替え用のstate
+  // selectで選択した並び替えのstate
   const [sortSelect, setSortSelect] = useState('up');
   const onChangeSortSelect = (event: any) =>
     setSortSelect(event.target.value);
@@ -26,8 +25,9 @@ export default function Items() {
   const [suggestData, setSuggestData]: any[] = useState([]);
 
   // selectが昇順と降順でfetchするdataを変更する
-  const [get, setGet] = useState(`http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`)
-  
+  const [get, setGet] = useState(
+    `http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`
+  );
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -57,6 +57,7 @@ export default function Items() {
   const onFocusShow = () => setShowSug(true);
   const onBlurShow = () => setShowSug(false);
 
+  // 検索結果を表示
   const onClickSearch = () => {
     setSearchData(
       data.filter((e: any) => {
@@ -77,41 +78,40 @@ export default function Items() {
 
   const [nowNum, setNowNum] = useState(1);
   const currentPage = `http://localhost:8000/items?_page=${nowNum}&_limit=5`;
-  const maxPageNumber = "rel=prev";
+  const maxPageNumber = 'rel=prev';
   // const router = useRouter();
 
-
-
   // fetchで今のページに表示する分の商品を取ってくる
-  fetch(
-    currentPage,
-    {
-      method: 'GET',
-    }
-  )
+  fetch(currentPage, {
+    method: 'GET',
+  })
     // .then((res) => {
     //   res.headers.get('X-Total-Count');
     //   return res.json()
     // });
-    .then(response => response.headers)
-    .then(headers => {
-      return(`${headers.get('X-Total-Count')}`)
+    .then((response) => response.headers)
+    .then((headers) => {
+      return `${headers.get('X-Total-Count')}`;
     });
 
-    console.log();
-  
+  console.log();
+
   // ページ番号か表示順が変わるたびに商品一覧表示を変更させる
   useEffect(() => {
     if (sortSelect === 'up') {
-      setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=asc`);
+      setGet(
+        `http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=asc`
+      );
     } else if (sortSelect === 'down') {
-      setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`);
-    };
+      setGet(
+        `http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`
+      );
+    }
     console.log(nowNum);
     console.log(sortSelect);
     console.log(get);
-  },[nowNum, sortSelect])
-  
+  }, [nowNum, sortSelect]);
+
   function onClickNextNum() {
     setNowNum(nowNum + 1);
   }
@@ -119,10 +119,10 @@ export default function Items() {
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch(get)
-      .then(res => res.json())
-      .then(json => setData(json))
+      .then((res) => res.json())
+      .then((json) => setData(json));
     console.log(data);
-  }, [get])
+  }, [get]);
 
   return (
     <Layout show={true}>
@@ -292,30 +292,42 @@ export default function Items() {
         )}
       </div>
       <div>
-      {/* 今のページ番号が1じゃなければ前へボタンを置く */}
-      <div className="flex px-3 my-12">
-      {nowNum > 1 && (
-          <button onClick={() =>  setNowNum(nowNum -1)}>&lt; 前へ</button>
+        {/* 今のページ番号が1じゃなければ前へボタンを置く */}
+        <div className="flex px-3 my-12">
+          {nowNum > 1 && (
+            <button onClick={() => setNowNum(nowNum - 1)}>
+              &lt; 前へ
+            </button>
           )}
 
-        {/* 今のページが2以上なら置く */}
-        {nowNum > 1 &&
-        <button onClick={() =>  setNowNum(nowNum -1)}>{nowNum - 1}</button>}
+          {/* 今のページが2以上なら置く */}
+          {nowNum > 1 && (
+            <button onClick={() => setNowNum(nowNum - 1)}>
+              {nowNum - 1}
+            </button>
+          )}
 
-        {/* 今のページ */}
-        <span>{nowNum}</span>
+          {/* 今のページ */}
+          <span>{nowNum}</span>
 
-        {/* 今のページが最後じゃなければ置く */}
-        {nowNum < 3 &&
-        <button onClick={() => onClickNextNum() }>{nowNum + 1}</button>}
+          {/* 今のページが最後じゃなければ置く */}
+          {nowNum < 3 && (
+            <button onClick={() => onClickNextNum()}>
+              {nowNum + 1}
+            </button>
+          )}
 
-        {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
-        {nowNum !== 3 && (
-            <button onClick={() =>  setNowNum(nowNum +1)}>次へ &gt;</button>
-        )}
+          {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
+          {nowNum !== 3 && (
+            <button onClick={() => setNowNum(nowNum + 1)}>
+              次へ &gt;
+            </button>
+          )}
+        </div>
+        <div>
+          {nowNum} / {3}
+        </div>
       </div>
-      <div>{ nowNum } / {3}</div>
-    </div>
     </Layout>
   );
 }
