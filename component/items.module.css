@@ -12,7 +12,7 @@
 }
 
 .serchTitle {
-    margin-left: 25%;
+    margin-left: 20%;
     font-size: 18px;
     font-weight: bold;
 }
@@ -51,7 +51,7 @@
     border-color: #2e6da4;
     display: inline-block;
     padding: 6px 12px;
-    margin-right: 5px;
+    margin-right: 20px;
     font-size: 14px;
     font-weight: normal;
     line-height: 1.42857143;
@@ -122,4 +122,9 @@
 .select {
     text-align: center;
     width: 120px;
+    display: inline-block;
+    border-radius: 4px;
+
+    margin-left: 36%;
+    margin-top: 30px;
 }
