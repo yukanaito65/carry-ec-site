@@ -80,7 +80,8 @@ export default function Items() {
   const maxPageNumber = "rel=prev";
   // const router = useRouter();
 
-
+  const [totalItems, settotalItems] = useState<any>(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   // fetchで今のページに表示する分の商品を取ってくる
   fetch(
@@ -95,10 +96,13 @@ export default function Items() {
     // });
     .then(response => response.headers)
     .then(headers => {
-      return(`${headers.get('X-Total-Count')}`)
+      console.log(`${headers.get('X-Total-Count')}`);
+      settotalItems(`${headers.get('X-Total-Count')}`);
     });
 
-    console.log();
+    useEffect(() => {
+      setTotalPages(Math.round(totalItems / 5));
+    },[totalItems])
   
   // ページ番号か表示順が変わるたびに商品一覧表示を変更させる
   useEffect(() => {
@@ -327,22 +331,22 @@ export default function Items() {
           )}
 
         {/* 今のページが2以上なら置く */}
-        {nowNum > 1 &&
-        <button className={styles.befAfBtn} onClick={() => onClickPrevNum }>{nowNum - 1}</button>}
+        {/* {nowNum > 1 &&
+        <button className={styles.befAfBtn} onClick={() => onClickPrevNum() }>{nowNum - 1}</button>} */}
 
         {/* 今のページ */}
         <p className={styles.nowPage}>{nowNum}</p>
 
         {/* 今のページが最後じゃなければ置く */}
-        {nowNum < 3 &&
-        <button className={styles.befAfBtn} onClick={() => onClickNextNum() }>{nowNum + 1}</button>}
+        {/* {nowNum < 3 &&
+        <button className={styles.befAfBtn} onClick={() => onClickNextNum() }>{nowNum + 1}</button>} */}
 
         {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
         {nowNum !== 3 && (
-            <button className={styles.prevNextBtn} onClick={() => onClickLastNum }>&gt;</button>
+            <button className={styles.prevNextBtn} onClick={() => onClickLastNum() }>&gt;</button>
         )}
       </div>
-      <div className={styles.pageDisplay}>{ nowNum } &nbsp; / &nbsp; {3}</div>
+      <div className={styles.pageDisplay}>{ nowNum } &nbsp; / &nbsp; {totalPages}ページ目</div>
     </div>
     </div>
     </Layout>

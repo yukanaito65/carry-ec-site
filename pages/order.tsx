@@ -7,6 +7,8 @@ import Link from 'next/link';
 import utilStyles from '../styles/utils.module.css';
 import checkStyles from '../component/check.module.css';
 import { useState } from 'react';
+import Head from 'next/head';
+
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -59,6 +61,9 @@ export default function Order() {
 
   return (
     <>
+    <Head>
+      <title>ショッピングカート</title>
+    </Head>
       <Layout show={true}>
         <div>
           <h1 className={styles.h1_style}>ショッピングカート</h1>
@@ -199,7 +204,7 @@ export default function Order() {
                 ) : (
                   <button
                     onClick={onClickConfirm}
-                    className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`}
+                    className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto} ${utilStyles.addCss}`}
                   >
                     確定
                   </button>
