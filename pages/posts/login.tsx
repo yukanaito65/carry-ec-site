@@ -39,7 +39,7 @@ export default function Login() {
 
   // ページ遷移
   const handleClick = () => {
-    console.log(ok);
+    // console.log(ok);
     if (ok === false) {
       setErrShow(true);
     }else if(router.query.currentUrl) {

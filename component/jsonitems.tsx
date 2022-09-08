@@ -5,11 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
 import { arrayBuffer } from 'stream/consumers';
-<<<<<<< HEAD
-import { Pagination } from './pagination';
-=======
 import sugStyles from "../styles/suggest.module.css"
->>>>>>> 9aee0fce854a7e0291758d94abee96534560f494
+
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -23,25 +20,15 @@ export default function Items() {
   //該当する商品がありませんを表示するかどうか
   const [alertShow, setAlertShow] = useState(false);
 
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch(get)
-      .then(res => res.json())
-      .then(json => setData(json))
-    console.log(data);
-  }, [sortSelect])
+  
 
   // 検索欄に入力された文字を含む商品だけをsetSearchDataに代入
   const [searchData, setSearchData]: any[] = useState([]);
   const [suggestData, setSuggestData]: any[] = useState([]);
 
   // selectが昇順と降順でfetchするdataを変更する
-  let get = '';
-  if (sortSelect === 'up') {
-    get = 'http://localhost:8000/items?_sort=price&_order=asc';
-  } else if (sortSelect === 'down') {
-    get = 'http://localhost:8000/items?_sort=price&_order=desc';
-  }
+  const [get, setGet] = useState(`http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`)
+  
 
 
   // 検索欄に文字入力できるようにする
@@ -90,18 +77,55 @@ export default function Items() {
     setShowSug(false);
   };
 
-<<<<<<< HEAD
-  // 値段が安い順に並べる
-  const sortedData = data.sort(function (
-    { price: a }: any,
-    { price: b }: any
-  ) {
-    return a - b;
-  });
+  const [nowNum, setNowNum] = useState(1);
+  const currentPage = `http://localhost:8000/items?_page=${nowNum}&_limit=5`;
+  const maxPageNumber = "rel=prev";
+  // const router = useRouter();
 
 
-=======
->>>>>>> 9aee0fce854a7e0291758d94abee96534560f494
+
+  // fetchで今のページに表示する分の商品を取ってくる
+  fetch(
+    currentPage,
+    {
+      method: 'GET',
+    }
+  )
+    // .then((res) => {
+    //   res.headers.get('X-Total-Count');
+    //   return res.json()
+    // });
+    .then(response => response.headers)
+    .then(headers => {
+      return(`${headers.get('X-Total-Count')}`)
+    });
+
+    console.log();
+  
+  // ページ番号か表示順が変わるたびに商品一覧表示を変更させる
+  useEffect(() => {
+    if (sortSelect === 'up') {
+      setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=asc`);
+    } else if (sortSelect === 'down') {
+      setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`);
+    };
+    console.log(nowNum);
+    console.log(sortSelect);
+    console.log(get);
+  },[nowNum, sortSelect])
+  
+  function onClickNextNum() {
+    setNowNum(nowNum + 1);
+  }
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(get)
+      .then(res => res.json())
+      .then(json => setData(json))
+    console.log(data);
+  }, [get])
+
   return (
     <Layout show={true}>
       <div className={styles.searchWrapper}>
@@ -256,11 +280,31 @@ export default function Items() {
             })
           )}
       </div>
-<<<<<<< HEAD
-      <Pagination () />
+      <div>
+      {/* 今のページ番号が1じゃなければ前へボタンを置く */}
+      <div className="flex px-3 my-12">
+      {nowNum > 1 && (
+          <button onClick={() =>  setNowNum(nowNum -1)}>&lt; 前へ</button>
+          )}
+
+        {/* 今のページが2以上なら置く */}
+        {nowNum > 1 &&
+        <button onClick={() =>  setNowNum(nowNum -1)}>{nowNum - 1}</button>}
+
+        {/* 今のページ */}
+        <span>{nowNum}</span>
+
+        {/* 今のページが最後じゃなければ置く */}
+        {nowNum < 3 &&
+        <button onClick={() => onClickNextNum() }>{nowNum + 1}</button>}
+
+        {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
+        {nowNum !== 3 && (
+            <button onClick={() =>  setNowNum(nowNum +1)}>次へ &gt;</button>
+        )}
+      </div>
+      <div>{ nowNum } / {3}</div>
+    </div>
     </Layout>
-=======
-    </Layout >
->>>>>>> 9aee0fce854a7e0291758d94abee96534560f494
   );
 }
