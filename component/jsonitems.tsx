@@ -118,8 +118,21 @@ export default function Items() {
     console.log(get2);
   },[sortSelect])
   
+  // これを書くとページ遷移後に上から表示され見やすくなる
+  function onClickTopNum() {
+    setNowNum(nowNum -1);
+  }
+
+  function onClickPrevNum() {
+    setNowNum(nowNum -1);
+  }
+
   function onClickNextNum() {
     setNowNum(nowNum + 1);
+  }
+
+  function onClickLastNum() {
+    setNowNum(nowNum +1);
   }
 
   const [data, setData] = useState([]);
@@ -306,29 +319,31 @@ export default function Items() {
         )}
       </div>
       <div>
+      <div className={styles.paginate}>
       {/* 今のページ番号が1じゃなければ前へボタンを置く */}
-      <div className="flex px-3 my-12">
+      <div className={styles.paginateWapp}>
       {nowNum > 1 && (
-          <button onClick={() =>  setNowNum(nowNum -1)}>&lt; 前へ</button>
+          <button className={styles.prevNextBtn} onClick={() => onClickTopNum() }>&lt;</button>
           )}
 
         {/* 今のページが2以上なら置く */}
         {nowNum > 1 &&
-        <button onClick={() =>  setNowNum(nowNum -1)}>{nowNum - 1}</button>}
+        <button className={styles.befAfBtn} onClick={() => onClickPrevNum }>{nowNum - 1}</button>}
 
         {/* 今のページ */}
-        <span>{nowNum}</span>
+        <p className={styles.nowPage}>{nowNum}</p>
 
         {/* 今のページが最後じゃなければ置く */}
         {nowNum < 3 &&
-        <button onClick={() => onClickNextNum() }>{nowNum + 1}</button>}
+        <button className={styles.befAfBtn} onClick={() => onClickNextNum() }>{nowNum + 1}</button>}
 
         {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
         {nowNum !== 3 && (
-            <button onClick={() =>  setNowNum(nowNum +1)}>次へ &gt;</button>
+            <button className={styles.prevNextBtn} onClick={() => onClickLastNum }>&gt;</button>
         )}
       </div>
-      <div>{ nowNum } / {3}</div>
+      <div className={styles.pageDisplay}>{ nowNum } &nbsp; / &nbsp; {3}</div>
+    </div>
     </div>
     </Layout>
   );
