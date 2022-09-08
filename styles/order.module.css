@@ -1,8 +1,10 @@
 .h1_style{
     text-align: center;
-    font-size: 150%;
-    margin-top: 30px;
-    font-weight: 100;
+    text-decoration: underline;
+    text-decoration-color: #f08a0c;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 4px;
+    margin-top: 50px;
 }
 
 .table_style {
