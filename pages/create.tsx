@@ -96,7 +96,7 @@ setShowError(false);
       <Head><title>会員登録</title></Head>
       <fieldset className={styles.fieldset_style}>
         <p className={styles.form_title}>ユーザ登録</p>
-        <form action="post">
+        <form action="/api/credit" method="POST">
           <div className={styles.title}>
             <label htmlFor="lastName">名前：</label>
             {showError===true &&lastName.length < 1 && (
