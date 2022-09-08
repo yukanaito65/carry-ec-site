@@ -122,11 +122,12 @@
 .select {
     text-align: center;
     width: 120px;
+    margin-left: 5px;
 }
 
 
 /* ========================================
-      ページェネーション
+      ページネーション
      ======================================== */
 
 .paginate {
@@ -136,22 +137,22 @@
     font-size: 20px;
 }
 .prevNextBtn {
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     padding: 3px;
     background-color: #fff;
     border: none;
     color: #337ab7;
     /* border-radius: 50%; */
     cursor: pointer;
-    font-size: 20px;
+    font-size: 30px;
     margin: 10px;
 
 }
 
 .befAfBtn {
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     padding: 3px;
     background-color: #fff;
     border: 1px solid #337ab7;
@@ -165,15 +166,15 @@
 
 .nowPage {
     display: inline-block;
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     padding: 3px;
     background-color: #337ab7;
     border: none;
     color: #fff;
     border-radius: 50%;
     font-size: 25px;
-    line-height: 55px;
+    line-height: 45px;
     margin: 10px;
 }
 

@@ -6,3 +6,16 @@
   display: block;
   margin: 0 auto;
 }
+
+.addCss {
+  margin-bottom: 30px;
+  width: 150px;
+  height: 50px;
+  font-size: 25px;
+  border-radius: 10px;
+  border: none;
+}
+
+.addCss:hover {
+  background-color: rgb(24, 103, 208,0.7);
+}
