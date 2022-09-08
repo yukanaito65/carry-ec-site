@@ -118,62 +118,7 @@
       "deleted": false
     }
   ],
-  "orderItems": [
-    {
-      "name": "カツカレー",
-      "price": 1490,
-      "imagePath": "/img_curry/1.jpg",
-      "toppingList": [],
-      "count": 1,
-      "TotalPrice": 1490,
-      "id": 9
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
-        {
-          "name": "ほうれん草",
-          "id": 5,
-          "checked": true
-        }
-      ],
-      "count": 3,
-      "TotalPrice": 5070,
-      "id": 10
-    },
-    {
-      "name": "カツカレー",
-      "price": 1490,
-      "imagePath": "/img_curry/1.jpg",
-      "toppingList": [
-        {
-          "name": "ロースハム",
-          "id": 4,
-          "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 1690,
-      "id": 11
-    },
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
-        {
-          "name": "ほうれん草",
-          "id": 5,
-          "checked": true
-        }
-      ],
-      "count": 3,
-      "TotalPrice": 5070,
-      "id": 12
-    }
-  ],
+  "orderItems": [],
   "users": [
     {
       "name": "内藤 優花",
@@ -307,7 +252,6 @@
       "id": 12
     }
   ],
-  "order": [],
   "topping": [
     {
       "name": "オニオン",
