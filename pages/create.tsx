@@ -66,13 +66,6 @@ export default function User() {
               history: []
             }),
           });
-          fetch(`http://localhost:8000/users?name=${lastName} ${firstName}`)
-            .then(res => res.json())
-            .then(data => {
-              document.cookie = `id=${data[0].id}`
-              document.cookie = `name=${data[0].name}`
-            })
-          setShowError(false);
         }
       });
 

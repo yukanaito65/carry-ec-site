@@ -27,7 +27,7 @@ export default function Items() {
 
   // selectが昇順と降順でfetchするdataを変更する
   const [get, setGet] = useState(`http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`)
-  
+  const [get2, setGet2] = useState("http://localhost:8000/items?_sort=price&_order=asc")
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -41,7 +41,7 @@ export default function Items() {
     // nameTextに書かれた物と一致する名前のdataをfilterで抽出する関数
     // 抽出したdataをsetSearchDataに保管
     setSuggestData(
-      data.filter((e: any) => {
+      data2.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -59,7 +59,7 @@ export default function Items() {
 
   const onClickSearch = () => {
     setSearchData(
-      data.filter((e: any) => {
+      data2.filter((e: any) => {
         return e.name.indexOf(nameText) >= 0;
       })
     );
@@ -107,22 +107,36 @@ export default function Items() {
     } else if (sortSelect === 'down') {
       setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`);
     };
-    console.log(nowNum);
-    console.log(sortSelect);
-    console.log(get);
   },[nowNum, sortSelect])
+
+  useEffect(() => {
+    if (sortSelect === 'up') {
+      setGet2 (`http://localhost:8000/items?_sort=price&_order=asc`);
+    } else if (sortSelect === 'down') {
+      setGet2 (`http://localhost:8000/items?_sort=price&_order=desc`);
+    };
+    console.log(get2);
+  },[sortSelect])
   
   function onClickNextNum() {
     setNowNum(nowNum + 1);
   }
 
   const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
+
   useEffect(() => {
     fetch(get)
       .then(res => res.json())
       .then(json => setData(json))
-    console.log(data);
   }, [get])
+
+  useEffect(() => {
+    fetch(get2)
+      .then(res => res.json())
+      .then(json => setData2(json))
+    console.log(data2);
+  }, [get2])
 
   return (
     <Layout show={true}>
