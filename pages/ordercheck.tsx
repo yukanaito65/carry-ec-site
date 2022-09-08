@@ -4,6 +4,7 @@ import { OrderItem } from '../types/types';
 import Customer from '../component/checkuser';
 import styles from '../component/check.module.css';
 import Link from 'next/link';
+import { json } from 'stream/consumers';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -37,8 +38,27 @@ export default function OrderCheck() {
             tel: json.tel,
             password: json.password,
             checkPassword: json.checkPassword,
-            history: [...json.history,...data],
+            history: [...json.history, ...data],
           }),
+        });
+      });
+    fetch('http://localhost:8000/orderItems/')
+      .then((res) => res.json())
+      .then((json) => {
+        json.map((item: any) => {
+          fetch(`http://localhost:8000/orderItems/${item.id}`, {
+            method: 'DELETE',
+          });
+        });
+      });
+
+      fetch('http://localhost:8000/order/')
+      .then((res) => res.json())
+      .then((json) => {
+        json.map((item: any) => {
+          fetch(`http://localhost:8000/order/${item.id}`, {
+            method: 'DELETE',
+          });
         });
       });
   };
@@ -141,7 +161,10 @@ export default function OrderCheck() {
           <Customer></Customer>
         </div>
         <Link href="/thankyou">
-          <button className={styles.btn} onClick={() => onClickCheck()}>
+          <button
+            className={styles.btn}
+            onClick={() => onClickCheck()}
+          >
             この内容で注文する
           </button>
         </Link>
