@@ -253,7 +253,7 @@ export default function User() {
             <label htmlFor="password">パスワード:</label>
             {showError === true && password.length < 1 && (
               <span className={styles.subTitle}>
-                パスワードを入力してください
+                パスワードを8文字以上16文字以下で入力してください
               </span>
             )}
             {showError === true && password.length < 8 && password.length >= 1 && (
