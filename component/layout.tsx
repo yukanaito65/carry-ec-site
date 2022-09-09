@@ -23,9 +23,6 @@ import { userAgent } from 'next/server';
   document.cookie = `${cookieName}; max-age=0`;
 }
 
-
-
-
 export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
@@ -76,7 +73,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
               <li>{
                 //@ts-ignore
                 document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
-                }さんようこそ</li>
+                }さん</li>
             </a>
             }
             {loginShow && !(document.cookie) && 
@@ -86,15 +83,16 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             </a>
             </Link>
             }
-            <Link href="/">
+            {document.cookie && 
+              <Link href="/">
               <a>
                 <li>
-                  <button onClick={() => onClickLogout()}>
+                  <button className={styles.logout} onClick={() => onClickLogout()}>
                     ログアウト
                   </button>
                 </li>
               </a>
-            </Link>
+            </Link>}
               </> :
               <></>
             }
