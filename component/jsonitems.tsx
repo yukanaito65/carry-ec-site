@@ -6,6 +6,9 @@ import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
 import { arrayBuffer } from 'stream/consumers';
 import sugStyles from '../styles/suggest.module.css';
+import Router from 'next/router';
+
+
 import { FormReset, ClickSearch } from './Button';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
@@ -82,10 +85,11 @@ export default function Items() {
 
   const [nowNum, setNowNum] = useState(1);
   const currentPage = `http://localhost:8000/items?_page=${nowNum}&_limit=5`;
-  const maxPageNumber = 'rel=prev';
+
+  // const maxPageNumber = "rel=prev";
   // const router = useRouter();
 
-  const [totalItems, settotalItems] = useState<any>(0);
+  const [totalItems, setTotalItems] = useState<any>(0);
   const [totalPages, setTotalPages] = useState(0);
 
   // fetchで今のページに表示する分の商品を取ってくる
@@ -99,12 +103,14 @@ export default function Items() {
     .then(response => response.headers)
     .then(headers => {
       console.log(`${headers.get('X-Total-Count')}`);
-      settotalItems(`${headers.get('X-Total-Count')}`);
+      setTotalItems(`${headers.get('X-Total-Count')}`);
     });
 
     useEffect(() => {
       setTotalPages(Math.round(totalItems / 5));
     },[totalItems])
+
+    let maxPageNum = totalItems / 5;
   
   // ページ番号か表示順が変わるたびに商品一覧表示を変更させる
   useEffect(() => {
@@ -138,7 +144,7 @@ export default function Items() {
   }
 
   function onClickNextNum() {
-    setNowNum(nowNum + 1);
+    setNowNum(nowNum +1);
   }
 
   function onClickLastNum() {
@@ -241,11 +247,13 @@ export default function Items() {
                 <table className={styles.item}>
                   <tr>
                     <th>
+                    <Link href={`/posts/${id}`}>
                       <img
                         src={imagePath}
                         className={styles.itemImg}
                         width={300}
                       />
+                      </Link>
                     </th>
                   </tr>
                   <tr>
@@ -297,7 +305,7 @@ export default function Items() {
                   </tr>
                   <tr>
                     <th>
-                      <p className="price">
+                      <p className={"price"}>
                         {String(price).replace(
                           /(\d)(?=(\d\d\d)+(?!\d))/g,
                           '$1,'
@@ -312,37 +320,32 @@ export default function Items() {
           })
         )}
       </div>
-      <div>
-        <div className={styles.paginate}>
-          {/* 今のページ番号が1じゃなければ前へボタンを置く */}
-          <div className={styles.paginateWapp}>
-            {nowNum > 1 && (
-              <button
-                className={styles.prevNextBtn}
-                onClick={() => onClickTopNum()}
-              >
-                &lt;
-              </button>
-            )}
+      <div className={styles.paginate}>
+      {/* 今のページ番号が1じゃなければ前へボタンを置く */}
+      <div className={styles.paginateWapp}>
+      {nowNum > 1 && (
+          <button className={styles.prevNextBtn} onClick={() => onClickPrevNum() }>&lt;</button>
+          )}
 
-        {/* 今のページが2以上なら置く */}
-        {/* {nowNum > 1 &&
-        <button className={styles.befAfBtn} onClick={() => onClickPrevNum() }>{nowNum - 1}</button>} */}
+        {/* 今のページ */}
+        {nowNum > 1 && (
+          <button className={styles.prevNextBtn} onClick={() => onClickPrevNum() }>{nowNum -1}</button>
+          )}
 
             {/* 今のページ */}
             <p className={styles.nowPage}>{nowNum}</p>
 
-        {/* 今のページが最後じゃなければ置く */}
-        {/* {nowNum < 3 &&
-        <button className={styles.befAfBtn} onClick={() => onClickNextNum() }>{nowNum + 1}</button>} */}
+        {/* 今のページ */}
+        {nowNum !== totalPages && (
+          <button className={styles.prevNextBtn} onClick={() => onClickNextNum() }>{nowNum +1}</button>
+          )}
 
         {/* 今のページ番号が最後じゃなければ次へボタンを置く */}
-        {nowNum !== 3 && (
-            <button className={styles.prevNextBtn} onClick={() => onClickLastNum() }>&gt;</button>
+        {nowNum !== totalPages && (
+            <button className={styles.prevNextBtn} onClick={() => onClickNextNum() }>&gt;</button>
         )}
       </div>
       <div className={styles.pageDisplay}>{ nowNum } &nbsp; / &nbsp; {totalPages}ページ目</div>
-    </div>
     </div>
     </Layout>
   );

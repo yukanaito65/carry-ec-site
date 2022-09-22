@@ -66,7 +66,6 @@ export default function CheckUser() {
       return setTime('');
     }
   }, [time]);
-
   return (
     <div>
       <h2 className={styles.title}>お届け先情報</h2>
