@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
-
+import { BreadCrumb } from './Breadcrumb';
 
 // ログアウトボタンのクッキー削除
- function onClickLogout() {
-
+function onClickLogout() {
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
@@ -22,7 +21,6 @@ import { userAgent } from 'next/server';
   console.log(cookieName);
   document.cookie = `${cookieName}; max-age=0`;
 }
-
 export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
@@ -34,10 +32,10 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   // }
   const [loginShow, setLoginShow] = useState(false);
   useEffect(() => {
-    if(typeof window !== "undefined") {
-      setLoginShow(true)
+    if (typeof window !== 'undefined') {
+      setLoginShow(true);
     }
-  }, [])
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -47,6 +45,14 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             <img src="/img_curry/header_logo.png" height={35} />
           </a>
         </Link>
+        <BreadCrumb
+          lists={[
+            {
+              name: 'ホーム',
+              path: '/',
+            },
+          ]}
+        />
         <div className={styles.span}></div>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
@@ -58,8 +64,8 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
                 <li>ショッピングカート</li>
               </a>
             </Link>
-            
-            {show === true && loginShow ?
+
+            {show === true && loginShow ? (
               <>
                 <Link href="/history">
               <a>
@@ -95,7 +101,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             </Link>}
               </> :
               <></>
-            }
+            )}
           </ul>
         </div>
       </header>
