@@ -9,11 +9,13 @@ import sugStyles from '../styles/suggest.module.css';
 import Router from 'next/router';
 
 
+import { FormReset, ClickSearch } from './Button';
+
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
 export default function Items() {
-  // 並び替え用のstate
+  // selectで選択した並び替えのstate
   const [sortSelect, setSortSelect] = useState('up');
   const onChangeSortSelect = (event: any) =>
     setSortSelect(event.target.value);
@@ -27,8 +29,12 @@ export default function Items() {
   const [suggestData, setSuggestData]: any[] = useState([]);
 
   // selectが昇順と降順でfetchするdataを変更する
-  const [get, setGet] = useState(`http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`)
-  const [get2, setGet2] = useState("http://localhost:8000/items?_sort=price&_order=asc")
+  const [get, setGet] = useState(
+    `http://localhost:8000/items?_sort=price&_order=asc&_page=1&_limit=5`
+  );
+  const [get2, setGet2] = useState(
+    'http://localhost:8000/items?_sort=price&_order=asc'
+  );
 
   // 検索欄に文字入力できるようにする
   const [nameText, setNameText] = useState('');
@@ -58,6 +64,7 @@ export default function Items() {
   const onFocusShow = () => setShowSug(true);
   const onBlurShow = () => setShowSug(false);
 
+  // 検索結果を表示
   const onClickSearch = () => {
     setSearchData(
       data2.filter((e: any) => {
@@ -78,6 +85,7 @@ export default function Items() {
 
   const [nowNum, setNowNum] = useState(1);
   const currentPage = `http://localhost:8000/items?_page=${nowNum}&_limit=5`;
+
   // const maxPageNumber = "rel=prev";
   // const router = useRouter();
 
@@ -85,12 +93,9 @@ export default function Items() {
   const [totalPages, setTotalPages] = useState(0);
 
   // fetchで今のページに表示する分の商品を取ってくる
-  fetch(
-    currentPage,
-    {
-      method: 'GET',
-    }
-  )
+  fetch(currentPage, {
+    method: 'GET',
+  })
     // .then((res) => {
     //   res.headers.get('X-Total-Count');
     //   return res.json()
@@ -110,28 +115,32 @@ export default function Items() {
   // ページ番号か表示順が変わるたびに商品一覧表示を変更させる
   useEffect(() => {
     if (sortSelect === 'up') {
-      setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=asc`);
+      setGet(
+        `http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=asc`
+      );
     } else if (sortSelect === 'down') {
-      setGet (`http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`);
-    };
-  },[nowNum, sortSelect])
+      setGet(
+        `http://localhost:8000/items?_page=${nowNum}&_limit=5&_sort=price&_order=desc`
+      );
+    }
+  }, [nowNum, sortSelect]);
 
   useEffect(() => {
     if (sortSelect === 'up') {
-      setGet2 (`http://localhost:8000/items?_sort=price&_order=asc`);
+      setGet2(`http://localhost:8000/items?_sort=price&_order=asc`);
     } else if (sortSelect === 'down') {
-      setGet2 (`http://localhost:8000/items?_sort=price&_order=desc`);
-    };
+      setGet2(`http://localhost:8000/items?_sort=price&_order=desc`);
+    }
     console.log(get2);
-  },[sortSelect])
-  
+  }, [sortSelect]);
 
+  // これを書くとページ遷移後に上から表示され見やすくなる
   function onClickTopNum() {
-    Router.push('/');
+    setNowNum(nowNum - 1);
   }
 
   function onClickPrevNum() {
-    setNowNum(nowNum -1);
+    setNowNum(nowNum - 1);
   }
 
   function onClickNextNum() {
@@ -139,7 +148,7 @@ export default function Items() {
   }
 
   function onClickLastNum() {
-    Router.push('/');
+    setNowNum(nowNum + 1);
   }
 
   const [data, setData] = useState([]);
@@ -147,16 +156,16 @@ export default function Items() {
 
   useEffect(() => {
     fetch(get)
-      .then(res => res.json())
-      .then(json => setData(json))
-  }, [get])
+      .then((res) => res.json())
+      .then((json) => setData(json));
+  }, [get]);
 
   useEffect(() => {
     fetch(get2)
-      .then(res => res.json())
-      .then(json => setData2(json))
+      .then((res) => res.json())
+      .then((json) => setData2(json));
     console.log(data2);
-  }, [get2])
+  }, [get2]);
 
   return (
     <Layout show={true}>
@@ -207,25 +216,9 @@ export default function Items() {
             </span>
 
             <span className={styles.buttonWrapper}>
-              <button
-                type="button"
-                value="検索"
-                className={styles.searchBtn}
-                onClick={() => {
-                  onClickSearch();
-                }}
-              >
-                検索
-              </button>
+              <ClickSearch onClick={() => onClickSearch()} />
 
-              <button
-                type="reset"
-                value="クリア"
-                className={styles.cannselBtn}
-                onClick={() => formReset()}
-              >
-                クリア
-              </button>
+              <FormReset onClick={() => formReset()} />
             </span>
             <br />
             <select
@@ -339,8 +332,8 @@ export default function Items() {
           <button className={styles.prevNextBtn} onClick={() => onClickPrevNum() }>{nowNum -1}</button>
           )}
 
-        {/* 今のページ */}
-        <p className={styles.nowPage}>{nowNum}</p>
+            {/* 今のページ */}
+            <p className={styles.nowPage}>{nowNum}</p>
 
         {/* 今のページ */}
         {nowNum !== totalPages && (

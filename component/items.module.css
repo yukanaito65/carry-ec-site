@@ -1,20 +1,25 @@
 .searchWrapper {
-    /*上はヘッダが来るのでその分180px分空ける*/
     position: fixed;
     /* スクロールしても表示されるように位置を固定 */
     height: 180px;
+    /* 縦幅を180pxにする */
     width: 100%;
+    /* 横幅を固定 */
     background-color: rgba(255, 255, 255, 0.9);
     vertical-align: center;
+    /* インラインボックス、インラインブロック、表セルボックスの垂直方向の配置を設定 */
     border: 2px;
+    /* 要素の境界を設定 */
     z-index: 1;
     /* 上に表示されるようにする(数が多いほど上に来る。例えば-1にすると裏側に行き見えなくなります) */
 }
 
 .serchTitle {
     margin-left: 20%;
+    /* マージンの左側wp20px開ける */
     font-size: 18px;
     font-weight: bold;
+    /* 文字の太さ */
 }
 
 .searchForm {
@@ -29,7 +34,9 @@
     /* margin: 20px; */
     font-size: 12px;
     line-height: 1.5;
+    /* 行ボックスの高さを設定 */
     border-radius: 3px;
+    /* 要素の境界の外側の角を丸める */
     display: center;
     width: 30%;
     color: #555;
@@ -37,8 +44,11 @@
     border: 1px solid #ccc;
     font-family: inherit;
     text-indent: 0px;
+    /* ブロック内のテキストの行の前に置く空白 (字下げ) の幅を設定します。 */
     text-align: start;
+    /* 文字を左寄せにする */
     cursor: text;
+    /* マウスポインターが要素の上にいるときに表示されるマウスカーソルの種類を設定 */
 }
 
 .buttonWrapper {
@@ -150,9 +160,11 @@
     width: 500px;
     margin: 0 auto;
 }
+
 .paginateWapp {
     font-size: 20px;
 }
+
 .prevNextBtn {
     height: 40px;
     width: 40px;

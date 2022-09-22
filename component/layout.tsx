@@ -50,8 +50,6 @@ function onClickLogout() {
   const router = useRouter();
   let currentUrl = router.pathname;
 
-  
-
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -60,6 +58,14 @@ function onClickLogout() {
             <img src="/img_curry/header_logo.png" height={35} />
           </a>
         </Link>
+        <BreadCrumb
+          lists={[
+            {
+              name: 'ホーム',
+              path: '/',
+            },
+          ]}
+        />
         <div className={styles.span}></div>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
