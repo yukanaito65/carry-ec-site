@@ -21,14 +21,7 @@ function onClickLogout() {
   console.log(cookieName);
   document.cookie = `${cookieName}; max-age=0`;
 }
-
-export function Layout({
-  children,
-  show,
-}: {
-  children: any;
-  show: boolean;
-}) {
+export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
   //   if (show === "") {
@@ -75,41 +68,38 @@ export function Layout({
             {show === true && loginShow ? (
               <>
                 <Link href="/history">
-                  <a>{document.cookie && <li>注文履歴</li>}</a>
-                </Link>
-                {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-                {loginShow && document.cookie && (
-                  <a>
-                    <li>
-                      {
-                        //@ts-ignore
-                        document.cookie
-                          .split('; ')
-                          .find((row) => row.startsWith('name'))
-                          .split('=')[1]
-                      }
-                      さんようこそ
-                    </li>
-                  </a>
-                )}
-                {loginShow && !document.cookie && (
-                  <Link href="/posts/login">
-                    <a>
-                      <li>ログイン</li>
-                    </a>
-                  </Link>
-                )}
-                <Link href="/">
-                  <a>
-                    <li>
-                      <button onClick={() => onClickLogout()}>
-                        ログアウト
-                      </button>
-                    </li>
-                  </a>
-                </Link>
-              </>
-            ) : (
+              <a>
+                {document.cookie && (<li>注文履歴</li>)}
+                
+              </a>
+            </Link>
+            {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
+            {loginShow && document.cookie && 
+            <a>
+              <li>{
+                //@ts-ignore
+                document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+                }さん</li>
+            </a>
+            }
+            {loginShow && !(document.cookie) && 
+            <Link href="/posts/login">
+            <a>
+              <li>ログイン</li>
+            </a>
+            </Link>
+            }
+            {document.cookie && 
+              <Link href="/">
+              <a>
+                <li>
+                  <button className={styles.logout} onClick={() => onClickLogout()}>
+                    ログアウト
+                  </button>
+                </li>
+              </a>
+            </Link>}
+              </> :
               <></>
             )}
           </ul>
