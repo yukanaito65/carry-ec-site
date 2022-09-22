@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
-
+import { BreadCrumb } from './Breadcrumb';
 
 // ログアウトボタンのクッキー削除
- function onClickLogout() {
-
+function onClickLogout() {
   console.log(document.cookie); // id=1; name=undefined
 
   // クッキーのid削除
@@ -23,10 +22,13 @@ import { userAgent } from 'next/server';
   document.cookie = `${cookieName}; max-age=0`;
 }
 
-
-
-
-export function Layout({ children, show }: { children: any; show: boolean }) {
+export function Layout({
+  children,
+  show,
+}: {
+  children: any;
+  show: boolean;
+}) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {
   //   if (show === "") {
@@ -37,10 +39,10 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   // }
   const [loginShow, setLoginShow] = useState(false);
   useEffect(() => {
-    if(typeof window !== "undefined") {
-      setLoginShow(true)
+    if (typeof window !== 'undefined') {
+      setLoginShow(true);
     }
-  }, [])
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -50,6 +52,14 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
             <img src="/img_curry/header_logo.png" height={35} />
           </a>
         </Link>
+        <BreadCrumb
+          lists={[
+            {
+              name: 'ホーム',
+              path: '/',
+            },
+          ]}
+        />
         <div className={styles.span}></div>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
@@ -61,43 +71,47 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
                 <li>ショッピングカート</li>
               </a>
             </Link>
-            
-            {show === true && loginShow ?
+
+            {show === true && loginShow ? (
               <>
                 <Link href="/history">
-              <a>
-                {document.cookie && (<li>注文履歴</li>)}
-                
-              </a>
-            </Link>
-            {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-            {loginShow && document.cookie && 
-            <a>
-              <li>{
-                //@ts-ignore
-                document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
-                }さんようこそ</li>
-            </a>
-            }
-            {loginShow && !(document.cookie) && 
-            <Link href="/posts/login">
-            <a>
-              <li>ログイン</li>
-            </a>
-            </Link>
-            }
-            <Link href="/">
-              <a>
-                <li>
-                  <button onClick={() => onClickLogout()}>
-                    ログアウト
-                  </button>
-                </li>
-              </a>
-            </Link>
-              </> :
+                  <a>{document.cookie && <li>注文履歴</li>}</a>
+                </Link>
+                {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
+                {loginShow && document.cookie && (
+                  <a>
+                    <li>
+                      {
+                        //@ts-ignore
+                        document.cookie
+                          .split('; ')
+                          .find((row) => row.startsWith('name'))
+                          .split('=')[1]
+                      }
+                      さんようこそ
+                    </li>
+                  </a>
+                )}
+                {loginShow && !document.cookie && (
+                  <Link href="/posts/login">
+                    <a>
+                      <li>ログイン</li>
+                    </a>
+                  </Link>
+                )}
+                <Link href="/">
+                  <a>
+                    <li>
+                      <button onClick={() => onClickLogout()}>
+                        ログアウト
+                      </button>
+                    </li>
+                  </a>
+                </Link>
+              </>
+            ) : (
               <></>
-            }
+            )}
           </ul>
         </div>
       </header>

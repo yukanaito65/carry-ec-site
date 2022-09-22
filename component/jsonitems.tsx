@@ -6,6 +6,7 @@ import { Layout } from '../component/layout';
 import styles from '../component/items.module.css';
 import { arrayBuffer } from 'stream/consumers';
 import sugStyles from '../styles/suggest.module.css';
+import { FormReset, ClickSearch } from './Button';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -203,25 +204,9 @@ export default function Items() {
             </span>
 
             <span className={styles.buttonWrapper}>
-              <button
-                type="button"
-                value="検索"
-                className={styles.searchBtn}
-                onClick={() => {
-                  onClickSearch();
-                }}
-              >
-                検索
-              </button>
+              <ClickSearch onClick={() => onClickSearch()} />
 
-              <button
-                type="reset"
-                value="クリア"
-                className={styles.cannselBtn}
-                onClick={() => formReset()}
-              >
-                クリア
-              </button>
+              <FormReset onClick={() => formReset()} />
             </span>
             <br />
             <select
