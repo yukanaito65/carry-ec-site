@@ -1,45 +1,42 @@
 .h1_style{
     text-align: center;
-    text-decoration: underline;
-    text-decoration-color: #f08a0c;
-    text-decoration-thickness: 0.1em;
-    text-underline-offset: 4px;
-    margin-top: 50px;
+    margin-top: 100px;
+    margin-bottom: 50px;
 }
 
 .table_style {
-
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
-    border: 2px #808080 solid;
+    border-top: 1px #808080 solid;
     border-collapse: collapse;
 }
 
 .thead{
     border: 2px #808080 solid;
+}
 
+.itemName {
+    margin: 2px;
 }
 
 .th_style{
-    height: 30px;
-    width: 200px;
-    font-size: small;
+    height: 40px;
+    width: 20%;
+    font-size: 15px;
     background-color: #cdcdcd;
 }
 
 .td {
-    border-bottom: 2px #808080 solid;
+    border-bottom: 1px #808080 solid;
     font-size: smaller;
     text-align: center;
-
-}
-
-.tr:nth-child(2n){
-    background-color: #cdcdcd;
+    margin: 5px;
+    padding-top: 10px;
 }
 
 .btn{
-    background-color: rgb(24, 103, 208);
+    background-color: #CDCDCD;
     color: aliceblue;
     border-radius:5px 5px 5px 5px;
 }

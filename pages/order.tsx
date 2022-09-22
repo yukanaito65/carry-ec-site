@@ -99,7 +99,7 @@ export default function Order() {
                       <tr key={id} className={styles.tr}>
                         <td className={styles.td}>
                           <img src={imagePath} width={100} />
-                          <p>{name}</p>
+                          <p className={styles.itemName}>{name}</p>
                         </td>
                         <td className={styles.td}>
                           数量：{count}個 <br />
@@ -181,7 +181,7 @@ export default function Order() {
                       <Link href="/ordercheck">
                         <button
                           onClick={onClickOrder}
-                          className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`}
+                          className={utilStyles.mt}
                         >
                           注文へ進む
                         </button>
@@ -194,7 +194,7 @@ export default function Order() {
                         }}
                       >
                         <button
-                          className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto}`}
+                          className={utilStyles.mt}
                         >
                           注文へ進む
                         </button>
@@ -204,7 +204,7 @@ export default function Order() {
                 ) : (
                   <button
                     onClick={onClickConfirm}
-                    className={`${styles.btn} ${utilStyles.mt} ${utilStyles.m0auto} ${utilStyles.addCss}`}
+                    className={utilStyles.addCss}
                   >
                     確定
                   </button>

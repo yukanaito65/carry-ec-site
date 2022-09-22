@@ -36,43 +36,6 @@ export default function CheckUser() {
       });
   };
 
-  const onClickCheck = () => {
-    fetch('http://localhost:8000/users')
-      .then((res) => res.json())
-      .then((data) => {
-        if (
-          !(
-            name &&
-            email.match(
-              /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
-            ) && //メールアドレスが正規表現と一致するか
-            zipcode.match(/^\d{3}-\d{4}$/) && //郵便番号が正規表現と一致するか
-            address &&
-            tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
-            //電話番号が正規表現と一致するか。
-            day
-          )
-        ) {
-          alert('すべての全ての項目を正しく入力してください');
-        } else {
-          router.push('/'); //登録内容が正しい場合、ボタンを押すと、ホーム画面に遷移。
-          return fetch('http://localhost:8000/users', {
-            //全ての入力が正しかった場合、db.jsonのusersに値を追加。
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({
-              name: name,
-              email: email,
-              zipcode: zipcode,
-              address: address,
-              tel: tel,
-              day: day,
-            }),
-          });
-        }
-      });
-  };
-
   return (
     <div>
       <h2 className={styles.title}>お届け先情報</h2>

@@ -102,3 +102,17 @@
   color: inherit;
   cursor: pointer;
 }
+
+.HeaderCart {
+  border-bottom: transparent;
+  background:linear-gradient(transparent 70%, #FFD700 0%);
+}
+
+.nav {
+  cursor: pointer;
+}
+
+.nowNav {
+  background:linear-gradient(transparent 70%, #FFD700 0%);
+
+}
