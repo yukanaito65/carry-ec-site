@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
 import { useRouter } from 'next/router';
-
+import { BreadCrumb } from './Breadcrumb';
 
 
 export function Layout({
@@ -44,6 +44,10 @@ function onClickLogout() {
   console.log(cookieName);
   document.cookie = `${cookieName}; max-age=0`;
   console.log(loginShow);
+
+  // ぱんくずリストの削除(リセット)
+  localStorage.clear();
+
 }
 
   // 現在のURLを宣言
@@ -51,6 +55,8 @@ function onClickLogout() {
   let currentUrl = router.pathname;
 
   return (
+    <>
+    {/* <BreadCrumb /> */}
     <div className={styles.container}>
       <header className={styles.header}>
         <Link href="/">
@@ -58,14 +64,6 @@ function onClickLogout() {
             <img src="/img_curry/header_logo.png" height={35} />
           </a>
         </Link>
-        <BreadCrumb
-          lists={[
-            {
-              name: 'ホーム',
-              path: '/',
-            },
-          ]}
-        />
         <div className={styles.span}></div>
         {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
           <span></span>
@@ -150,5 +148,6 @@ function onClickLogout() {
       </nav> */}
       {children}
     </div>
+    </>
   );
 }

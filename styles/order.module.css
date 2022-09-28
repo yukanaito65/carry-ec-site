@@ -33,12 +33,23 @@
     text-align: center;
     margin: 5px;
     padding-top: 10px;
+    height: 150px;
+}
+
+.ul {
+    padding-left: 0;
+}
+
+.list {
+    list-style: none;
+    margin-left: 2px;
 }
 
 .btn{
     background-color: #CDCDCD;
     color: aliceblue;
     border-radius:5px 5px 5px 5px;
+    border: none;
 }
 
 .btn:hover {
