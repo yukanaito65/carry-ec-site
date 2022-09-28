@@ -106,7 +106,8 @@ export default function Details({ jsonData }: { jsonData: Item }) {
         imagePath: imagePath,
         toppingList: toppingList,
         count: Number(count),
-        TotalPrice: (price + 200 * checked.filter((el: any) => el === true).length) * count
+        TotalPrice: (price + 200 * checked.filter((el: any) => el === true).length) * count,
+        day:""
       })
     })
   }
