@@ -247,8 +247,9 @@ export default function Items() {
                 <table className={styles.item}>
                   <tr>
                     <th>
-                    <Link href={`/posts/${id}`}>
+                    <Link href={`/posts/${id}`} >
                       <img
+                      onClick={() => localStorage.setItem('asd', 'currentUrl')}
                         src={imagePath}
                         className={styles.itemImg}
                         width={300}

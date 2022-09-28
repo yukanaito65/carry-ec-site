@@ -11,7 +11,7 @@ export default function Login() {
   const [passText, setPassText] = useState<any>('');
   const [ok, setOk] = useState(false);
   const [dataId, setDataId] = useState(0);
-  const [dataName, setDataName] = useState("");
+  const [dataName, setDataName] = useState('');
   const router = useRouter();
   const [errShow, setErrShow] = useState(false);
 
@@ -19,7 +19,7 @@ export default function Login() {
   const onChangePass = (e: any) => setPassText(e.target.value);
 
   // データ取得
-  
+
   fetch(
     `http://localhost:8000/users?email=${mailText}&password=${passText}`,
     {
@@ -42,30 +42,34 @@ export default function Login() {
     // console.log(ok);
     if (ok === false) {
       setErrShow(true);
-    }else if(router.query.currentUrl) {
-      router.push("/order");
+    } else if (router.query.currentUrl) {
+      router.push('/order');
       document.cookie = `id=${dataId}; max-age=86400`;
       document.cookie = `name=${dataName}; max-age=86400`;
     } else {
       router.push('/');
       document.cookie = `id=${dataId}; max-age=86400`;
       document.cookie = `name=${dataName}; max-age=86400`;
-
+      // ログイン時(ショッピングカート以外から遷移してきた場合)にローカルストレージにホームurlをセットしておく
+      localStorage.setItem('home', '/');
     }
   };
-
 
   return (
     <>
       <Head>
         <title>ログイン画面</title>
       </Head>
-      <Layout show={false} >
+      <Layout show={false}>
         <form className={styles.formContainer}>
           <h1 className={styles.h1}>ログイン</h1>
-          {errShow === true && <div>
-            <p className={styles.inputErr}>メールアドレス、またはパスワードが間違っています</p>
-          </div>}
+          {errShow === true && (
+            <div>
+              <p className={styles.inputErr}>
+                メールアドレス、またはパスワードが間違っています
+              </p>
+            </div>
+          )}
 
           <div>
             <div>
@@ -73,9 +77,18 @@ export default function Login() {
                 <label htmlFor="email" className={styles.label}>
                   メールアドレス：
                 </label>
-                {errShow === true && !mailText.match(/^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/) &&
-               mailText.length >= 1 &&
-               (<p className={styles.mailErr} data-testid="emailErr">メールアドレスの形式が不正です</p>)}
+                {errShow === true &&
+                  !mailText.match(
+                    /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+                  ) &&
+                  mailText.length >= 1 && (
+                    <p
+                      className={styles.mailErr}
+                      data-testid="emailErr"
+                    >
+                      メールアドレスの形式が不正です
+                    </p>
+                  )}
               </div>
               <input
                 className={styles.input}

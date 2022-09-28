@@ -130,9 +130,12 @@ export default function Details({ jsonData }: { jsonData: Item }) {
       </Head>
 
       <Layout show={true}>
-        {/* <Link href='/'>
-      <a>商品一覧</a> &gt;
-      </Link> */}
+        {/* ぱんくずリスト */}
+        <Link href='/'>
+      <a>商品一覧</a> 
+      </Link>
+      &nbsp; &gt; &nbsp;
+      <span>{name}</span>
 
         <div className={detailStyle.item}>
           <img

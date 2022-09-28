@@ -117,8 +117,8 @@ export default function Order() {
                               checked: boolean;
                               id: number;
                             }) => (
-                              <ul key={id}>
-                                <li>{topping.name}</li>
+                              <ul key={id} className={styles.ul}>
+                                <li className={styles.list}>{topping.name}</li>
                               </ul>
                             )
                           )}
