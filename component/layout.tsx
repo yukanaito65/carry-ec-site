@@ -7,12 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BreadCrumb } from './Breadcrumb';
 
-  const [loginShow, setLoginShow] = useState(false);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setLoginShow(true);
-    }
-  }, []);
+ 
 
 // ログアウトボタンのクッキー削除
 function onClickLogout() {
@@ -27,7 +22,7 @@ function onClickLogout() {
   const cookieName = document.cookie;
   console.log(cookieName);
   document.cookie = `${cookieName}; max-age=0`;
-  console.log(loginShow);
+  
 
   // ぱんくずリストの削除(リセット)
   localStorage.clear();

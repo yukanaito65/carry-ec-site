@@ -154,44 +154,6 @@ export default function Details({ jsonData }: { jsonData: Item }) {
             <p>{description}</p>
           </div>
         </div>
-        <div className={detailStyle.option}>
-          <h3 className={detailStyle.optionTitle}>
-            トッピング &nbsp;:&nbsp; 1つにつき200円（税抜）
-          </h3>
-          <div className={detailStyle.optionTag}>
-            {
-              //toppingのデータを一つ一つ表示
-              data.map(({ name, id }: Topping, index: any) => (
-                <>
-                  <input
-                    type="checkbox"
-                    id={name}
-                    name={name}
-                    checked={checkedToppingsArray[index]}
-                    onChange={() => onChangeCheck(index)}
-                  />
-                  <label className={detailStyle.toppingCB} htmlFor={name}>{name}</label>
-                </>
-              ))
-            }
-          </div>
-          <div className={detailStyle.quantity}>
-            <h3 className={detailStyle.quantityTitle}>数量&nbsp;:</h3>
-            <select
-              name="count"
-              id="count"
-              className={detailStyle.select}
-              value={count}
-              onChange={onChangeCount}
-            >
-              {arr.map((el) => (
-                <option key={el} value={el}>
-                  {el}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
 
       <h3 className={detailStyle.optionTitle}>ライス大盛り: 300円</h3>
       <div className={detailStyle.optionTag}>
