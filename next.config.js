@@ -14,6 +14,10 @@ const nextConfig = {
         destination: 'http://localhost:8000/users',
       },
       {
+        source: '/api/users/:slug',
+        destination: 'http://localhost:8000/users/:slug',
+      },
+      {
         source: '/api/items/:slug',
         destination: 'http://localhost:8000/items/:slug',
       },

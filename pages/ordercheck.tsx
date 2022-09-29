@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import styles from '../component/check.module.css';
 import React from 'react';
 import StripeApi from '../lib/stripe';
 import Link from 'next/link';
 import OrderCheck from '../component/Cluculate';
+
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
@@ -16,10 +17,39 @@ export default function CheckUser() {
   const [address, setAddress] = useState('');
   const [tel, setTel] = useState('');
   const [day, setDay] = useState('');
-  const [creditVal, setCreditVal] = useState('');
+  const [creditVal, setCreditVal] = useState(''); //クレジットカードを選択して確定ボタンを押すと下に入力フォームが開く。
   const router = useRouter();
   const [creditShow, setCreditShow] = useState(false);
   const [errorShow, setErrorShow] = useState(false);
+  // 現在日時の取得
+  const date = new Date();
+  const [time, setTime] = useState('');
+
+  // 日にちの最小値を現在にする
+  const ymd = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${(
+    '0' + date.getDate()
+  ).slice(-2)}`;
+
+  // 日にちの最大値を指定
+  const ymd2 = `${date.getFullYear()}-${(
+    '0' +
+    (date.getMonth() + 3)
+  ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+
+  // 現在時刻から3時間を足す
+  const hs = date.getHours() + 3;
+  // 入力された時刻の時間だけを取り出してnumber型にする
+  const hour = Number(time.slice(0, 2));
+
+  useEffect(() => {
+    if (21 < hour) {
+      return setTime('');
+    } else if (hour < hs) {
+      return setTime('');
+    } else if (hour < 9) {
+      return setTime('');
+    }
+  }, [time]);
 
   const { data, error } = useSWR(
     'http://localhost:8000/order',
@@ -65,11 +95,12 @@ export default function CheckUser() {
         address &&
         tel &&
         day &&
+        time&&
         creditVal
       )
     ) {
       setErrorShow(true);
-    } else{
+    } else {
       //@ts-ignore
       const cookieId = document.cookie
         .split('; ')
@@ -77,77 +108,83 @@ export default function CheckUser() {
         .split('=')[1];
 
       console.log(day);
-  
-      const firstPut =async()=>{
-       fetch(`http://localhost:8000/order`)
-        .then((res) => res.json())
-        .then((json) => {
-          json.map((e: any) => {
-          fetch(`http://localhost:8000/order/${e.id}`, {
-              method: 'put',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({
-                name: e.name,
-                price: e.price,
-                imagePath: e.imagePath,
-                toppingList: e.toppingList,
-                count: e.count,
-                TotalPrice: e.TotalPrice,
-                day: day,
-              }),
-            })
-          });        
-        });  
-         
-      }   
-      firstPut();
 
-   const secondPut=async()=>{ 
-       await firstPut();
-        fetch(`http://localhost:8000/users/${cookieId}`)
+      const firstPut = () => {
+        fetch(`http://localhost:8000/order`) //注文確定のタイミングでorderdayを含む新しいオブジェクトに
+          .then((res) => res.json())
+          .then((json) => {
+            console.log(day);
+            json.map((e: any) => {
+              fetch(`http://localhost:8000/order/${e.id}`, {
+                method: 'put',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                  name: e.name,
+                  price: e.price,
+                  imagePath: e.imagePath,
+                  toppingList: e.toppingList,
+                  count: e.count,
+                  TotalPrice: e.TotalPrice,
+                  userName: e.cookieName,
+                  day: day,
+                  time:time
+                }),
+              });
+            });
+          })
+          .then(() => {//awaitでは、fetchまでしか待ってくれないので、.thenで繋げる。
+            fetch(`http://localhost:8000/order`) //日付の入っているorederをfetch
+              .then((res) => res.json())
+              .then((data2) => {
+                console.log('data2', data2);
+                fetch(`http://localhost:8000/users/${cookieId}`) //userを更新＋historyにdataを追加する
+                  .then((res) => res.json())
+                  .then((json) => {
+                    console.log('data', json);
+                    fetch(`http://localhost:8000/users/${cookieId}`, {
+                      method: 'put',
+                      headers: { 'content-type': 'application/json' },
+                      body: JSON.stringify({
+                        name: json.name,
+                        email: json.email,
+                        zipcode: json.zipcode,
+                        address: json.address,
+                        tel: json.tel,
+                        password: json.password,
+                        checkPassword: json.checkPassword,
+                        history: [...json.history, ...data2],
+                      }),
+                    })
+                      .then(() => {
+                        fetch('http://localhost:8000/order/')
+                          .then((res) => res.json())
+                          .then((json) => {
+                            json.map((item: any) => {
+                              fetch(
+                                `http://localhost:8000/order/${item.id}`,
+                                {
+                                  method: 'DELETE',
+                                }
+                              );
+                            });
+                            router.push('/thankyou'); //thankyouページに遷移
+                          });
+                      })
+                      .catch((error) => console.error(error));
+                  });
+              });
+          });
+      };
+      firstPut();
+      fetch('http://localhost:8000/orderItems/')
         .then((res) => res.json())
         .then((json) => {
-          fetch(`http://localhost:8000/users/${cookieId}`, {
-            method: 'put',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-              name: json.name,
-              email: json.email,
-              zipcode: json.zipcode,
-              address: json.address,
-              tel: json.tel,
-              password: json.password,
-              checkPassword: json.checkPassword,
-              history: [...json.history, ...data],
-            }),
+          json.map((item: any) => {
+            fetch(`http://localhost:8000/orderItems/${item.id}`, {
+              method: 'DELETE',
+            });
           });
         });
-
-      }
-      secondPut();
-
-
-      // fetch('http://localhost:8000/orderItems/')
-      //   .then((res) => res.json())
-      //   .then((json) => {
-      //     json.map((item: any) => {
-      //       fetch(`http://localhost:8000/orderItems/${item.id}`, {
-      //         method: 'DELETE',
-      //       });
-      //     });
-      //   });
-
-      // fetch('http://localhost:8000/order/')
-      //   .then((res) => res.json())
-      //   .then((json) => {
-      //     json.map((item: any) => {
-      //       fetch(`http://localhost:8000/order/${item.id}`, {
-      //         method: 'DELETE',
-      //       });
-      //     });
-      //     router.push('/thankyou');
-      //   });
-      
     }
   };
 
@@ -292,20 +329,37 @@ export default function CheckUser() {
               <label htmlFor="day" className={styles.td}>
                 配達日時：
               </label>
-              {errorShow === true && day.length === 0 && (
+              {errorShow === true &&day.length === 0 && time.length === 0 && (
                 <span className={styles.alert}>
                   配達日時を選択して下さい。
                 </span>
               )}
+           
             </td>
             <td>
               <input
-                type="datetime-local"
+                type="date"
                 name="day"
+                id="today"
+                min={ymd}
+                max={ymd2}
                 className={styles.input}
                 value={day}
                 onChange={(e) => {
                   setDay(e.target.value);
+                }}
+              />
+              <br />
+              <input
+                type="time"
+                name="time"
+                id="time"
+                min="09:00"
+                max="15:00"
+                className={styles.input}
+                value={time}
+                onChange={(e) => {
+                  setTime(e.target.value);
                 }}
               />
             </td>

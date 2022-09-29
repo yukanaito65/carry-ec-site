@@ -76,7 +76,7 @@ export default function History() {
                     )}
                     円
                   </td>
-                  <td>{e.day}</td>
+                  <td>{e.day} {e.time}</td>
                 </tr>
               );
             })}

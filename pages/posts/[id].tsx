@@ -95,6 +95,9 @@ export default function Details({ jsonData }: { jsonData: Item }) {
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
 
+//@ts-ignore
+    const cookieName = document.cookie.split('; ')
+    .find(row=>row.startsWith('name')).split('=')[1];
 
     //dbJsonのorderItemsに反映させる
     fetch("http://localhost:8000/orderItems/", {
@@ -107,7 +110,9 @@ export default function Details({ jsonData }: { jsonData: Item }) {
         toppingList: toppingList,
         count: Number(count),
         TotalPrice: (price + 200 * checked.filter((el: any) => el === true).length) * count,
-        day:""
+        userName:cookieName,
+        day:"",
+        time:""
       })
     })
   }
