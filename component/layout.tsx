@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
+import Image from 'next/image';
 
 
 // ログアウトボタンのクッキー削除
- function onClickLogout() {
+function onClickLogout() {
 
   console.log(document.cookie); // id=1; name=undefined
 
@@ -34,23 +35,82 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
   // }
   const [loginShow, setLoginShow] = useState(false);
   useEffect(() => {
-    if(typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       setLoginShow(true)
     }
   }, [])
+
+  //クリックするとレスポンシブ用のnavが表示される
+  const [isActive, setIsActive] = useState(false);
+  const onClickAddClass = () => {
+    setIsActive(!isActive);
+  }
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <Link href="/">
           <a>
-            <img src="/img_curry/header_logo.png" height={35} />
+            <Image src="/img_curry/header_logo.png" height={35} width={160} alt='logo' />
           </a>
         </Link>
-        <div className={styles.span}></div>
-        {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
+        {/* ハンバーガーメニュー */}
+        <button className={styles.hamburgerMenu} onClick={() => onClickAddClass()}>
           <span></span>
-        </div> */}
+        </button>
+
+        {/* ハンバーガーメニューをクリックしたときに表示されるnav */}
+        <nav className={`${styles.menuNav} ${isActive && styles.showNav}`}>
+          <ul>
+            <Link href="/">
+              <a>
+                <li>HOME</li>
+              </a>
+            </Link>
+            <Link href="/order">
+              <a>
+                <li>ショッピングカート</li>
+              </a>
+            </Link>
+            {show === true && loginShow ?
+              <>
+                <Link href="/history">
+                  <a>
+                    {document.cookie && (<li>注文履歴</li>)}
+
+                  </a>
+                </Link>
+                {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
+                {loginShow && document.cookie &&
+                    <li>{
+                      //@ts-ignore
+                      document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+                    }さん</li>
+                }
+                {loginShow && !(document.cookie) &&
+                  <Link href="/posts/login">
+                    <a>
+                      <li>ログイン</li>
+                    </a>
+                  </Link>
+                }
+                {document.cookie &&
+                  <Link href="/">
+                    <a>
+                      <li>
+                        <button className={styles.logout} onClick={() => onClickLogout()}>
+                          ログアウト
+                        </button>
+                      </li>
+                    </a>
+                  </Link>}
+              </> :
+              <></>
+            }
+          </ul>
+        </nav>
+
+
         <div className={styles.pcHeaderNav}>
           <ul>
             <Link href="/order">
@@ -59,40 +119,39 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
               </a>
             </Link>
             
+
             {show === true && loginShow ?
               <>
                 <Link href="/history">
-              <a>
-                {document.cookie && (<li>注文履歴</li>)}
-                
-              </a>
-            </Link>
-            {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
-            {loginShow && document.cookie && 
-            <a>
-              <li>{
-                //@ts-ignore
-                document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
-                }さん</li>
-            </a>
-            }
-            {loginShow && !(document.cookie) && 
-            <Link href="/posts/login">
-            <a>
-              <li>ログイン</li>
-            </a>
-            </Link>
-            }
-            {document.cookie && 
-              <Link href="/">
-              <a>
-                <li>
-                  <button className={styles.logout} onClick={() => onClickLogout()}>
-                    ログアウト
-                  </button>
-                </li>
-              </a>
-            </Link>}
+                  <a>
+                    {document.cookie && (<li>注文履歴</li>)}
+
+                  </a>
+                </Link>
+                {/*ログイン状態なら、ログインの代わりにユーザー名を表示 */}
+                {loginShow && document.cookie &&
+                    <li>{
+                      //@ts-ignore
+                      document.cookie.split('; ').find(row => row.startsWith('name')).split('=')[1]
+                    }さん</li>
+                }
+                {loginShow && !(document.cookie) &&
+                  <Link href="/posts/login">
+                    <a>
+                      <li>ログイン</li>
+                    </a>
+                  </Link>
+                }
+                {document.cookie &&
+                  <Link href="/">
+                    <a>
+                      <li>
+                        <button className={styles.logout} onClick={() => onClickLogout()}>
+                          ログアウト
+                        </button>
+                      </li>
+                    </a>
+                  </Link>}
               </> :
               <></>
             }

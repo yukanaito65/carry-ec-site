@@ -128,245 +128,82 @@
       "tel": "070-3527-4395",
       "password": "11111111",
       "checkPassword": "11111111",
-      "history": [],
-      "id": 1
-    },
-    {
-      "name": "服部 天樹",
-      "email": "aaa@gmail.com",
-      "zipcode": "104-0054",
-      "address": "東京都中央区勝どき",
-      "tel": "070-3527-4395",
-      "password": "11111111",
-      "checkPassword": "11111111",
       "history": [
         {
-          "name": "ポークポークカレー・ミート",
+          "name": "カツカレー",
           "price": 1490,
-          "imagePath": "/img_curry/2.jpg",
+          "imagePath": "/img_curry/1.jpg",
           "toppingList": [
+            {
+              "name": "オニオン",
+              "id": 1,
+              "checked": true
+            },
+            {
+              "name": "チーズ",
+              "id": 2,
+              "checked": true
+            },
             {
               "name": "ピーマン",
               "id": 3,
               "checked": true
-            },
-            {
-              "name": "ロースハム",
-              "id": 4,
-              "checked": true
             }
           ],
-          "count": 2,
-          "TotalPrice": 3780,
-          "id": 1
-        }
-      ],
-      "id": 2
-    },
-    {
-      "name": "ああ いい",
-      "email": "aaaa@gmail.com",
-      "zipcode": "104-0054",
-      "address": "東京都中央区勝どき",
-      "tel": "070-3527-4395",
-      "password": "11111111",
-      "checkPassword": "11111111",
-      "history": [
-        {
-          "name": "ポークポークカレー・ミート",
-          "price": 1490,
-          "imagePath": "/img_curry/2.jpg",
-          "toppingList": [
-            {
-              "name": "ロースハム",
-              "id": 4,
-              "checked": true
-            },
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            },
-            {
-              "name": "ナス",
-              "id": 6,
-              "checked": true
-            }
-          ],
-          "count": 6,
-          "TotalPrice": 12540,
-          "id": 1
-        }
-      ],
-      "id": 3
-    },
-    {
-      "name": "服部 天樹",
-      "email": "aaaaa@gmail.com",
-      "zipcode": "104-0054",
-      "address": "東京都中央区勝どき",
-      "tel": "070-3527-4395",
-      "password": "11111111",
-      "checkPassword": "11111111",
-      "history": [
-        {
-          "name": "カツカレー",
-          "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
-          "toppingList": [
-            {
-              "name": "ピーマン",
-              "id": 3,
-              "checked": true
-            },
-            {
-              "name": "ロースハム",
-              "id": 4,
-              "checked": true
-            }
-          ],
-          "count": 3,
-          "TotalPrice": 5670,
-          "id": 1
-        },
-        {
-          "name": "ポークポークカレー・ミート",
-          "price": 1490,
-          "imagePath": "/img_curry/2.jpg",
-          "toppingList": [
-            {
-              "name": "ロースハム",
-              "id": 4,
-              "checked": true
-            },
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            },
-            {
-              "name": "ナス",
-              "id": 6,
-              "checked": true
-            }
-          ],
-<<<<<<< HEAD
-          "count": 1,
-          "TotalPrice": 2090,
-          "id": 1
-        }
-      ],
-      "id": 4
-=======
-          "count": 3,
-          "TotalPrice": 5070,
-          "id": 12
-        },
-        {
-          "name": "カツカレー",
-          "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
-          "toppingList": [],
-          "count": 1,
-          "TotalPrice": 1490,
-          "id": 9
-        },
-        {
-          "name": "ポークポークカレー・ミート",
-          "price": 1490,
-          "imagePath": "/img_curry/2.jpg",
-          "toppingList": [
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            }
-          ],
-          "count": 3,
-          "TotalPrice": 5070,
-          "id": 10
-        },
-        {
-          "name": "カツカレー",
-          "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
-          "toppingList": [
-            {
-              "name": "ロースハム",
-              "id": 4,
-              "checked": true
-            }
-          ],
-          "count": 1,
-          "TotalPrice": 1690,
-          "id": 11
-        },
-        {
-          "name": "ポークポークカレー・ミート",
-          "price": 1490,
-          "imagePath": "/img_curry/2.jpg",
-          "toppingList": [
-            {
-              "name": "ほうれん草",
-              "id": 5,
-              "checked": true
-            }
-          ],
-          "count": 3,
-          "TotalPrice": 5070,
-          "id": 12
-        },
-        {
-          "name": "カツカレー",
-          "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
-          "toppingList": [],
-          "count": 1,
-          "TotalPrice": 1490,
+          "count": 7,
+          "TotalPrice": 14630,
           "id": 1
         }
       ],
       "id": 1
->>>>>>> 6d27f33c906ad4d2e716e51f8d096953805e4c5d
     }
   ],
   "order": [],
   "topping": [
     {
       "name": "オニオン",
-      "id": 1
+      "id": 1,
+      "price": 100
     },
     {
       "name": "チーズ",
-      "id": 2
+      "id": 2,
+      "price": 200
     },
     {
       "name": "ピーマン",
-      "id": 3
+      "id": 3,
+      "price": 100
     },
     {
       "name": "ロースハム",
-      "id": 4
+      "id": 4,
+      "price": 200
     },
     {
       "name": "ほうれん草",
-      "id": 5
+      "id": 5,
+      "price": 100
     },
     {
       "name": "ナス",
-      "id": 6
+      "id": 6,
+      "price": 100
     },
     {
       "name": "ソーセージ",
-      "id": 7
+      "id": 7,
+      "price": 200
     },
     {
       "name": "納豆",
-      "id": 8
+      "id": 8,
+      "price": 100
     },
     {
       "name": "Lサイズ",
-      "id": 9
+      "id": 9,
+      "price": 300
     }
   ]
 }

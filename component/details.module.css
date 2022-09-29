@@ -111,3 +111,13 @@
     cursor: pointer;
     border-radius: 4px;
 }
+
+@media screen and (max-width: 720px) {
+    .item{
+        flex-direction: column;
+    }
+
+    .itemDetail {
+        width: 80%;
+    }
+}

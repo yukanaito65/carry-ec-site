@@ -53,6 +53,7 @@ export type Topping={
     id:number,
     type:string,
     name:string,
+    price: number
 }
 
 export type OrderTopping={
