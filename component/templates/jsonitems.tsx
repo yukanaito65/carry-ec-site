@@ -177,6 +177,7 @@ export default function Items() {
           data.map((item: Item) => {
             const { id, name, price, imagePath } = item;
             return (
+              // @ts-ignore
               <ItemCard id={id} name={name} price={price} imagePath={imagePath} />
             );
           })

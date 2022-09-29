@@ -1,5 +1,19 @@
 .mt {
-  margin-top: 50px;
+  color: #fff;
+    background-color: #FE4204;
+    display: block;
+    padding: 6px 12px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 50px;
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    font-weight: normal;
+    font-family:monospace;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .m0auto {
@@ -8,12 +22,21 @@
 }
 
 .addCss {
-  margin-bottom: 30px;
-  width: 150px;
-  height: 50px;
-  font-size: 25px;
-  border-radius: 10px;
-  border: none;
+  color: #fff;
+    background-color: rgb(24, 103, 208);
+    display: block;
+    padding: 6px 12px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 50px;
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    font-weight: normal;
+    font-family:monospace;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .addCss:hover {

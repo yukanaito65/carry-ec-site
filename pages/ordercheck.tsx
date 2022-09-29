@@ -5,6 +5,7 @@ import Customer from '../component/checkuser';
 import styles from '../component/check.module.css';
 import Link from 'next/link';
 import { json } from 'stream/consumers';
+import Head from 'next/head';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -67,6 +68,10 @@ export default function OrderCheck() {
   let total: number[] = [];
 
   return (
+    <>
+    <Head>
+      <title>注文内容確認</title>
+    </Head>
     <Layout show={true}>
       <div>
         <h1 className={styles.title}>注文内容確認</h1>
@@ -170,5 +175,6 @@ export default function OrderCheck() {
         </Link>
       </div>
     </Layout>
+    </>
   );
 }

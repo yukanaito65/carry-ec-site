@@ -75,6 +75,20 @@
   display: none;
 }
 
+.HeaderCart {
+  border-bottom: transparent;
+  background: linear-gradient(transparent 70%, #FFD700 0%);
+}
+
+.nav {
+  cursor: pointer;
+}
+
+.nowNav {
+  background: linear-gradient(transparent 70%, #FFD700 0%);
+
+}
+
 @media screen and (max-width: 720px) {
   .hamburgerMenu {
     display: flex;
@@ -133,7 +147,7 @@
     transition: .5s;
   }
 
-  .menuNav li{
+  .menuNav li {
     list-style: none;
     margin-top: 1.5rem;
   }
@@ -141,4 +155,5 @@
   .showNav {
     left: 50%;
   }
+
 }

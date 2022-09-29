@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './check.module.css';
 
 export default function CheckUser() {
@@ -8,7 +8,6 @@ export default function CheckUser() {
   const [zipcode, setZipcode] = useState('');
   const [address, setAddress] = useState('');
   const [tel, setTel] = useState('');
-  const [day, setDay] = useState('');
   const router = useRouter();
 
   //  @ts-ignore
@@ -36,43 +35,37 @@ export default function CheckUser() {
       });
   };
 
-  const onClickCheck = () => {
-    fetch('http://localhost:8000/users')
-      .then((res) => res.json())
-      .then((data) => {
-        if (
-          !(
-            name &&
-            email.match(
-              /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
-            ) && //メールアドレスが正規表現と一致するか
-            zipcode.match(/^\d{3}-\d{4}$/) && //郵便番号が正規表現と一致するか
-            address &&
-            tel.match(/^(0[5-9]0-[0-9]{4}-[0-9]{4})$/) &&
-            //電話番号が正規表現と一致するか。
-            day
-          )
-        ) {
-          alert('すべての全ての項目を正しく入力してください');
-        } else {
-          router.push('/'); //登録内容が正しい場合、ボタンを押すと、ホーム画面に遷移。
-          return fetch('http://localhost:8000/users', {
-            //全ての入力が正しかった場合、db.jsonのusersに値を追加。
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({
-              name: name,
-              email: email,
-              zipcode: zipcode,
-              address: address,
-              tel: tel,
-              day: day,
-            }),
-          });
-        }
-      });
-  };
+  // 現在日時の取得
+  const date = new Date();
+  const [day, setDay] = useState('');
+  const [time, setTime] = useState('');
 
+  // 日にちの最小値を現在にする
+  const ymd = `${date.getFullYear()}-${(
+    '0' +
+    (date.getMonth() + 1)
+  ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+
+  // 日にちの最大値を指定
+  const ymd2 = `${date.getFullYear()}-${(
+    '0' +
+    (date.getMonth() + 3)
+  ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+
+  // 現在時刻から3時間を足す
+  const hs = date.getHours() + 3;
+  // 入力された時刻の時間だけを取り出してnumber型にする
+  const hour = Number(time.slice(0, 2));
+
+  useEffect(() => {
+    if (21 < hour) {
+      return setTime('');
+    } else if (hour < hs) {
+      return setTime('');
+    } else if (hour < 9) {
+      return setTime('');
+    }
+  }, [time]);
   return (
     <div>
       <h2 className={styles.title}>お届け先情報</h2>
@@ -213,20 +206,38 @@ export default function CheckUser() {
               <label htmlFor="day" className={styles.td}>
                 配達日時：
               </label>
-              {day.length === 0 && (
+              {day.length === 0 || time.length === 0 ? (
                 <span className={styles.alert}>
                   配達日時を選択して下さい。
                 </span>
+              ) : (
+                ''
               )}
             </td>
             <td>
               <input
-                type="datetime-local"
+                type="date"
                 name="day"
+                id="today"
+                min={ymd}
+                max={ymd2}
                 className={styles.input}
                 value={day}
                 onChange={(e) => {
                   setDay(e.target.value);
+                }}
+              />
+              <br />
+              <input
+                type="time"
+                name="time"
+                id="time"
+                min="09:00"
+                max="15:00"
+                className={styles.input}
+                value={time}
+                onChange={(e) => {
+                  setTime(e.target.value);
                 }}
               />
             </td>
