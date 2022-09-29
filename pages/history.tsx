@@ -2,8 +2,8 @@ import useSWR, { mutate, useSWRConfig } from 'swr';
 import { Layout } from '../component/layout';
 import styles from '../component/check.module.css';
 import style from "../styles/order.module.css";
-import Customer from '../component/checkuser';
 import Head from 'next/head';
+
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
 
@@ -40,6 +40,7 @@ export default function History() {
               <th>トッピング・価格（税抜）</th>
               <th>注文日時</th>
               <th>小計</th>
+              <th>注文日時</th>
             </tr>
           </thead>
           <tbody>
@@ -79,10 +80,12 @@ export default function History() {
                     )}
                     円
                   </td>
+                  <td>{e.day} {e.time}</td>
                 </tr>
               );
             })}
           </tbody>
+          
         </table>
         </>}
       </div>

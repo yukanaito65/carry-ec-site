@@ -107,6 +107,11 @@ export default function Details({ jsonData }: { jsonData: Item }) {
 
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
+
+//@ts-ignore
+    const cookieName = document.cookie.split('; ')
+    .find(row=>row.startsWith('name')).split('=')[1];
+
     //dbJsonのorderItemsに反映させる
     fetch('http://localhost:8000/orderItems/', {
       method: 'POST',

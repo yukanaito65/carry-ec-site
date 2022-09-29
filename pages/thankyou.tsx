@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 
 export default function Thankyou() {
+  //CheckoutFormからのリクエストが届いているssrで確認する。
   return (
     <>
       <Head>
