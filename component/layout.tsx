@@ -3,25 +3,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { User } from '../types/types';
 import { userAgent } from 'next/server';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BreadCrumb } from './Breadcrumb';
-
-
-export function Layout({
-  children,
-  show,
-}: {
-  children: any;
-  show: boolean;
-}) {
-  // const [show, setShow] = useState("");
-  // const onClickShow = () => {
-  //   if (show === "") {
-  //     setShow("show");
-  //   } else {
-  //     setShow("");
-  //   }
-  // }
 
   const [loginShow, setLoginShow] = useState(false);
   useEffect(() => {
@@ -50,9 +34,30 @@ function onClickLogout() {
 
 }
 
+export function Layout({ children, show }: { children: any; show: boolean }) {
+  // const [show, setShow] = useState("");
+  // const onClickShow = () => {
+  //   if (show === "") {
+  //     setShow("show");
+  //   } else {
+  //     setShow("");
+  //   }
+  // }
+  const [loginShow, setLoginShow] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setLoginShow(true)
+    }
+  }, [])
   // 現在のURLを宣言
   const router = useRouter();
   let currentUrl = router.pathname;
+
+  //クリックするとレスポンシブ用のnavが表示される
+  const [isActive, setIsActive] = useState(false);
+  const onClickAddClass = () => {
+    setIsActive(!isActive);
+  }
 
   return (
     <>
@@ -61,11 +66,11 @@ function onClickLogout() {
       <header className={styles.header}>
         <Link href="/">
           <a>
-            <img src="/img_curry/header_logo.png" height={35} />
+            <Image src="/img_curry/header_logo.png" height={35} width={160} alt='logo' />
           </a>
         </Link>
-        <div className={styles.span}></div>
-        {/* <div className={styles.hamburgerMenu} onClick={onClickShow}>
+        {/* ハンバーガーメニュー */}
+        {/*<button className={styles.hamburgerMenu} onClick={() => onClickAddClass()}>
           <span></span>
         </div> */}
 

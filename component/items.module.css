@@ -97,8 +97,6 @@
     padding-top: 200px;
     /* 上はヘッダや検索フォームが来るのでその分空ける */
     padding-bottom: 80px;
-    padding-left: 15%;
-    padding-right: 5%;
     background-color: white;
     text-align: center;
     display: flex;

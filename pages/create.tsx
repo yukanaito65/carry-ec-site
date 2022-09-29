@@ -253,7 +253,7 @@ export default function User() {
             <label htmlFor="password">パスワード:</label>
             {showError === true && password.length < 1 && (
               <span className={styles.subTitle}>
-                パスワードを8文字以上16文字以下で入力してください
+                パスワードを入力してください
               </span>
             )}
             {showError === true && password.length < 8 && password.length >= 1 && (
@@ -272,7 +272,7 @@ export default function User() {
               name="password"
               value={password}
               className={styles.form}
-              placeholder="PassWord"
+              placeholder="PassWord(8文字以上16文字以下)"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
