@@ -1,11 +1,13 @@
 import React from "react";
+// import styles from '../component/check.module.css';
+
 import {
   PaymentElement,
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -45,7 +47,6 @@ export default function CheckoutForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-console.log("stripe", stripe)
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
@@ -59,7 +60,7 @@ console.log("stripe", stripe)
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000/thankyou",//thankyouファイルにリクエストを送信する。
-        // billing_details?:{name: json.name,//thankyouファイルに送りたい情報たち。
+        // billing_details:{name: json.name,//thankyouファイルに送りたい情報たち。
         // email: json.email,
         // zipcode: json.zipcode,
         // address: json.address,
@@ -85,11 +86,12 @@ console.log("stripe", stripe)
   };
 
   return (
-    <form id="payment-form" onSubmit={(e)=>handleSubmit(e)}>
+    
+    <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button disabled={ isLoading || !stripe || !elements ||!props.name ||!props.email ||!props.zipcode ||!props.address ||!props.tel ||!props.day ||!props.time} id="submit" onClick={props.onClickCheck}>
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "お支払い"}
+          {isLoading ? <div className="spinner" id="spinner"></div> : "この内容で注文する"}
         </span>
       </button>
       {/* Show any error or success messages */}
