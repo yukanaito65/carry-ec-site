@@ -120,88 +120,25 @@
   ],
   "orderItems": [
     {
-      "name": "ポークポークカレー・ミート",
+      "name": "カツカレー",
       "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
-        {
-          "name": "チーズ",
-          "id": 2,
-          "checked": true
-        },
-        {
-          "name": "ロースハム",
-          "id": 4,
-          "checked": true
-        }
-      ],
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
       "count": 1,
-      "TotalPrice": 1890,
+      "TotalPrice": 1490,
       "id": 1
     },
     {
-      "name": "牛すじカレー",
+      "name": "カツカレー",
       "price": 1490,
-      "imagePath": "/img_curry/3.jpg",
-      "toppingList": [
-        {
-          "name": "ほうれん草",
-          "id": 5,
-          "checked": true
-        },
-        {
-          "name": "ナス",
-          "id": 6,
-          "checked": true
-        }
-      ],
+      "imagePath": "/img_curry/1.jpg",
+      "toppingList": [],
       "count": 1,
-      "TotalPrice": 1890,
+      "TotalPrice": 1490,
       "id": 2
     }
   ],
-  "order": [
-    {
-      "name": "ポークポークカレー・ミート",
-      "price": 1490,
-      "imagePath": "/img_curry/2.jpg",
-      "toppingList": [
-        {
-          "name": "チーズ",
-          "id": 2,
-          "checked": true
-        },
-        {
-          "name": "ロースハム",
-          "id": 4,
-          "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 1890,
-      "id": 1
-    },
-    {
-      "name": "牛すじカレー",
-      "price": 1490,
-      "imagePath": "/img_curry/3.jpg",
-      "toppingList": [
-        {
-          "name": "ほうれん草",
-          "id": 5,
-          "checked": true
-        },
-        {
-          "name": "ナス",
-          "id": 6,
-          "checked": true
-        }
-      ],
-      "count": 1,
-      "TotalPrice": 1890,
-      "id": 2
-    }
-  ],
+  "order": [],
   "users": [
     {
       "name": "服部 天樹",

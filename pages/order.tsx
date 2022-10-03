@@ -8,6 +8,7 @@ import utilStyles from '../styles/utils.module.css';
 import checkStyles from '../component/check.module.css';
 import { useState } from 'react';
 import Head from 'next/head';
+import { SwiperAtom } from '../component/atoms/SwiperAtom';
 
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>

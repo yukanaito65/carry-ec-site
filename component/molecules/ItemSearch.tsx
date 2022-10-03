@@ -85,12 +85,14 @@ export function ItemSearch({
                 type="button"
                 value="検索"
                 onClick={onClickMain}
+                className={styles.searchBtn}
               />
 
               <SubBtn
                 type="reset"
                 value="クリア"
                 onClick={onClickSub}
+                className={styles.cannselBtn}
               />
             </span>
             <br />

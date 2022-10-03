@@ -8,6 +8,7 @@ import { getAllJsonIds, getJsonData } from "../../lib/json";
 import { Item, Topping } from "../../types/types";
 import detailStyle from "../../component/details.module.css"
 import Head from 'next/head';
+import { MainBtn } from "../../component/atoms/MainBtn";
 
 //posts/1などのpathを用意する
 export async function getStaticPaths() {
@@ -150,97 +151,62 @@ export default function Details({ jsonData }: { jsonData: Item }) {
           </div>
         </div>
         <div className={detailStyle.option}>
-          <h3 className={detailStyle.optionTitle}>
-            トッピング &nbsp;:&nbsp; 1つにつき200円（税抜）
-          </h3>
+          <h3 className={detailStyle.optionTitle}>ライス大盛り: 300円</h3>
           <div className={detailStyle.optionTag}>
-            {
-              //toppingのデータを一つ一つ表示
-              data.map(({ name, id }: Topping, index: any) => (
-                <>
-                  <input
-                    type="checkbox"
-                    id={name}
-                    name={name}
-                    checked={checkedToppingsArray[index]}
-                    onChange={() => onChangeCheck(index)}
-                  />
-                  <label className={detailStyle.toppingCB} htmlFor={name}>{name}</label>
-                </>
-              ))
-            }
+            {//toppingのデータを一つ一つ表示
+              data.map(({ name, price, id }: Topping, index: any) => {
+                if (price !== 300) return;
+                return (
+                  <>
+                    <input type="checkbox" id={name} name={name} checked={checkedToppingsArray[index]} onChange={() => onChangeCheck(index)} />
+                    <label htmlFor={name}>{name}</label>
+                  </>
+                )
+              })}
           </div>
-          <div className={detailStyle.quantity}>
-            <h3 className={detailStyle.quantityTitle}>数量&nbsp;:</h3>
-            <select
-              name="count"
-              id="count"
-              className={detailStyle.select}
-              value={count}
-              onChange={onChangeCount}
-            >
-              {arr.map((el) => (
-                <option key={el} value={el}>
-                  {el}
-                </option>
-              ))}
-            </select>
+          <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき100円（税抜）</h3>
+          <div className={detailStyle.optionTag}>
+            {//toppingのデータを一つ一つ表示
+              data.map(({ name, price, id }: Topping, index: any) => {
+                if (price !== 100) return;
+                return (
+                  <>
+                    <input type="checkbox" id={name} name={name} checked={checkedToppingsArray[index]} onChange={() => onChangeCheck(index)} />
+                    <label htmlFor={name}>{name}</label>
+                  </>
+                )
+              })}
           </div>
+          <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
+          <div className={detailStyle.optionTag}>
+            {//toppingのデータを一つ一つ表示
+              data.map(({ name, price, id }: Topping, index: any) => {
+                if (price !== 200) return;
+                return (
+                  <>
+                    <input type="checkbox" id={name} name={name} checked={checkedToppingsArray[index]} onChange={() => onChangeCheck(index)} />
+                    <label htmlFor={name}>{name}</label>
+                  </>
+                )
+              })}
+          </div>
+          <h3 className={detailStyle.quantity}>数量:</h3>
+          <select name="count" id="count" className={detailStyle.select} value={count} onChange={onChangeCount}>
+            {arr.map((el) => (
+              <option key={el} value={el}>{el}</option>
+            ))}
+          </select>
         </div>
 
-      <h3 className={detailStyle.optionTitle}>ライス大盛り: 300円</h3>
-      <div className={detailStyle.optionTag}>
-        {//toppingのデータを一つ一つ表示
-          data.map(({ name, price, id }: Topping, index: any) => {
-            if (price !== 300) return;
-            return (
-              <>
-                <input type="checkbox" id={name} name={name} checked={checkedToppingsArray[index]} onChange={() => onChangeCheck(index)} />
-                <label htmlFor={name}>{name}</label>
-              </>
-            )
-          })}
-      </div>
-      <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき100円（税抜）</h3>
-      <div className={detailStyle.optionTag}>
-        {//toppingのデータを一つ一つ表示
-          data.map(({ name, price, id }: Topping, index: any) => {
-            if (price !== 100) return;
-            return (
-              <>
-                <input type="checkbox" id={name} name={name} checked={checkedToppingsArray[index]} onChange={() => onChangeCheck(index)} />
-                <label htmlFor={name}>{name}</label>
-              </>
-            )
-          })}
-      </div>
-      <h3 className={detailStyle.optionTitle}>トッピング: 1つにつき200円（税抜）</h3>
-      <div className={detailStyle.optionTag}>
-        {//toppingのデータを一つ一つ表示
-          data.map(({ name, price, id }: Topping, index: any) => {
-            if (price !== 200) return;
-            return (
-              <>
-                <input type="checkbox" id={name} name={name} checked={checkedToppingsArray[index]} onChange={() => onChangeCheck(index)} />
-                <label htmlFor={name}>{name}</label>
-              </>
-            )
-          })}
-      </div>
-      <h3 className={detailStyle.quantity}>数量:</h3>
-      <select name="count" id="count" className={detailStyle.select} value={count} onChange={onChangeCount}>
-        {arr.map((el) => (
-          <option key={el} value={el}>{el}</option>
-        ))}
-      </select>
-      <p className={detailStyle.total}>この商品金額: {String((price + totalPrice) * count)
-        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}円（税抜）</p>
-      {show === true ?
-        <button className={detailStyle.confirmBtn} onClick={() => onClickDec()}>確定</button> :
-        <Link href="/">
-          <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button>
-        </Link>}
-    </Layout>
+        <p className={detailStyle.total}>この商品金額: {String((price + totalPrice) * count)
+          .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}円（税抜）</p>
+        {show === true ?
+          <MainBtn className={detailStyle.Btn} onClick={():any => onClickDec()} value={'確定'}/> :
+          <Link href="/">
+            <MainBtn className={detailStyle.Btn} onClick={() => onClickCart()} value={'カートに追加'}/> 
+            {/* <button className={detailStyle.Btn} onClick={() => onClickCart()}>カートに追加</button> */}
+          </Link>}
+      </Layout>
     </>
   );
 }

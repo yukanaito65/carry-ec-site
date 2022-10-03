@@ -1,21 +1,22 @@
-import styles from '../items.module.css';
-import sugStyles from '../../styles/suggest.module.css';
+import detailStyle from "../../component/details.module.css"
 
 type MainBtn = {
   type: any,
   value: string,
   onClick: any,
+  className: string
 }
 
 export function MainBtn({
   type,
   value, 
-  onClick
-}: MainBtn) {
+  onClick,
+  className
+}: MainBtn): JSX.Element {
   return (
     <>
       <button 
-      className={styles.searchBtn}
+      className={className}
       type={type} onClick={onClick}>{value}</button>
     </>
   )
