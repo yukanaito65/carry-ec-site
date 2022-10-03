@@ -195,29 +195,6 @@
         }
       ],
       "id": 1
-    },
-    {
-      "name": "山田 太郎",
-      "email": "yamada@gmail.com",
-      "zipcode": "179-0085",
-      "address": "東京都練馬区早宮",
-      "tel": "080-3333-3333",
-      "password": "qqqqqqqq",
-      "checkPassword": "qqqqqqqq",
-      "history": [
-        {
-          "name": "カツカレー",
-          "price": 1490,
-          "imagePath": "/img_curry/1.jpg",
-          "toppingList": [],
-          "count": 1,
-          "TotalPrice": 1490,
-          "day": "2022-09-30",
-          "time": "21:43",
-          "id": 2
-        }
-      ],
-      "id": 2
     }
   ],
   "topping": [

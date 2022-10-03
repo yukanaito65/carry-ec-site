@@ -38,7 +38,6 @@ export default function History() {
               <th>商品名</th>
               <th>価格（税抜）・数量</th>
               <th>トッピング・価格（税抜）</th>
-              <th>注文日時</th>
               <th>小計</th>
               <th>注文日時</th>
             </tr>
@@ -69,9 +68,6 @@ export default function History() {
                         </li>
                       </ul>
                     ))}
-                  </td>
-                  <td>
-                      {e.orderDate}
                   </td>
                   <td>
                     {String(e.TotalPrice).replace(

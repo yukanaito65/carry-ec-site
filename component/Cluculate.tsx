@@ -61,7 +61,7 @@ export default function OrderCheck() {
   //         });
   //       });
   //     });
-      
+
   // };
 
   //　中身がtotalPriceだけの配列をpushする

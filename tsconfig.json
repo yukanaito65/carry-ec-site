@@ -16,6 +16,6 @@
     "incremental": true,
     "baseUrl": "src"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/stripe.js", "CheckoutForm.jsx", "lib/credit.js", "pages/api/checkout_sessions.js", "pages/index2.js", "pages/api/checkout_sessions.js", "pages/index2.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/stripe.js", "CheckoutForm.jsx", "lib/credit.js", "pages/api/checkout_sessions.js", "pages/index2.js", "pages/api/checkout_sessions.js", "pages/index2.js", "pages/api/create-payment-intent.js", "pages/api/create-payment-intent.js"],
   "exclude": ["node_modules"]
 }

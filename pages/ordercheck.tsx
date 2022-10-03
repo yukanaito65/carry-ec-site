@@ -3,11 +3,17 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import styles from '../component/check.module.css';
 import React from 'react';
-import StripeApi from '../lib/stripe';
-import Link from 'next/link';
+// import StripeApi from '../lib/stripe';
 import OrderCheck from '../component/Cluculate';
-import { json } from 'stream/consumers';
 import Head from 'next/head';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from '../component/CheckoutForm';
+import Stripe from 'stripe';
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY! //undefinedではない
+);
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
   fetch(...args).then((res) => res.json());
@@ -23,14 +29,17 @@ export default function CheckUser() {
   const router = useRouter();
   const [creditShow, setCreditShow] = useState(false);
   const [errorShow, setErrorShow] = useState(false);
+  const [clientSecret, setClientSecret] = React.useState('');
+
   // 現在日時の取得
   const date = new Date();
   const [time, setTime] = useState('');
 
   // 日にちの最小値を現在にする
-  const ymd = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${(
-    '0' + date.getDate()
-  ).slice(-2)}`;
+  const ymd = `${date.getFullYear()}-${(
+    '0' +
+    (date.getMonth() + 1)
+  ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
 
   // 日にちの最大値を指定
   const ymd2 = `${date.getFullYear()}-${(
@@ -53,12 +62,41 @@ export default function CheckUser() {
     }
   }, [time]);
 
+
+
   const { data, error } = useSWR(
     'http://localhost:8000/order',
     fetcher
+
   );
+
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order:data }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+      console.log("dataaaa",data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
+
+
+
+  const appearance: {
+    theme: 'stripe' | 'night' | 'flat' | 'none' | undefined;
+  } = {
+    theme: 'stripe',
+  };
+  const options: StripeElementsOptions = {
+    clientSecret,
+    appearance,
+  };
 
   //  @ts-ignore
   const cookieName = document.cookie
@@ -86,9 +124,6 @@ export default function CheckUser() {
   };
 
   const onClickCheck = () => {
-    if (creditVal === 'card') {
-      setCreditShow(true);
-    }
     if (
       !(
         name &&
@@ -97,7 +132,7 @@ export default function CheckUser() {
         address &&
         tel &&
         day &&
-        time&&
+        time &&
         creditVal
       )
     ) {
@@ -129,12 +164,13 @@ export default function CheckUser() {
                   TotalPrice: e.TotalPrice,
                   userName: e.cookieName,
                   day: day,
-                  time:time
+                  time: time,
                 }),
               });
             });
           })
-          .then(() => {//awaitでは、fetchまでしか待ってくれないので、.thenで繋げる。
+          .then(() => {
+            //awaitでは、fetchまでしか待ってくれないので、.thenで繋げる。
             fetch(`http://localhost:8000/order`) //日付の入っているorederをfetch
               .then((res) => res.json())
               .then((data2) => {
@@ -169,7 +205,6 @@ export default function CheckUser() {
                                 }
                               );
                             });
-                            router.push('/thankyou'); //thankyouページに遷移
                           });
                       })
                       .catch((error) => console.error(error));
@@ -203,169 +238,172 @@ export default function CheckUser() {
       </button>
       <form method="post">
         <table className={styles.userTitle}>
-          <tr>
-            <td className={styles.td}>
-              <label htmlFor="name">お名前：</label>
-              {errorShow === true && name.length < 1 && (
-                <span>名前を入力してください</span>
-              )}{' '}
-              {/*入力されてない時だけ"名前を入力してください”を表示 以下全てのinputに同様の機能追加*/}
-            </td>
-            <td>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className={styles.input}
-                value={name}
-                placeholder="name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td className={styles.td}>
+                <label htmlFor="name">お名前：</label>
+                {errorShow === true && name.length < 1 && (
+                  <span>名前を入力してください</span>
+                )}{' '}
+                {/*入力されてない時だけ"名前を入力してください”を表示 以下全てのinputに同様の機能追加*/}
+              </td>
+              <td>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className={styles.input}
+                  value={name}
+                  placeholder="name"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </td>
+            </tr>
 
-          <tr>
-            <td className={styles.td}>
-              <label htmlFor="email">メールアドレス：</label>
-              {errorShow === true && email.length < 1 && (
-                <span>メールアドレスを入力してください</span>
-              )}
-              {!email.match(
-                /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
-              ) &&
-                email.length >= 1 && (
-                  <span>メールアドレスの形式が不正です</span>
+            <tr>
+              <td className={styles.td}>
+                <label htmlFor="email">メールアドレス：</label>
+                {errorShow === true && email.length < 1 && (
+                  <span>メールアドレスを入力してください</span>
                 )}
-            </td>
-            <td>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className={styles.input}
-                value={email}
-                placeholder="Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </td>
-          </tr>
+                {!email.match(
+                  /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/
+                ) &&
+                  email.length >= 1 && (
+                    <span>メールアドレスの形式が不正です</span>
+                  )}
+              </td>
+              <td>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className={styles.input}
+                  value={email}
+                  placeholder="Email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </td>
+            </tr>
 
-          <tr>
-            <td className={styles.td}>
-              <label htmlFor="zipcode">郵便番号：</label>
-              {errorShow === true && zipcode.length < 1 && (
-                <span className={styles.alert}>
-                  郵便番号を(-)を付けて入力してください
-                </span>
-              )}
-            </td>
-            <td>
-              <input
-                type="text"
-                id="zipcode"
-                name="zipcode"
-                className={styles.input}
-                value={zipcode}
-                placeholder="Zipcode"
-                onChange={(e) => {
-                  setZipcode(e.target.value);
-                }}
-              />
-            </td>
-          </tr>
+            <tr>
+              <td className={styles.td}>
+                <label htmlFor="zipcode">郵便番号：</label>
+                {errorShow === true && zipcode.length < 1 && (
+                  <span className={styles.alert}>
+                    郵便番号を(-)を付けて入力してください
+                  </span>
+                )}
+              </td>
+              <td>
+                <input
+                  type="text"
+                  id="zipcode"
+                  name="zipcode"
+                  className={styles.input}
+                  value={zipcode}
+                  placeholder="Zipcode"
+                  onChange={(e) => {
+                    setZipcode(e.target.value);
+                  }}
+                />
+              </td>
+            </tr>
 
-          <tr>
-            <td className={styles.td}>
-              <label htmlFor="address">住所：</label>
-              {errorShow === true && address.length < 1 && (
-                <span className={styles.alert}>
-                  住所を入力してください
-                </span>
-              )}
-            </td>
-            <td>
-              <input
-                type="text"
-                id="address"
-                name="address"
-                className={styles.input}
-                value={address}
-                placeholder="Address"
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-              />
-            </td>
-          </tr>
+            <tr>
+              <td className={styles.td}>
+                <label htmlFor="address">住所：</label>
+                {errorShow === true && address.length < 1 && (
+                  <span className={styles.alert}>
+                    住所を入力してください
+                  </span>
+                )}
+              </td>
+              <td>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  className={styles.input}
+                  value={address}
+                  placeholder="Address"
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </td>
+            </tr>
 
-          <tr>
-            <td className={styles.td}>
-              <label htmlFor="tel">電話番号：</label>
-              {errorShow === true && tel.length === 0 && (
-                <span className={styles.alert}>
-                  電話番号を(-)を付けて入力してください
-                </span>
-              )}
-            </td>
-            <td>
-              <input
-                type="tel"
-                id="tel"
-                name="tel"
-                className={styles.input}
-                value={tel}
-                placeholder="PhoneNumber"
-                onChange={(e) => {
-                  setTel(e.target.value);
-                }}
-              />
-            </td>
-          </tr>
+            <tr>
+              <td className={styles.td}>
+                <label htmlFor="tel">電話番号：</label>
+                {errorShow === true && tel.length === 0 && (
+                  <span className={styles.alert}>
+                    電話番号を(-)を付けて入力してください
+                  </span>
+                )}
+              </td>
+              <td>
+                <input
+                  type="tel"
+                  id="tel"
+                  name="tel"
+                  className={styles.input}
+                  value={tel}
+                  placeholder="PhoneNumber"
+                  onChange={(e) => {
+                    setTel(e.target.value);
+                  }}
+                />
+              </td>
+            </tr>
 
-          <tr>
-            <td>
-              <label htmlFor="day" className={styles.td}>
-                配達日時：
-              </label>
-              {errorShow === true &&day.length === 0 && time.length === 0 && (
-                <span className={styles.alert}>
-                  配達日時を選択して下さい。
-                </span>
-              )}
-           
-            </td>
-            <td>
-              <input
-                type="date"
-                name="day"
-                id="today"
-                min={ymd}
-                max={ymd2}
-                className={styles.input}
-                value={day}
-                onChange={(e) => {
-                  setDay(e.target.value);
-                }}
-              />
-              <br />
-              <input
-                type="time"
-                name="time"
-                id="time"
-                min="09:00"
-                max="15:00"
-                className={styles.input}
-                value={time}
-                onChange={(e) => {
-                  setTime(e.target.value);
-                }}
-              />
-            </td>
-          </tr>
+            <tr>
+              <td>
+                <label htmlFor="day" className={styles.td}>
+                  配達日時：
+                </label>
+                {errorShow === true &&
+                  day.length === 0 &&
+                  time.length === 0 && (
+                    <span className={styles.alert}>
+                      配達日時を選択して下さい。
+                    </span>
+                  )}
+              </td>
+              <td>
+                <input
+                  type="date"
+                  name="day"
+                  id="today"
+                  min={ymd}
+                  max={ymd2}
+                  className={styles.input}
+                  value={day}
+                  onChange={(e) => {
+                    setDay(e.target.value);
+                  }}
+                />
+                <br />
+                <input
+                  type="time"
+                  name="time"
+                  id="time"
+                  min="09:00"
+                  max="15:00"
+                  className={styles.input}
+                  value={time}
+                  onChange={(e) => {
+                    setTime(e.target.value);
+                  }}
+                />
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         <div>
@@ -403,16 +441,48 @@ export default function CheckUser() {
               </div>
             )}
           </div>
-          <button
-            type="button"
-            className={styles.btn}
-            onClick={() => onClickCheck()}
-          >
-            この内容で注文する
-          </button>
+
+          {name &&
+            email &&
+            zipcode &&
+            address &&
+            tel &&
+            day &&
+            time &&
+            creditVal &&
+            creditVal === 'money' && (
+              <button
+                type="button"
+                className={styles.btn}
+                onClick={() => {
+                  onClickCheck();
+                  router.push('/thankyou');
+                }}
+              >
+                この内容で注文する
+              </button>
+            )}
         </div>
       </form>
-      {creditShow && <StripeApi />}
+      {creditVal === 'card' && (
+        <div className="App">
+          {clientSecret && (
+            <Elements options={options} stripe={stripePromise}>
+              <CheckoutForm
+                name={name}
+                email={email}
+                zipcode={zipcode}
+                address={address}
+                tel={tel}
+                day={day}
+                time={time}
+                creditVal={creditVal}
+                onClickCheck={onClickCheck}
+              />
+            </Elements>
+          )}
+        </div>
+      )}
     </div>
   );
 }
