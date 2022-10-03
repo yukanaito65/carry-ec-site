@@ -108,6 +108,11 @@ export default function Details({ jsonData }: { jsonData: Item }) {
 
   const { id, name, imagePath, description, price } = jsonData;
   const onClickCart = () => {
+
+//@ts-ignore
+    const cookieName = document.cookie.split('; ')
+    .find(row=>row.startsWith('name')).split('=')[1];
+
     //dbJsonのorderItemsに反映させる
     fetch('http://localhost:8000/orderItems/', {
       method: 'POST',
@@ -197,7 +202,6 @@ export default function Details({ jsonData }: { jsonData: Item }) {
             ))}
           </select>
         </div>
-
         <p className={detailStyle.total}>この商品金額: {String((price + totalPrice) * count)
           .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')}円（税抜）</p>
         {show === true ?
