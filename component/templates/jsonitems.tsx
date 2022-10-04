@@ -8,6 +8,7 @@ import { arrayBuffer } from 'stream/consumers';
 import sugStyles from '../styles/suggest.module.css';
 import { ItemSearch } from '../molecules/ItemSearch';
 import { ItemCard } from '../atoms/ItemCard';
+import { SwiperAtom } from '../atoms/SwiperAtom';
 
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
@@ -157,6 +158,7 @@ export default function Items() {
   return (
     <Layout show={true}>
       {/*@ts-ignore*/}
+      <SwiperAtom />
       <ItemSearch
         onChangeInput={onChangeNameText}
         onClickMain={() => onClickSearch()}
@@ -168,7 +170,6 @@ export default function Items() {
         sortSelect={sortSelect}
         onChangeSortSelect={onChangeSortSelect}
         />
-
       <div className={styles.itemWrapper}>
         {/* 条件分岐 */}
         {!alertShow && searchData.length == 0 ? (
@@ -188,37 +189,8 @@ export default function Items() {
             searchData.map((item: Item) => {
               const { id, name, price, imagePath } = item;
               return (
-                <div key={id}>
-                  <table className={styles.item}>
-                    <tr>
-                      <th>
-                        <img
-                          src={imagePath}
-                          width={300}
-                          className={styles.itemImg}
-                        />
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <Link href={`/posts/${id}`}>
-                          <a className={styles.name}>{name}</a>
-                        </Link>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>
-                        <p className="price">
-                          {String(price).replace(
-                            /(\d)(?=(\d\d\d)+(?!\d))/g,
-                            '$1,'
-                          )}
-                          円（税抜）
-                        </p>
-                      </th>
-                    </tr>
-                  </table>
-                </div>
+                 // @ts-ignore
+                <ItemCard id={id} name={name} price={price} imagePath={imagePath} />
               );
             })
           )}

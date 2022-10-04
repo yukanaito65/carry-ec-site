@@ -25,10 +25,12 @@
 
 .option {
  margin: 30px 100px;
+ text-align: center;
 }
 
 .optionTitle {
     margin-top: 30px;
+    text-align: center;
 }
 
 .toppingCB {
@@ -37,8 +39,7 @@
 }
 
 .quantity {
-    display: flex;
-    margin: 20px 0;
+    text-align: center;
 }
 
 .select {
@@ -49,7 +50,7 @@
     width: 10em;
     height: 30px;
     border-radius: 4px;
-    margin: auto 10px;
+    margin: 0 auto;
 }
 
 .total {

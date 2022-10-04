@@ -1,6 +1,6 @@
 .searchWrapper {
-    position: fixed;
-    /* スクロールしても表示されるように位置を固定 */
+    /* position: fixed;
+    スクロールしても表示されるように位置を固定 */
     height: 180px;
     /* 縦幅を180pxにする */
     width: 100%;
@@ -94,7 +94,7 @@
      ======================================== */
 
 .itemWrapper {
-    padding-top: 200px;
+    /* padding-top: 200px; */
     /* 上はヘッダや検索フォームが来るのでその分空ける */
     padding-bottom: 80px;
     background-color: white;

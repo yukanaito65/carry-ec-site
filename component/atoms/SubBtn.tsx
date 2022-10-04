@@ -5,17 +5,19 @@ type SubBtn = {
   type: any,
   value: string,
   onClick: any,
+  className: string
 }
 
 export function SubBtn({
   type,
   value, 
-  onClick
+  onClick,
+  className
 }: SubBtn) {
   return (
     <>
       <button 
-      className={styles.cannselBtn}
+      className={className}
       type={type} onClick={onClick}>{value}</button>
     </>
   )
