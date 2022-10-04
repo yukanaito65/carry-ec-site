@@ -7,26 +7,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BreadCrumb } from './Breadcrumb';
 
-
-// ログアウトボタンのクッキー削除
-function onClickLogout() {
-  // クッキーのid削除
-  const cookieId = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('id'));
-  console.log(cookieId); //id=1
-  document.cookie = `${cookieId}; max-age=0`;
-
-  // クッキーのname削除
-  const cookieName = document.cookie;
-  console.log(cookieName);
-  document.cookie = `${cookieName}; max-age=0`;
-  
-
-  // ぱんくずリストの削除(リセット)
-  localStorage.clear();
-
-
 export function Layout({ children, show }: { children: any; show: boolean }) {
   // const [show, setShow] = useState("");
   // const onClickShow = () => {

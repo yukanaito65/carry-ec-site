@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
-    "@stripe/react-stripe-js": "^1.10.0",
+    "@stripe/react-stripe-js": "^1.12.0",
     "@stripe/stripe-js": "^1.36.0",
     "i": "^0.3.7",
     "next": "^12.3.1",
