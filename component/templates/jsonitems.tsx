@@ -159,7 +159,7 @@ export default function Items() {
     <Layout show={true}>
       {/*@ts-ignore*/}
       <SwiperAtom />
-      <ItemSearch
+      <ItemSearch 
         onChangeInput={onChangeNameText}
         onClickMain={() => onClickSearch()}
         onClickSub={() => formReset()}
@@ -179,7 +179,7 @@ export default function Items() {
             const { id, name, price, imagePath } = item;
             return (
               // @ts-ignore
-              <ItemCard id={id} name={name} price={price} imagePath={imagePath} />
+              <div key={id}><ItemCard id={id} name={name} price={price} imagePath={imagePath} /></div>
             );
           })
         ) : // 検索テキストに入力した場合
@@ -190,7 +190,7 @@ export default function Items() {
               const { id, name, price, imagePath } = item;
               return (
                  // @ts-ignore
-                <ItemCard id={id} name={name} price={price} imagePath={imagePath} />
+                <div key={id}><ItemCard id={id} name={name} price={price} imagePath={imagePath} /></div>
               );
             })
           )}

@@ -1,7 +1,7 @@
 import useSWR, { mutate, useSWRConfig } from 'swr';
 import { Layout } from '../component/layout';
 import styles from '../component/check.module.css';
-import style from "../styles/order.module.css";
+import style from '../styles/order.module.css';
 import Head from 'next/head';
 
 export const fetcher: (args: string) => Promise<any> = (...args) =>
@@ -21,7 +21,6 @@ export default function History() {
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
-  let total: number[] = [];
   return (
     <Layout show={true}>
       <Head>
@@ -29,61 +28,64 @@ export default function History() {
       </Head>
       <div>
         <h1 className={styles.title}>注文履歴</h1>
-        { data.history.length===0 ?
-            <p className={style.msg} >注文履歴がありません</p> :
-            <>
-        <table className={styles.item} border={1}>
-          <thead>
-            <tr>
-              <th>商品名</th>
-              <th>価格（税抜）・数量</th>
-              <th>トッピング・価格（税抜）</th>
-              <th>小計</th>
-              <th>注文日時</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.history.map((e: any) => {
-              return (
-                <tr key={e.id}>
-                  <td>
-                    <img src={e.imagePath} width={100} />
-                    <p>{e.name}</p>
-                  </td>
-                  <td>
-                    数量：{e.count}個
-                    <br />
-                    単品価格：
-                    {String(e.price).replace(
-                      /(\d)(?=(\d\d\d)+(?!\d))/g,
-                      '$1,'
-                    )}
-                    円
-                  </td>
-                  <td>
-                    {e.toppingList.map((topping: any) => (
-                      <ul key={topping.id}>
-                        <li className={styles.topping}>
-                          {topping.name} 200円
-                        </li>
-                      </ul>
-                    ))}
-                  </td>
-                  <td>
-                    {String(e.TotalPrice).replace(
-                      /(\d)(?=(\d\d\d)+(?!\d))/g,
-                      '$1,'
-                    )}
-                    円
-                  </td>
-                  <td>{e.day} {e.time}</td>
+        {data.history.length === 0 ? (
+          <p className={style.msg}>注文履歴がありません</p>
+        ) : (
+          <>
+            <table className={styles.item} border={1}>
+              <thead>
+                <tr>
+                  <th>商品名</th>
+                  <th>価格（税抜）・数量</th>
+                  <th>トッピング・価格（税抜）</th>
+                  <th>小計</th>
+                  <th>注文日時</th>
                 </tr>
-              );
-            })}
-          </tbody>
-          
-        </table>
-        </>}
+              </thead>
+              <tbody>
+                {data.history.map((e: any) => {
+                  return (
+                    <tr key={e.id}>
+                      <td>
+                        <img src={e.imagePath} width={100} />
+                        <p>{e.name}</p>
+                      </td>
+                      <td>
+                        数量：{e.count}個
+                        <br />
+                        単品価格：
+                        {String(e.price).replace(
+                          /(\d)(?=(\d\d\d)+(?!\d))/g,
+                          '$1,'
+                        )}
+                        円
+                      </td>
+                      <td>
+                        {e.toppingList.map((topping: any) => (
+                          <ul key={topping.id}>
+                            <li className={styles.topping}>
+                              {topping.name} 200円
+                            </li>
+                          </ul>
+                        ))}
+                      </td>
+                      <td>
+                        {String(e.TotalPrice).replace(
+                          /(\d)(?=(\d\d\d)+(?!\d))/g,
+                          '$1,'
+                        )}
+                        円
+                      </td>
+                      <td>
+                        {e.day} {e.time}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </>
+        )}
       </div>
     </Layout>
   );
