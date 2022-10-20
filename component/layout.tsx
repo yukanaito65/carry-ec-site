@@ -21,7 +21,7 @@ export function Layout({ children, show }: { children: any; show: boolean }) {
     if (typeof window !== "undefined") {
       setLoginShow(true)
     }
-  }, [])//[]を第2引数に書くことで、マウント時のみ上の関数が実行される
+  }, [])
   
   // ログアウトボタンのクッキー削除
   function onClickLogout() {
