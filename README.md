@@ -20,7 +20,7 @@
 
 使用した言語：Typescript
 
-フレームワーク：Next.js(12.2.5), Jest, React-testing-library
+フレームワーク：Next.js(12.2.5)
 
 データベース：JSONで仮想のデータベースを使用
 
